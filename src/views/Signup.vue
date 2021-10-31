@@ -68,7 +68,7 @@ export default {
                     firstname : seft.firstname,
                     lastname : seft.lastname,
                 },
-                url: 'https://localhost/banhang/index.php?controller=user&action=signup',
+                url: 'https://localhost/BTL_ecommerce/index.php?controller=user&action=signup',
             }).then((response) => {
                 if(response.data){
                     console.log(response.data);

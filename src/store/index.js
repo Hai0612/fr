@@ -86,7 +86,7 @@ export default createStore({
           id_book : id_book,
           quantity : parseInt(item.quantity) + 1,
         },
-        url: 'https://localhost/banhang/index.php?controller=cart&action=editBookInCart',
+        url: 'https://localhost/BTL_ecommerce/index.php?controller=cart&action=editBookInCart',
         }).then((response) => {
             if(response.data.status){
               item.quantity++;
@@ -106,7 +106,7 @@ export default createStore({
           id_book : id_book,
           quantity : parseInt(item.quantity) - 1,
         },
-        url: 'https://localhost/banhang/index.php?controller=cart&action=editBookInCart',
+        url: 'https://localhost/BTL_ecommerce/index.php?controller=cart&action=editBookInCart',
         }).then((response) => {
             if(response.data.status){
               item.quantity--;
@@ -122,7 +122,7 @@ export default createStore({
           id_user : data['id_user'],
           username : data['username'],
         },
-        url: 'https://localhost/banhang/index.php?controller=cart&action=index',
+        url: 'https://localhost/BTL_ecommerce/index.php?controller=cart&action=index',
         }).then((response) => {
             if(response.data.status){
               state.carts = response.data.payload;
@@ -153,7 +153,7 @@ export default createStore({
         data:{
           username : data.username
         },
-        url: 'https://localhost/banhang/index.php?controller=user&action=getloginUser',
+        url: 'https://localhost/BTL_ecommerce/index.php?controller=user&action=getloginUser',
       }).then((response) => {
             if(response.data.status){
               self.state.user = response.data.payload

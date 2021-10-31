@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <Header/>
-    <Menu/>
     <div class="contact-content">
         <div class="img-contact">
           <img src="../assets/images/detail.jpg" alt="">
@@ -57,13 +56,16 @@
 </template>
 <script>
 import Header from '../components/Header.vue'
-import Menu from '../components/Menu.vue';
+import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 export default {
   components:{
     Header,
-    Menu,
+    Navbar,
     Footer,
+  },
+  created(){
+      console.log(this.$route)
   }
 }
 </script>

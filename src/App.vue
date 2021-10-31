@@ -1,17 +1,33 @@
 <template>
-  <Header/>
-  <Menu/>
-  <router-view/>
-  <Footer/>
+  <v-app> 
+    <!-- <Navbar/> -->
+    <Social/>
+    <div>
+      <router-view/>
+    </div>
+  </v-app>
 </template>
+
 <script>
-import Header from '../src/components/Header.vue'
-import Menu from '../src/components/Menu.vue'
-import Footer from '../src/components/Footer.vue'
-  export default {
-    data: () => ({ drawer: null }),
-    component:{
-      Header, Menu ,Footer
-    }
+import Navbar from './components/Navbar.vue'
+import Social from './components/Social.vue'
+import Iframe from './components/Iframe.vue'
+
+export default {
+  name: 'App',
+
+  data: () => ({
+    //
+  }),
+  components:{
+    Navbar,
+    Social,
+    Iframe
+  },
+  mounted(){
   }
+};
 </script>
+<style lang="scss" scoped>
+
+</style>

@@ -1,6 +1,5 @@
 <template>
     <Header @passUser="receivedUser"/>
-    <Menu/>
     <div class="container">
         <div class="row user-content">
             <div class="user-left col col-sm-3">
@@ -117,7 +116,7 @@
 import axios from 'axios'
 
 import Header from '../components/Header.vue'
-import Menu from '../components/Menu.vue'
+import Navbar from '../components/Navbar.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
@@ -152,7 +151,7 @@ export default {
         }
     },
     components:{
-        Header, Menu, Footer
+        Header, Navbar, Footer
     }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
     <Header/>
-    <Menu/>
+    <input type="text">
     <div class="container">
-        <div class="card-edit">
+        <!-- <div class="card-edit">
             <div class="card-edit-header">
                 <div>
                     <img :src="image" alt="">
@@ -56,18 +56,19 @@
                     <button @click="saveEdit" type="submit" class="btn btn-primary">Submit</button>
                     <p id="mesEdit" class="form-text">{{mes}}</p>
             </div>
-        </div>
+        </div> -->
     </div>
     <Footer/>
 </template>
 <script>
 import Header from '../components/Header.vue'
-import Menu  from '../components/Menu.vue'
+import Navbar  from '../components/Navbar.vue'
 import Footer from '../components/Footer.vue'
 import axios from 'axios'
 export default {
     data(){
         return {
+            test : '',
             name : '',
             author : '',
             id_book : '',
@@ -86,8 +87,9 @@ export default {
           let self = this;
             axios({
                method : 'post',
-               url : 'https://localhost/banhang/index.php?controller=book&action=getbyIndex&id_book=' + self.$route.params.id_book,
+               url : 'https://localhost/BTL_ecommerce/index.php?controller=book&action=getbyIndex&id_book=' + self.$route.params.id_book,
                data :{
+                   id_book : "fdfd",
                } 
             }).then((response) =>{
                 if(response.data) {
@@ -123,7 +125,7 @@ export default {
                   image : self.image,
               },
 
-              url: 'https://localhost/banhang/index.php?controller=book&action=editBook',
+              url: 'https://localhost/BTL_ecommerce/index.php?controller=book&action=editBook',
             }).then((response) => {
                   if(response.data.payload){
                     document.getElementById('mesEdit').style.color = 'green'
@@ -146,7 +148,7 @@ export default {
     },
     components:{
         Header,
-        Menu,
+        Navbar,
         Footer
     },
     created(){

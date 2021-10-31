@@ -1,184 +1,210 @@
 <template>
-    <Header/>
-    <Menu/>
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="book in carts" v-bind:key="book">
-                    <td>
-                        <div class="prod">
-                            <img :src="book.image" alt="img">
-                            <router-link :to="{name : 'Detail', params: {id_book: book.id_book}}">
-                                 <h4>{{book.name}}
-                                </h4>
-                            </router-link>
-                        </div>
-                    </td>
-                    <td>{{book.price}}</td>
-                    <td>
-                        <div class="quantt">
-                            <span>{{book.quantity}}</span>
-                            <div class="revise">
-                                <button :data-id_book="book.id_book" class="btn"  @click="incre"><i  class="fas fa-angle-up"></i></button>
-                                <button :data-id_book="book.id_book" class="btn"  @click="decre"><i  class="fas fa-angle-down"></i></button>
-                            </div>
-                        </div>
-                        
-                    </td>
-                    <td>{{parseInt(book.quantity * book.price)}}</td>
-
-                </tr>
-                <tr>
-                    <td><b>Total</b></td>
-                    <td></td>
-                    <td><b>{{totalQuantity}}</b></td>
-                    <td><b>{{parseInt(totalPrice)}}</b></td>
-                </tr>
-                
-            </tbody>
-            
-        </table>
-        <div class="payment">
-            <button class="btn btn-success">Phieu Giam Gia</button>
-            <button class="btn btn-danger">Thanh Toan</button>
+    <section>
+        <div class="cart-title">
+            <h2>Shopping Bag</h2>
+            (<span>5</span> Items)
         </div>
-    </div>
-    <Footer/>
+        <div class="cart-main">
+            <div class="row">
+                <div class="cart-table col col-md-8 col-sm-12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="../assets/images/icon.jpg" alt=""></td>
+                                <td>
+                                    <h2>Free Makeup Melt Cleanser Sample</h2>
+                                    <p>Dry/wet Gentle Jelly Cleanser With Rose Flower</p>
+                                </td>
+                                <td>
+                                    <div class="change-quantity">
+                                        <button><i class="fas fa-minus"></i></button>
+                                        <span>5</span>
+                                        <button><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td>$32.00</td>
+                                <td><button>Remove</button></td>
+                            </tr>
+                             <tr>
+                                <td><img src="../assets/images/icon.jpg" alt=""></td>
+                                <td>
+                                    <h2>Free Makeup Melt Cleanser Sample</h2>
+                                    <p>Dry/wet Gentle Jelly Cleanser With Rose Flower</p>
+                                </td>
+                                <td>
+                                    <div class="change-quantity">
+                                        <button><i class="fas fa-minus"></i></button>
+                                        <span>5</span>
+                                        <button><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td>$32.00</td>
+                                <td><button>Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cart-checkout col col-md-3 col-sm-12">
+                    <ul>
+                        <li>
+                            <div class="row">
+                                <div class="col col-md-6 type">Subtotal</div>
+                                <div class="col col-md-6 result">$40.00</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col col-md-6 type">Shipping:</div>
+                                <div class="col col-md-6 result">Add info</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col col-md-6 type">Coupon Code</div>
+                                <div class="col col-md-6 result">Add coupon</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col col-md-6 type">Grand total:</div>
+                                <div class="col col-md-6 result">$40.00</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="button-checkout">
+                            <router-link to="/checkout">
+                                <v-btn depressed color="primary" block ><i class="fas fa-user-lock"></i>Checkout</v-btn>
+                            </router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 <script>
-import axios from 'axios'
-import Header from '../components/Header.vue'
-import Menu from '../components/Menu.vue'
-import Footer from '../components/Footer.vue'
 export default {
-    data(){
-        return {
-           carts: [],
-        }
-    },
-    methods:{
-        checkUser(){
-         
-        },
-        incre(event){
-            this.$store.dispatch('increQuantityOfItem',event.target.closest('button').dataset.id_book);
-            console.log(event.target.closest('button').dataset.id_book)
-            this.carts = this.$store.state.carts;
-        },
-        decre(event){
-            this.$store.dispatch('decreQuantityOfItem',event.target.closest('button').dataset.id_book);
-            this.carts = this.$store.state.carts;
-        }
-    },
-    components:{
-        Header, Menu,Footer
-    },
-    computed:{
-        totalPrice(){
-            let total = 0;
-            this.carts.forEach(element => {
-                total += element.price* element.quantity;
-            });
-            return total;
-        },
-        totalQuantity(){
-            let totalQuan = 0;
-            this.carts.forEach(element => {
-                totalQuan += parseInt(element.quantity);
-            });
-            return totalQuan;
-        }
-    },
-    created(){
-        this.carts = this.$store.state.carts;
-        this.checkUser();
-    }
+    
 }
 </script>
 <style lang="scss" scoped>
-.container{
-    table{
-        width: 100%;
-        thead{
-            height: 70px;
-        }
-        tr,td,th{
-            padding: 5px;
-            margin: 0;
-            font-size: 20px;
+    section{
+        margin: 50px 10%;
+        .cart-title{
             text-align: center;
-
-        }
-        tr,td:first-child{
-            width: 60%;
-        }
-        tbody{
-            tr{
-                border: 1px solid wheat;
+            h2{
+                font-size: 40px;
+                color: rgb(116, 40, 40);
             }
-            .quantt{
-                width: 60%;
-                padding: 5px;
-                border:1px solid rgba($color: black, $alpha: 0.2);
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                span{
-                    margin:0px 20px;
-                    height: 20px;
-                }
-                .revise{
-                    display: flex;
-                    flex-direction: column;
-                    font-size: 24px;
-                    font-weight: 600;
-                    button{
-                        border: 1px solid rgba($color: black, $alpha: 0.5);
-                        width: 50px;
-                           i{
-                            font-size: 26px;
+            span{
+                font-size: 25px;
+            }
+        }
+        .cart-main{
+            margin-top: 100px;
+            .row{
+                .cart-table{   
+                    margin-right: 50px;
+                    table {
+                        margin: 0;
+                        width: 100%;
+                        color: #444;
+                        td:nth-child(3){
+                            text-align: center;
+                            div.change-quantity{
+                                display: inline-flex;
+                                border: 1px solid black;
+                                button{
+                                padding: 10px;
+                                font-size: 20px;
+                                }
+                                span{
+                                    padding: 10px;
+                                    font-size: 20px;
+                                    width: 30px;
+                                }
+                            }
+                        }
+                        thead{
+                            
+                            th:nth-child(1){
+                                width: 10%;
+                            }
+                            th:nth-child(2){
+                                width: 40%;
+                            }
+                            th:nth-child(3){
+                                width: 20%;
+                            }
+                            th:nth-child(4){
+                                width: 20%;
+                            }
+                            th:nth-child(5){
+                                width: 10%;
+                            }
+                        }
+                        tbody{
+                            tr{ 
+                                height: 11vh;
+                                position: relative;
+                            }
+                           
+                            tr td:nth-child(2){
+                                h2{
+                                    font-size: 18px;
+                                    line-height: 22px;
+                                }
+                                p{
+                                    margin: 0px;
+                                }
+                            }
+                             td img{
+                                height: 50px;
+                            }
                         }
                     }
                 }
-                
-            }
+                .cart-checkout{
+                    padding: 20px;
+                    border: 1px solid red;
+                    ul{
+                        padding-left: 0px;
+                        li{
+                            padding: 10px;
+                            list-style-type: none;
+                            .type{
 
-            .prod{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                img{
-                    padding: 5px;
-                    width: 30%;
-                    height: 200px;
-                }
-                a{
-                    text-decoration: none;
-                }
-                h4{
-                    font-size: 16px;
-                    padding-left: 20px;
-                }
-                
+                            }
+                            .result{
+                                text-align: end;
+                            }
+                        }
+                        li:nth-child(3){
+                            padding-bottom: 20px;
+                            border-bottom: 1px solid black;
+                        }
+                        
+                    }
+                    i{
+                        color:white;
+                        margin-right: 10px;
+                    }
+                    a{
+                        text-decoration: none;
+                        color: white;
+                    }
+                }   
             }
         }
         
     }
-    .payment{
-        margin-top: 30px;
-        text-align: end;
-            button{
-                margin: 5px;
-            }
-        }
-}
+
 </style>

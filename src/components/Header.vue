@@ -73,7 +73,7 @@ export default {
             data:{
                 searchText : self.searchText,
             },
-            url: 'https://localhost/banhang/index.php?controller=book&action=searchMachine',
+            url: 'https://localhost/BTL_ecommerce/index.php?controller=book&action=searchMachine',
                 }).then((response) => {
                         if(response.data.payload != ''){
                             self.listSearchs = response.data.payload;

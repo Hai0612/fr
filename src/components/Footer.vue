@@ -1,180 +1,204 @@
 <template>
-    <div class="footer">
-        <div class="row">
-            <div class="col col-sm-5">
-                <div class="logo-footer">
-                    <span><i class="fas fa-book-open"></i></span><span>ABC</span>Book
+    <footer>
+        <div class="footer-content">
+            <div class="footer-option">
+                <div class="footer-logo">
+                    <a href="">
+                        <img src="../assets/images/logo.png" alt="">
+                    </a>
+                </div>
+                <div class="footer-nav">
+                    <div class="footer-nav-left">
+                        <ul>
+                            <li>
+                                <a href="">PORTFOLIO</a>
+                            </li>
+                            <li>
+                                <a href="">SERVICES</a>
+                            </li>
+                            <li>
+                                <a href="">CONTACT</a>
+                            </li>
+                            <li>
+                                <a href="">ABOUT</a>
+                            </li>
+                        </ul>
                     </div>
-                <p>Get the breathing space now, and we’ll extend your term at the other end year for go.</p>
-                <div class="list-link">
-                    <ul>
-                    <a href="https://www.facebook.com/">
-                        <li>
-                            <i class="fab fa-facebook"></i>
-                        </li>
-                    </a>
-                    <a href="https://www.google.com/">
-                        <li>
-                            <i class="fab fa-instagram"></i>
-                        </li>
-                    </a>
-                    <a href="https://www.youtube.com/">
-                        <li>
-                            <i class="fab fa-youtube"></i>
-                        </li>
-                    </a>
-                    <a href="https://www.mail.google.com/">
-                        <li>
-                            <i class="fas fa-mail-bulk"></i>
-                        </li>
-                    </a>
-                </ul>
+                    <div class="footer-nav-right">
+                        <ul>
+                            <li>
+                                <a href="">INSDUSTRY</a>
+                            </li>
+                            <li>
+                                <a href="">JOIN OUR TEAM</a>
+                            </li>
+                            <li>
+                                <a href="">OUR PARTNESS</a>
+                            </li>
+                            <li class="list-social">
+                                <ul>
+                                    <li>
+                                        <a href=""><i class="fab fa-facebook"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href=""><i class="fab fa-instagram"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href=""><i class="fas fa-at"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href=""><i class="fab fa-twitter"></i></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+               
             </div>
-            <div class="col col-sm-2" >
-                <div class="cate">
-                    <h5>Book Category</h5>
-                    <ul>
-                        <router-link to="/">
-                            <li>History</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Hornor</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Love stories</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Science</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Business</li>
-                        </router-link>
-                    </ul>
+             <div class="footer-feedback">
+                    <h3>GET NEWS <span>+</span> UPDATES</h3>
+                    <p>Stay connected with us! Get updates</p>
+                    <p>follow projects from sketchpad to completion, and more.</p>
+                    <div class="footer-form-feedback">
+                        <v-text-field
+                            background-color="#A9B9C6"
+                            color="red"
+                            height="50"
+                            label="Enter your email"
+                            placeholder=""
+                        ></v-text-field>
+                        
+                    </div>
                 </div>
-            </div>
-            <div class="col col-sm 3">
-                <div class="cate cate-extend">
-                    <ul>
-                        <router-link to="/">
-                            <li>History</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Hornor</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Love stories</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Science</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Business</li>
-                        </router-link>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col col-sm-3">
-                <h4>Site Map</h4>
-                <div class="cate">
-                    <ul>
-                        <router-link to="/">
-                            <li>Home</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>About Me</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>FAQS</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Blog</li>
-                        </router-link>
-                        <router-link to="/">
-                            <li>Contact</li>
-                        </router-link>
-                    </ul>
-                </div>
-            </div>
         </div>
-    </div>
-    <div class="note">
-        <p>Copyright ©2021 All rights reserved | This template is made with  by NDH</p>
-    </div>
+        <v-footer
+                dark
+                padless
+            >
+                <v-card
+                class="flex"
+                flat
+                tile
+                >
+                <v-card-title class="black pl-10">
+                    <strong class="subheading">Get connected with us on social networks!</strong>
+                    <v-spacer></v-spacer>
+                    <v-btn >
+                        Private Policy
+                    </v-btn>
+                    <v-btn >
+                        Terms of Use
+                    </v-btn>
+                    <v-btn>
+                        Site by <span style="color:red">Hai</span>
+                    </v-btn>
+                </v-card-title>
+
+                <v-card-text class="py-2 white--text text-center">
+                    {{ new Date().getFullYear() }} — <strong>Hai</strong>
+                </v-card-text>
+                </v-card>
+            </v-footer>
+    </footer>
 </template>
 <script>
 export default {
-    methods:{
-        fetch
+    data(){
+        return {
+            socials: [
+                'mdi-facebook',
+                'mdi-twitter',
+                'mdi-linkedin',
+                'mdi-instagram',
+            ]
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-.footer{
-    background: rgba($color: pink, $alpha: 0.2);
-    margin: 50px 30px;
-    .row{
-        padding: 20px 30px;
-        .col{
-            margin-left:20px;
-            .logo-footer{
-                margin-bottom: 30px;
-                font-size: 25px;
-                span:first-child{
-                    color: crimson;
-                    font-size: 34px;
-                    margin: 0px 10px;
+    footer{
+        background-image: url('../assets/images/footer.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        .footer-content{
+            padding-bottom: 100px;
+            padding-left: 10%;
+            width: 80%;
+            margin: auto;
+            padding-top: 100px;
+            color: rgb(202, 176, 128);
+            .footer-option{
+                display: inline-block;
+                width: 50%;
+                .footer-logo{
+                    padding-left: 20px;
+                    a{
+                    display: inline-block;
+                    img{
+                        height: 100px;
+                        }
+                    }
                 }
-                span:nth-child(2){
-                    color: rgb(30, 185, 206);
-                    font-size: 30px;
-                    margin: 10px;
-                    font-weight: 600;
-                }
-            }
-            p{
-                max-width: 90%;
-            }
-            .list-link{
+                .footer-nav{
+                    a{
+                        text-decoration: none;
+                        color: white;
+                    }
                     ul{
-                     li{
-                        text-align: center;
+                        padding-left: 0px;
+                        li{
+                            font-size: 21px;
+                            font-weight: normal;
+                            padding: 5px;
+                            list-style-type: none;
+                        }
+                        li:hover{
+                            a{
+                                color: red;
+                            }
+                        }
+                    }
+                    .footer-nav-left{
+                        width: 50%;
                         display: inline-block;
-                        color: red;
-                        margin: 5px;
-                        font-size: 20px;
-                        width: 50px;
-                        border-radius: 50%;
-                        background: wheat;
                     }
+                    .footer-nav-right{
+                        width: 50%;
+                        display: inline-block;
+                        .list-social{
+                            padding-left: 0px;
+                            li{
+                                display: inline-block;
+                                margin-right: 10px;
+                            }
+                            i{
+                                color: rgb(207, 192, 192);
+                                padding: 2px;
+                                border: 1px solid red;
+                                border-radius: 50%;
+                                background-color: red;
+                            }
+                        }
+                    }
+                }
+            }
+            .footer-feedback{
+                widows: 40%;
+                display: inline-block;
+                color: white;
+                h3{
+                    font-size: 26px;
+                    font-weight: 600;
+                    margin-bottom: 30px;
+                }
+                p{
+                    .footer-form-feedback{
 
-                }
-            }
-            .cate{
-                ul{
-                    li{
-                        list-style-type: none;
-                        margin: 10px 0px;
                     }
                 }
-            }
-            .cate-extend{
-                margin-top: 34px;
             }
         }
+
     }
-    a{
-        text-decoration: none;
-        color: rgb(170, 56, 56);
-    }
-    a:hover{
-        text-decoration: none;
-        color: red;
-    }
-}
-.note{
-    text-align: center;
-    font-size: 16px;
-}
 </style>

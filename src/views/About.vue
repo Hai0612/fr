@@ -1,6 +1,6 @@
 <template>
   <Header/>
-  <Menu/>
+  <Navbar/>
   <div class="container">
     
     <div class="about-content">
@@ -31,12 +31,12 @@
 </template>
 <script>
 import Header from '../components/Header.vue'
-import Menu from '../components/Menu.vue';
+import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 export default {
   components:{
     Header,
-    Menu,
+    Navbar,
     Footer,
   }
 }
