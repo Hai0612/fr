@@ -111,8 +111,9 @@ export default {
 	background-repeat: repeat;
 	background-size: 7%;
 	background-color: #fff;
-	position: fixed;
-	top: 0px;
+	position: sticky;
+	top: 0;
+	z-index: 1;
     transition: all 200ms linear;
 }
 ::selection {
@@ -451,7 +452,6 @@ div.navi #switch{
 }
 .nav-item .dropdown-menu {
     transform: translate3d(0, 10px, 0);
-    visibility: hidden;
     opacity: 0;
 	max-height: 0;
     display: block;

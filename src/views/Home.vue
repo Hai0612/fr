@@ -66,7 +66,6 @@
         </div>
       </div>
     </div>
-    <Product/>
     <Footer />
   </div>
 </template>
