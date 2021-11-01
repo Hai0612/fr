@@ -11,7 +11,6 @@
 import Navbar from './components/Navbar.vue';
 export default {
   name: 'App',
-
   data: () => ({
     //
   }),
@@ -19,4 +18,4 @@ export default {
     Navbar
   }
 };
-</script>
+</script> 
