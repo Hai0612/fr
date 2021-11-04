@@ -11,7 +11,7 @@
           <div class="col col-sm-3">
             <div class="intro-item">
               <img @mouseover="reloadImage()" src="https://media.tdp-arch.com/Building_Icon2.gif?timestamp=Mon%20Sep%2006%202021%2021:44:52%20GMT+0700%20(Gi%E1%BB%9D%20%C4%90%C3%B4ng%20D%C6%B0%C6%A1ng)" alt="">
-              <h5><span>{{numProducts}}</span> PROJECTS COMPLETED</h5>
+              <h5><span>{{numProducts}}</span> PRODUCTS COMPLETED</h5>
             </div>
           </div><div class="col col-sm-3">
             <div class="intro-item">
@@ -50,8 +50,8 @@ export default {
                 }  
             },200);  
             const my_loop_project = setInterval(() =>{
-                this.numProducts++;
-                if(this.numProducts > 26){
+                this.numProducts = this.numProducts + 30;
+                if(this.numProducts > 1000){
                 clearInterval(my_loop_project);
                 }  
             },40);  

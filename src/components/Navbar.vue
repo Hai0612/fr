@@ -6,7 +6,7 @@
             <div class="col-12">
               <nav class="navbar navbar-expand-md navbar-light">
               
-                <a class="navbar-brand" href="https://front.codes/" target="_blank"><img src="https://assets.codepen.io/1462889/fcy.png" alt=""></a>	
+                <a class="navbar-brand" href="https://front.codes/" target="_blank"><img src="../assets/images/logo-web.png" alt=""></a>	
                 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -163,7 +163,8 @@ export default {
 	height: 28px;
 	width: auto;
 	display: block;
-  filter: brightness(10%);
+	width: 100%;
+	border-radius: 5px;
 	-webkit-transition : all 0.3s ease-out;
 	transition : all 0.3s ease-out;
 }

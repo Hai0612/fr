@@ -1,75 +1,100 @@
 <template>
   <div>
-  <div class="container-fluid">
-    <Iframe />
-    <div>
-        <Carousel/>
+    <div class="container-fluid">
+      <Iframe />
+      <div>
+        <Carousel />
       </div>
-    <Introduce/>
-    <img
-      src="https://www.facebook.com/photo/?fbid=2769270030069340&set=a.1530311433965212"
-      alt=""
-    />
-    <!-- <Collections/> -->
-    <div class="categories">
-      <h3>Category Items</h3>
-      <div class="categories-content">
-        <div class="row">
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-               <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>HAT</h3>
-              </div>
-            </router-link>
+      <Introduce />
+      <img
+        src="https://www.facebook.com/photo/?fbid=2769270030069340&set=a.1530311433965212"
+        alt=""
+      />
+      <!-- <Collections/> -->
+      <div class="list-categories">
+        <h3>Category Items</h3>
+        <div class="list-categories-content">
+          <div class="row">
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>HAT</h3>
+                </div>
+              </router-link>
+            </div>
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>SHIRT</h3>
+                </div>
+              </router-link>
+            </div>
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>JEANS</h3>
+                </div>
+              </router-link>
+            </div>
           </div>
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-              <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>SHIRT</h3>
-              </div>
-            </router-link>
-          </div>
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-               <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>JEANS</h3>
-              </div>
-             </router-link>
+          <div class="row">
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>Hello</h3>
+                </div>
+              </router-link>
+            </div>
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>Hello</h3>
+                </div>
+              </router-link>
+            </div>
+            <div class="col col-sm-4 list-categories-item">
+              <router-link to="/">
+                <div class="item-a">
+                  <img
+                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+                    alt=""
+                  />
+                  <h3>Hello</h3>
+                </div>
+              </router-link>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-               <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>Hello</h3>
-              </div>
-            </router-link>
-          </div>
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-              <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>Hello</h3>
-              </div>
-            </router-link>
-          </div>
-          <div class="col col-sm-4 categories-item">
-            <router-link to="/">
-               <div class="item-a">
-                <img src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="" />
-                <h3>Hello</h3>
-              </div>
-             </router-link>
+        <div class="list-categories-footer">
+          <div class="">
+            <router-link to="/categories">
+              <h3>Xem tất cả<i class="fas fa-chevron-right"></i></h3
+            ></router-link>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
-    <Footer />
-  </div>
   </div>
 </template>   
 
@@ -151,7 +176,7 @@ export default {
     Footer,
     Iframe,
     Carousel,
-    Introduce, 
+    Introduce,
     // Collections
   },
 };
@@ -175,33 +200,33 @@ export default {
       height: 100%;
     }
   }
-  
+
   .best-selling {
     .title-best-sell {
       text-align: center;
       margin: 30px 0px;
     }
   }
-  .categories {
-    *{
+  .list-categories {
+    * {
       color: white;
     }
     h3 {
       text-align: center;
       font-size: 40px;
-    font-weight: bold;
-    letter-spacing: normal;
+      font-weight: bold;
+      letter-spacing: normal;
     }
-    .categories-content {
+    .list-categories-content {
       padding: 50px;
       .row {
         height: 100%;
-        .categories-item {
-            padding: 10px;
+        .list-categories-item {
+          padding: 10px;
           a {
             height: 100%;
             display: block;
-            .item-a{
+            .item-a {
               overflow: hidden;
               height: 100%;
               position: relative;
@@ -210,20 +235,56 @@ export default {
                 width: 100%;
                 height: 100%;
               }
-              h3{
+              h3 {
                 font-size: 3vw;
                 position: absolute;
-                top: 50%;
-                left: calc(50% - 3vw)
+                top: 70%;
+                left: calc(50% - 3vw);
               }
             }
           }
         }
-        .categories-item:hover{
-          img{
+        .list-categories-item:hover {
+          img {
             transform: scale(1.1);
             filter: brightness(50%);
           }
+        }
+      }
+    }
+    .list-categories-footer {
+      padding-bottom: 100px;
+      padding-left: 80%;
+
+      div {
+        display: inline-block;
+        a{
+          text-decoration: none;
+        }
+        h3 {
+          padding: 5px;
+          text-align: center;
+          color: orangered;
+          font-size: 1.55rem;
+          line-height: 1.25rem;
+          margin: 0 auto;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          max-height: 2.5 rem;
+        }
+        
+        i {
+          color: orangered;
+          transition: all 0.5s ease;
+        }
+      }
+      div:hover {
+        background: rgb(231, 202, 105);
+        border-radius: 5px  ;
+        i {
+          margin-left: 20px;
         }
       }
     }
