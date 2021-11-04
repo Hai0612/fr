@@ -1,5 +1,6 @@
 <template>
-  <div class="tes">
+  <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="all-category">
     <div class="container">
       <v-breadcrumbs :items="items">
         <template v-slot:divider>
@@ -27,10 +28,12 @@
       
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 <script>
 import axios from 'axios';
+import Footer from "../components/Footer.vue"
 export default {
   data: () => ({
     items: [
@@ -65,11 +68,14 @@ export default {
   },
   created(){
     this.fetchAllCategories()
+  },
+  components:{
+    Footer
   }
 };
 </script>
 <style lang="scss" scoped>
-.tes {
+.all-category {
   background: rgb(235, 232, 232);
 }
 .container {

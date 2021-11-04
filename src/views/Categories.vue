@@ -28,7 +28,7 @@
                     <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
                     <v-list-item
-                      @click="showItem(item)"
+                      @click="showByCategory(item)"
                       v-else
                       :key="`item-${i}`"
                       :value="item"
@@ -64,7 +64,7 @@
                     <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
                     <v-list-item
-                      @click="showItem(item)"
+                      @click="showByBrand(item)"
                       v-else
                       :key="`item-${i}`"
                       :value="item"
@@ -100,7 +100,7 @@
                     <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
                     <v-list-item
-                      @click="showItem(item)"
+                      @click="showByPrice(item)"
                       v-else
                       :key="`item-${i}`"
                       :value="item"
@@ -136,7 +136,7 @@
                     <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
                     <v-list-item
-                      @click="showItem(item)"
+                      @click="showByState(item)"
                       v-else
                       :key="`item-${i}`"
                       :value="item"
@@ -171,14 +171,17 @@
         </div>
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 <script>
 import axios from "axios";
 import ProductCategory from "../components/ProductCategory.vue";
+import Footer from "../components/Footer.vue"
 export default {
   data() {
     return {
+      listProducts: {},
       listCategorys: ["Trouser", "Hat", "", "Socks", "Shirt", "T-shirt"],
       listBrands: ["Nice", "Elvi", "Adidas", "Chanel", "Balenciaga"],
       listPrices: [
@@ -191,7 +194,10 @@ export default {
       listStates: ["Sản phẩm mới", "Sản phẩm cũ"],
 
       model: ["Carrots"],
-      listProducts: {},
+      sortCategory: "",
+      sortPrice: "",
+      sortBrand: "",
+      sortState: "",
     };
   },
   methods: {
@@ -210,13 +216,41 @@ export default {
         self.listProducts = response.data.payload;
       });
     },
-    changeColor(e) {
-      console.log(e);
+    showByCategory(category) {
+      this.sortCategory = category;
+    },
+    showByBrand(brand) {
+      console.log(brand);
+      this.sortBrand = brand;
+    },
+    showByPrice(price) {
+      this.sortPrice = price;
+    },
+    showByState(state) {
+      this.sortState = state;
+      this.sortByOption();
+    },
+    sortByOption() {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+           category: this.sortCategory,
+           brand: this.sortBrand,
+           price : this.sortPrice,
+           state: this.sortState
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=getByOption",
+      }).then((response) => {
+        if (response.data.state) {
+          self.listProducts = response.data.payload;
+        }
+      });
     },
   },
 
   components: {
-    ProductCategory,
+    ProductCategory,Footer
   },
   created() {
     this.fetchProductByCategory();

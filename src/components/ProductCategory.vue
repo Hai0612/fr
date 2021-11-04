@@ -1,7 +1,8 @@
 <template>
   <div>
     <ul class="products row">
-      <li v-for="(product, index) in listProducts" v-bind:key="index" class="product col-xs-12 col-sm-4 col-md-3">
+      <li data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" v-for="(product, index) in listProducts" v-bind:key="index" class="product col-xs-12 col-sm-4 col-md-3">
         <div class="product-item">
           <router-link :to="{ name: 'Detail', params: { id: product.id }}" class="cover-link">
             <div class="see">

@@ -2,7 +2,8 @@
   <div>
     <div class="container-fluid">
       <Iframe />
-      <div>
+      <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom">
         <Carousel />
       </div>
       <Introduce />
@@ -15,7 +16,8 @@
         <h3>Category Items</h3>
         <div class="list-categories-content">
           <div class="row">
-            <div class="col col-sm-4 list-categories-item">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -26,7 +28,8 @@
                 </div>
               </router-link>
             </div>
-            <div class="col col-sm-4 list-categories-item">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -37,7 +40,8 @@
                 </div>
               </router-link>
             </div>
-            <div class="col col-sm-4 list-categories-item">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -49,8 +53,10 @@
               </router-link>
             </div>
           </div>
-          <div class="row">
-            <div class="col col-sm-4 list-categories-item">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="row">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -61,7 +67,8 @@
                 </div>
               </router-link>
             </div>
-            <div class="col col-sm-4 list-categories-item">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -72,7 +79,8 @@
                 </div>
               </router-link>
             </div>
-            <div class="col col-sm-4 list-categories-item">
+            <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
                   <img
@@ -85,7 +93,8 @@
             </div>
           </div>
         </div>
-        <div class="list-categories-footer">
+        <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="list-categories-footer">
           <div class="">
             <router-link to="/categories">
               <h3>Xem tất cả<i class="fas fa-chevron-right"></i></h3

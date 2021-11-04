@@ -26,7 +26,8 @@
       <section id="content1" class="tab-content">
         <h3>Cart Items</h3>
         <p></p>
-        <div class="button-master-container">
+        <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="button-master-container">
             <div class="button-previous-methods">
               <a href="#content3">Return to Home</a>
             </div>
@@ -39,7 +40,8 @@
       <section id="content2" class="tab-content">
         <h3>Customer Information</h3>
         <p></p>
-        <div class="button-master-container">
+        <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="button-master-container">
             <div class="button-previous-methods">
               <a href="#content3">Return to Cart</a>
             </div>
@@ -138,7 +140,8 @@
           </div>
           
         </div>
-        <div class="button-master-container">
+        <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="button-master-container">
             <div class="button-previous-methods">
               <a href="#content3">Return to Customer Information</a>
             </div>
@@ -284,7 +287,8 @@
               </div>
             </div>
           </div>
-          <div class="button-master-container">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="button-master-container">
             <div class="button-previous-methods">
               <a href="#content3">Return to Shipping</a>
             </div>
@@ -295,11 +299,15 @@
         </form>
       </section>
     </div>
+    <Footer/>
   </div>
 </template>
 <script>
+import Footer from '../components/Footer.vue'
 export default {
-
+  components:{
+    Footer,
+  }
   
 };
 </script>

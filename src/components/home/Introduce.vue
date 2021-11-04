@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom">
         <div class="introduce">
         <div class="row">
           <div class="col col-sm-3">

@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="container">
-      <div class="detail-products">
-        <div class="product-img">
+      <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="detail-products">
+        <div  class="product-img">
           <div class="product-img-show">
             <img src="../assets/images/clother.jpg" alt="" />
           </div>
@@ -67,7 +68,8 @@
             ><i class="fas fa-star"></i><i class="fas fa-star"></i
             ><i class="fas fa-star"></i>
           </div>
-          <div class="choose-size">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="choose-size">
             <v-row>
               <v-col cols="3"> <h3>Size</h3> </v-col>
               <v-col cols="9">
@@ -77,12 +79,14 @@
               </v-col>
             </v-row>
           </div>
-          <div class="payment">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="payment">
             <button class="btn">Add to cart</button>
             <button class="btn">Buy it now</button>
             <p>FREE domestic shipping and 30 day returns</p>
           </div>
-          <div class="secured">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="secured">
             <div class="secured-item">
               <i class="fas fa-camera-retro"></i>
               <p>5 Lenses & 1 Body</p>
@@ -96,29 +100,35 @@
               <p>5 Lenses & 1 Body</p>
             </div>
           </div>
-          <div class="description-product">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="description-product">
             <h3>Description</h3>
             <p>{{ product.description }}</p>
           </div>
 
-          <div class="features-product">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="features-product">
             <h3>Features <i class="fas fa-plus"></i></h3>
           </div>
-          <div class="features-product">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="features-product">
             <h3>Weight & Dimenstion <i class="fas fa-plus"></i></h3>
           </div>
-          <div class="features-product">
+          <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="features-product">
             <h3>Shipping & Returns <i class="fas fa-plus"></i></h3>
           </div>
         </div>
       </div>
-      <div class="related-product">
+      <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="related-product">
         <h3>Các sản phâm tương tự</h3>
         <div class="related-product-content">
           <ProductCategory :listProducts="listRelatedProduct" />
         </div>
       </div>
-      <div class="reviews-product">
+      <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="reviews-product">
         <div class="vote-product">
           <h3>REVIEWS</h3>
           <div class="vote-action">
@@ -128,7 +138,8 @@
             <span>107 Reviews, 40 Questions</span>
           </div>
         </div>
-        <div class="reviews-content">
+        <div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class="reviews-content">
           <div class="menu-review">
             <div class="menu-left">
             </div>
