@@ -70,18 +70,23 @@ export default new Vuex.Store({
     decQuanTempCart(state, id_variant){
       state.temporaryCart.forEach(element => {
         if(element.id_variant == id_variant){
-          if(element.quantity > 0){
+          if(element.quantity > 1){
             element.quantity--;
-          }else{
+          }else if(element.quantity == 1){
             this.deleTempCart(state, id_variant);
           }
+      
         }
       });
     },
     deleTempCart(state, id_variant){
+      console.log(id_variant);
       state.temporaryCart.forEach((element,index) => {
+        console.log(index);
         if(element.id_variant == id_variant){
-          state.temporaryCart.remove(index)
+          if (index > -1) {
+            state.temporaryCart.splice(index, 1);
+          }
         }
       });
     },

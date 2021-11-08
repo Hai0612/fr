@@ -356,7 +356,9 @@
 <script>
 import axios from 'axios'
 export default {
+  
   data: () => ({
+    user: null,
     items: [
       {
         action: "mdi-ticket",
@@ -414,7 +416,6 @@ export default {
       },
     ],
     showNotification: false,
-    user: null,
     listOrdereds: [],
     listOrderings: [],
     oldPassword: null,
@@ -561,7 +562,7 @@ export default {
   },
   created() {
     // let x = document.getElementsByClassName("v-list-group__header");
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = this.$store.state.user.info;
     console.log(this.user);
   },
 };

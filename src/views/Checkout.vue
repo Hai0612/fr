@@ -295,7 +295,8 @@
 
       <section id="content4" class="tab-content">
         <h4 class="payment-title">Chọn phương thức thanh toán</h4>
-        <div class="pymt-radio">
+        <div v-if="!showNewMethod">
+          <div class="pymt-radio">
             <div class="row-payment-method payment-row">
               <div class="select-icon">
                 <input type="radio" id="radio0" name="radios" value="pp" />
@@ -310,7 +311,8 @@
               
             </div>
           </div>
-          <div v-for="payment,index in paymentMethods" v-bind:key="index" class="pymt-radio">
+          
+          <div v-for="payment,index in paymentMethods" v-bind:key="index" class="pymt-radio" >
             <div class="row-payment-method payment-row">
               <div class="select-icon">
                 <input type="radio" :id="'radio-'.concat(index)" name="radios" value="pp" />
@@ -329,6 +331,7 @@
             </div>
           </div>
          
+        </div>
         <button class="btn btn-danger mx-5 mt-5 mb-5" @click="showNewMethod = !showNewMethod">Thêm phương thức thanh toán mới</button>
         <div v-if="showNewMethod">
           <div class="pymt-radio">
@@ -473,7 +476,7 @@
               <a href="#content3">Return to Shipping</a>
             </div>
             <div class="button-next-methods button-finish">
-              <a href="#">Finish Order</a>
+              <btn @click="submitOrder">Finish Order</btn>
             </div>
           </div>
         </div>
@@ -518,25 +521,25 @@ export default {
     fetchCart() {
       this.cartProducts = this.$store.state.temporaryCart;
     },
-    // decreaseQuantity(id_variant, id_user) {
-    //   let self = this;
-    //   axios({
-    //     method: "post",
-    //     data: {
-    //       id_user: id_user,
-    //       id_variant: id_variant,
-    //     },
-    //     url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
-    //   }).then((response) => {
-    //     if (response.data.status == 200) {
-    //       self.fetchCart();
-    //     }
-    //   });
-    // },
+    decreaseQuantity(id_variant, id_user) {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: id_user,
+          id_variant: id_variant,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.fetchCart();
+        }
+      });
+    },
     fetchPaymentInfo(){
-			console.log(this.$store.state.user.info);
-      
-      let user = this.$store.state.user;
+      let user = this.$store.state.user.info;
+      // let user = 1;
+      let self = this;
       axios({
         method: "post",
         data: {
@@ -544,14 +547,15 @@ export default {
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=getPaymentInfo",
       }).then((response) => {
-        self.paymentMethods = response.data.payload ;
+        if(response.data.status == 200){
+          self.paymentMethods = response.data.payload ;
+        }
       });
       
     },
     fetchInfoUser() {
       let self = this;
-      let user = JSON.parse(localStorage.getItem('user'));
-
+      let user = this.$store.state.user.info;
       axios({
         method: "post",
         data: {
@@ -600,22 +604,27 @@ export default {
     //   this.$store.dispatch('incQuanTempCart', id_variant);
 
     // },
-    // deleTempCart(id_variant) {
-    //   let self = this;
-    //   axios({
-    //     method: "post",
-    //     data: {
-    //       id_user: id_user,
-    //       id_variant: id_variant,
-    //     },
-    //     url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=deleteProduct",
-    //   }).then((response) => {
-    //     if (response.data.status) {
-    //       self.fetchCart();
-    //     }
-    //   });
-    //   this.$store.dispatch('deleTempCart', id_variant);
-    // },
+    deleTempCart(id_variant) {
+      this.$store.dispatch('deleTempCart' ,id_variant);
+    },
+    submitOrder(){
+      
+    },
+    insertOrders(id_variant, id_user) {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: id_user,
+          id_variant: id_variant,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.fetchCart();
+        }
+      });
+    },
     
   },
   created() {

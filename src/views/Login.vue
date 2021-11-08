@@ -141,10 +141,12 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=login",
       }).then((response) => {
         if(response.data.status == 200){
+            console.log(response.data.account[0]);
+          
           // localStorage.setItem('token', response.data.token);
+          self.$store.state.user.info = response.data.account[0];
           self.$store.state.user.token = response.data.token;
-          self.$store.state.user.token = response.data.token;
-          self.$router.push({ path: '/checkout' })
+          self.$router.push({ path: '/home' })
         }
       });
     },

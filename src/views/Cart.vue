@@ -253,7 +253,8 @@ export default {
       });
     },
     fetchCart() {
-      let user = JSON.parse(localStorage.getItem('user'));
+      console.log(this.$store.state.user.info.id_user);
+      let user = this.$store.state.user.info;
       let self = this;
       axios({
         method: "post",

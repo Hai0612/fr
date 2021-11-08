@@ -47,7 +47,7 @@
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
-                        <a class="dropdown-item" href="#">{{user.name}}n</a>
+                        <a class="dropdown-item" href="#"></a>
                       </div>
                     </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
@@ -62,18 +62,19 @@
                         </a>
                     </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <router-link class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" to="/cart.php" aria-expanded="false">
+                        <router-link class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" to="/cart" aria-expanded="false">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="countPill cart-quantity countPill--positive">2</span>
                         </router-link>
 
                     </li>
+				
 					<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" href="/cart" aria-expanded="false">
-						
-                        </a>
+                        <router-link class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" to="/user" aria-expanded="false">
+							User
+                        </router-link>
 
-                    </li>	
+                    </li>		
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a @click="logout" class="nav-link" href="#" id="navUser-more-toggle" data-collapsible="navUser-more-panel" data-group-collapsible="main" aria-controls="navUser-more-panel" aria-expanded="false">
                             <i class="fas fa-angle-double-right"></i>
@@ -94,11 +95,11 @@
 <script>
 import axios from 'axios'
 export default {
-	mutations:{
-		user(){
-			return this.$store.state.user.info
-		}
-	},
+	// mutations:{
+	// 	user(){
+	// 		return this.$store.state.user.info;
+	// 	}
+	// },
 	methods:{
 		
 		logout(){
@@ -119,7 +120,7 @@ export default {
 		
 	},
 	created(){
-		this.checkUser();
+		// this.checkUser();
 	}
 }
 </script>
