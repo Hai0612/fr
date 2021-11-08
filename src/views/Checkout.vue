@@ -520,6 +520,7 @@ export default {
   methods: {
     fetchCart() {
       this.cartProducts = this.$store.state.temporaryCart;
+      console.log(this.cartProducts);
     },
     decreaseQuantity(id_variant, id_user) {
       let self = this;
@@ -610,20 +611,23 @@ export default {
     submitOrder(){
       
     },
-    insertOrders(id_variant, id_user) {
-      let self = this;
-      axios({
-        method: "post",
-        data: {
-          id_user: id_user,
-          id_variant: id_variant,
-        },
-        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
-      }).then((response) => {
-        if (response.data.status == 200) {
-          self.fetchCart();
-        }
-      });
+    insertOrders() {
+      // let self = this;
+      // axios({
+      //   method: "post",
+      //   data: {
+      //     id_user: id_user,
+      //     orderAddress : self.detailAddress,
+      //     id_variant: id_variant,
+      //     totalAmount : self.totalPriceOrder,
+      //     status : 'shipping'
+      //   },
+      //   url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
+      // }).then((response) => {
+      //   if (response.data.status == 200) {
+      //     self.fetchCart();
+      //   }
+      // });
     },
     
   },

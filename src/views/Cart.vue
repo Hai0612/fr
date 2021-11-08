@@ -253,7 +253,6 @@ export default {
       });
     },
     fetchCart() {
-      console.log(this.$store.state.user.info.id_user);
       let user = this.$store.state.user.info;
       let self = this;
       axios({
@@ -263,7 +262,7 @@ export default {
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=fetchByUser",
       }).then((response) => {
-        // console.log(response.data.payload);
+        console.log(response.data);
         self.cartProducts = response.data.payload;
       });
     },

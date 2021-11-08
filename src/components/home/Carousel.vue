@@ -1,6 +1,7 @@
 <template>
  <div>
     <h2>Featured Products</h2>
+
   <div class="slider">
     
     <input type="radio" name="slider" title="slide1" checked="checked" class="slider__nav"/>
@@ -8,7 +9,7 @@
     <input type="radio" name="slider" title="slide3" class="slider__nav"/>
     <input type="radio" name="slider" title="slide4" class="slider__nav"/>
     <div class="slider__inner" >
-      <div v-for="product in listFeaturedProducts" v-bind:key="product" class="slider__contents" style="background-image : url('https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
+      <div v-for="product,index in listFeaturedProducts" v-bind:key="index" class="slider__contents" :style="{backgroundImage: `url(${product.url})`}">
         <h2 class="slider__caption">{{product.name}}</h2>
         <p class="slider__txt">{{product.description}}</p>
       </div>
@@ -29,16 +30,11 @@ export default {
   methods: {
     fetchFeaturedProduct() {
       let self = this;
-      const id = this.$route.params.id;
       axios({
         method: "post",
-        data: {
-          id: id,
-        },
         url: "https://localhost/ecommerce_backend/index.php?controller=product&action=getFeatured",
       }).then((response) => {
         if (response.data.status) {
-          console.log('tst')
           console.log(response.data.payload);
           self.listFeaturedProducts = response.data.payload;
         }

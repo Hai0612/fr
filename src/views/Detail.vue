@@ -11,7 +11,7 @@
             <img src="../assets/images/clother.jpg" alt="" />
           </div>
           <div class="listImage">
-            <div class="image-product-item">
+            <div  class="image-product-item">
               <img src="../assets/images/clother.jpg" alt="" />
             </div>
             <div class="image-product-item">
@@ -176,7 +176,9 @@
               auto-grow
               autofocus
               outlined
+              v-model="newComment"
               rows="1"
+              v-on:keyup.enter="addComment"
               row-height="15"
             ></v-textarea>
           </div>
@@ -220,6 +222,7 @@ import ProductCategory from "../components/ProductCategory.vue";
 export default {
   data() {
     return {
+      newComment:'',
       isShowComment: false,
       product: {},
       listVariantsProduct: null,
@@ -284,6 +287,24 @@ export default {
       //   self.listComments = response.data.payload;
       // });
     },
+      addComment(){
+        console.log('addcm')
+        let self = this;
+        axios({
+          method: "post",
+          data:{
+            id_user : self.$store.state.user.info.id,
+            content : self.newComment,
+            id_product : self.product.id_product,
+          },
+          url: "https://localhost/ecommerce_backend/index.php?controller=comment&action=addComment",
+        }).then((response) => {
+          if(response.data.status == 200){
+            self.newComment = '';
+            self.fetchComments()
+          }
+        });
+      },
       fetchProduct() {
       let self = this;
       const id = this.$route.params.id;
@@ -296,6 +317,7 @@ export default {
           id
         ),
       }).then((response) => {
+        console.log(response.data)
         self.listVariantsProduct = response.data.payload;
         self.product = response.data.payload[0];
         console.log(self.product)

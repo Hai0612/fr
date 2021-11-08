@@ -7,12 +7,12 @@
           <router-link :to="{ name: 'Detail', params: { id: product.id }}" class="cover-link">
             <div class="see">
               <i class="fa fa-eye"></i>
-              <span><router-link :to="{ name: 'Detail', params: { id: product.id }}">see</router-link></span>
+              <span><router-link :to="{ name: 'Detail', params: { id: product.url }}">see</router-link></span>
             </div>
 
-            <div class="ima">
+            <div class="ima" :style="{backgroundImage: `url(${product.url})`}">
               <img
-                src="https://farm3.staticflickr.com/2132/2369005119_9981748635_z_d.jpg"
+                src="https://i.pinimg.com/originals/fa/02/02/fa0202572e8aa734cedb154c413a4846.jpg"
                 class="img-responsive"
               />
             </div>
@@ -161,7 +161,7 @@ a {
           background-size: cover;
           width: 100%;
           height: 180px;
-
+          z-index: 22;
           img {
             display: none;
           }

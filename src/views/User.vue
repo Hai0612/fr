@@ -104,7 +104,7 @@
                     <label for="telephone">Số điện thoại</label>
                     <input
                       type="text"
-                      v-model="user.telephone"
+                      v-model="user.phone"
                       class="form-control info-input"
                       id="telephone"
                     />
@@ -498,7 +498,7 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=updateInfo",
       }).then((response) => {
         if(response.data.status == 200){
-          console.last_name(response.data);
+          console.log(response.data);
         }
       });
       
@@ -542,13 +542,18 @@ export default {
     },
     fetchOrders(status){
       let self = this;
+      console.log(self.user);
       axios({
-        method: "get",
+        method: "post",
+        data:{
+          id_user : self.user.id_user,
+        },
         url: "https://localhost/ecommerce_backend/index.php?controller=order&action=getByStatus&orderstatus=".concat(
           status
         ),
       }).then((response) => {
         if(response.data.status == 200){
+          console.log(response.data);
           if(status == 'Đang giao'){
             self.listOrderings = response.data.payload;
           }
