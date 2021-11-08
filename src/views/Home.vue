@@ -2,8 +2,7 @@
   <div>
     <div class="container-fluid">
       <Iframe />
-      <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom">
+      <div data-aos="fade-up" data-aos-anchor-placement="center-bottom">
         <Carousel />
       </div>
       <Introduce />
@@ -16,19 +15,21 @@
         <h3>Category Items</h3>
         <div class="list-categories-content">
           <div class="row">
-            <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
-              <router-link to="/">
+            <div
+              v-for="(category, index) in listCategory"
+              v-bind:key="index"
+              data-aos="fade-up"
+              data-aos-anchor-placement="center-bottom"
+              class="col col-sm-4 list-categories-item"
+            >
+              <router-link :to="{ name: 'ShowCategory', params: { category: category.name_category }}">>
                 <div class="item-a">
-                  <img
-                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-                    alt=""
-                  />
-                  <h3>HAT</h3>
+                  <img :src="category.image" alt="" />
+                  <h3>{{ category.name_category }}</h3>
                 </div>
               </router-link>
             </div>
-            <div data-aos="fade-up"
+            <!-- <div data-aos="fade-up"
      data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
               <router-link to="/">
                 <div class="item-a">
@@ -51,50 +52,14 @@
                   <h3>JEANS</h3>
                 </div>
               </router-link>
-            </div>
-          </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="row">
-            <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
-              <router-link to="/">
-                <div class="item-a">
-                  <img
-                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-                    alt=""
-                  />
-                  <h3>Hello</h3>
-                </div>
-              </router-link>
-            </div>
-            <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
-              <router-link to="/">
-                <div class="item-a">
-                  <img
-                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-                    alt=""
-                  />
-                  <h3>Hello</h3>
-                </div>
-              </router-link>
-            </div>
-            <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="col col-sm-4 list-categories-item">
-              <router-link to="/">
-                <div class="item-a">
-                  <img
-                    src="https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-                    alt=""
-                  />
-                  <h3>Hello</h3>
-                </div>
-              </router-link>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="list-categories-footer">
+        <div
+          data-aos="fade-up"
+          data-aos-anchor-placement="center-bottom"
+          class="list-categories-footer"
+        >
           <div class="">
             <router-link to="/categories">
               <h3>Xem tất cả<i class="fas fa-chevron-right"></i></h3
@@ -125,59 +90,45 @@ export default {
       listCategory: [],
       maxInRowCategory: 6,
       isShowMore: false,
+      user: {},
     };
   },
 
   methods: {
-    deleteItem(value) {
-      let index = this.listbooks.indexOf(value);
-      this.listbooks.splice(index, 1);
-    },
-    showCategory(e) {
-      let seft = this;
+    fetchCategories() {
+      let self = this;
       axios({
         method: "get",
-        url: "https://localhost/BTL_ecommerce/index.php?controller=book&action=getbycategory&category=".concat(
-          e.target.id
-        ),
+        data: {},
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=fetchAll",
       }).then((response) => {
-        if (response.data != "") {
-          seft.listCategory = response.data;
-          seft.isShowMore = true;
+        if (response.data.status == 200) {
+          self.listCategory = response.data.payload;
         }
       });
     },
-    fetchAllBook() {
-      let seft = this;
-      axios({
-        method: "get",
-        url: "https://localhost/BTL_ecommerce/index.php?controller=book&action=getall",
-      }).then((response) => {
-        if (response.data != "") {
-          seft.listbooks = response.data;
-        }
-      });
+
+    checkUser() {
+      // let self = this;
+      // axios({
+      //   method: "get",
+      //   url: "https://localhost/ecommerce_backend/index.php?controller=user&action=authenticate",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //     Authorization: localStorage.getItem("token"),
+      //   },
+      // }).then((response) => {
+      //   if (response.data.status) {
+      //     self.user = response.data.account[0]
+      //   }
+      // });
     },
-    // checkUser(){
-    //       let self = this;
-    //       axios({
-    //         method: 'get',
-    //         url: 'https://localhost/BTL_ecommerce/index.php?controller=user&action=authenticate',
-    //         headers:{
-    //             "Accept" : "application/json",
-    //             "Content-Type": "application/json",
-    //             "Authorization" : localStorage.getItem("token"),
-    //         }
-    //       }).then((response) => {
-    //             if(response.data.status){
-    //                 self.user = response.data.account[0];
-    //             }
-    //       });
-    //   },
   },
   created() {
-    this.fetchAllBook();
-    this.user = this.$store.state.user;
+    this.fetchCategories();
+    this.checkUser();
+    console.log(this.$store.state.user.token);
 
     // this.checkUser();
   },
@@ -231,6 +182,7 @@ export default {
       .row {
         height: 100%;
         .list-categories-item {
+          height: 60vh;
           padding: 10px;
           a {
             height: 100%;
@@ -267,7 +219,7 @@ export default {
 
       div {
         display: inline-block;
-        a{
+        a {
           text-decoration: none;
         }
         h3 {
@@ -283,7 +235,7 @@ export default {
           overflow: hidden;
           max-height: 2.5 rem;
         }
-        
+
         i {
           color: orangered;
           transition: all 0.5s ease;
@@ -291,7 +243,7 @@ export default {
       }
       div:hover {
         background: rgb(231, 202, 105);
-        border-radius: 5px  ;
+        border-radius: 5px;
         i {
           margin-left: 20px;
         }

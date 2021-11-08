@@ -47,7 +47,7 @@
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">{{user.name}}n</a>
                       </div>
                     </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
@@ -62,15 +62,20 @@
                         </a>
                     </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" href="/cart.php" aria-expanded="false">
+                        <router-link class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" to="/cart.php" aria-expanded="false">
                             <i class="fas fa-shopping-cart"></i>
-                            
                             <span class="countPill cart-quantity countPill--positive">2</span>
-                        </a>
+                        </router-link>
 
                     </li>
+					<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                        <a class="nav-link" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" href="/cart" aria-expanded="false">
+						
+                        </a>
+
+                    </li>	
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="#" id="navUser-more-toggle" data-collapsible="navUser-more-panel" data-group-collapsible="main" aria-controls="navUser-more-panel" aria-expanded="false">
+                        <a @click="logout" class="nav-link" href="#" id="navUser-more-toggle" data-collapsible="navUser-more-panel" data-group-collapsible="main" aria-controls="navUser-more-panel" aria-expanded="false">
                             <i class="fas fa-angle-double-right"></i>
                         </a>
                     </li>
@@ -87,18 +92,41 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  
+	mutations:{
+		user(){
+			return this.$store.state.user.info
+		}
+	},
+	methods:{
+		
+		logout(){
+			let self = this;
+			axios({
+				method: "get",
+				url: "https://localhost/ecommerce_backend/index.php?controller=user&action=logout",
+				
+			}).then((response) => {
+				if (response.data.status == 200) {
+					localStorage.removeItem('user');
+					localStorage.removeItem('token');
+					self.$router.push({ path: '/login' })
+
+				}
+			});
+		}
+		
+	},
+	created(){
+		this.checkUser();
+	}
 }
 </script>
 
 <style lang="scss" scoped>
   
-
-
-
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext');
-
 .navi{
 	width: 100%;
   	font-family: 'Poppins', sans-serif;
@@ -124,11 +152,8 @@ export default {
 	color: #fff;
 	background-color: #8167a9;
 }
-
-
 /* #Navigation
 ================================================== */
-
 .start-header {
 	opacity: 1;
 	transform: translateY(0);
@@ -247,10 +272,8 @@ export default {
 	position: relative;
     transition: all 200ms linear;
 }
-
 /* #Primary style
 ================================================== */
-
 .bg-light {
 	background-color: #fff !important;
     transition: all 200ms linear;
@@ -456,6 +479,7 @@ div.navi #switch{
     opacity: 0;
 	max-height: 0;
     display: block;
+	z-index: 1000;
 	padding: 0;
 	margin: 0;
     transition: all 200ms linear;
@@ -481,8 +505,8 @@ div.navi #switch{
 .dropdown-toggle::after {
 	display: none;
 }
-
 .dropdown-item {
+	z-index: 200;
 	padding: 3px 15px;
 	color: #212121;
 	border-radius: 2px;
@@ -493,7 +517,6 @@ div.navi #switch{
 	color: #fff;
 	background-color: rgba(129,103,169,.6);
 }
-
 div.dark{
 	color: #fff;
 	background-color: #1f2029;
@@ -544,12 +567,8 @@ div.dark .navbar-light .navbar-toggler-icon:before{
 div.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 	border-color: transparent;
 }
-
-
-
 /* #Media
 ================================================== */
-
 @media (max-width: 767px) { 
 	h1{
 		font-size: 38px;
@@ -607,10 +626,8 @@ div.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 		box-shadow: none;
 	}
 }
-
 /* #Link to page
 ================================================== */
-
 .logo {
 	position: absolute;
 	bottom: 30px;

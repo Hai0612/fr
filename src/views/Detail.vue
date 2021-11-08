@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="container">
-      <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="detail-products">
-        <div  class="product-img">
+      <div
+        data-aos="fade-up"
+        data-aos-anchor-placement="center-bottom"
+        class="detail-products"
+      >
+        <div class="product-img">
           <div class="product-img-show">
             <img src="../assets/images/clother.jpg" alt="" />
           </div>
@@ -24,43 +27,27 @@
         </div>
         <div class="product-detail">
           <h1>{{ product.name }}</h1>
-          <span class="price-span">{{ product.price }}</span>
+          <p class="price-span">
+            <span class="price-span-currency">đ</span
+            ><span class="price-value">{{ product.price }}</span>
+          </p>
           <p>
             or 4 interest-free payments of <span>$64.75</span> with Afterpay
           </p>
           <div class="product-color">
             <span>Color</span>
             <div>
-              <v-btn
+              <v-btn v-for="color in arrColor" v-bind:key="color" @click="setColor(color)"
                 class="mr-2"
                 fab
                 dark
                 height="50px"
                 width="50px"
                 large
-                color="purple"
+                :color="color"
               >
               </v-btn>
-              <v-btn
-                class="mr-2"
-                height="50px"
-                width="50px"
-                fab
-                dark
-                large
-                color="green"
-              >
-              </v-btn>
-              <v-btn
-                class="mr-2"
-                height="50px"
-                width="50px"
-                fab
-                dark
-                large
-                color="red"
-              >
-              </v-btn>
+              
             </div>
           </div>
           <div class="product-vote">
@@ -68,25 +55,38 @@
             ><i class="fas fa-star"></i><i class="fas fa-star"></i
             ><i class="fas fa-star"></i>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="choose-size">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="choose-size"
+          >
             <v-row>
               <v-col cols="3"> <h3>Size</h3> </v-col>
               <v-col cols="9">
-                <v-btn depressed> M (40-55KG) </v-btn>
-                <v-btn depressed> L (60-70KG) </v-btn>
-                <v-btn depressed> XL (70-80KG) </v-btn>
+                <v-btn v-for="size in arrSize" v-bind:key="size" depressed @click="setSize(size)">
+                  {{ size }}</v-btn
+                >
               </v-col>
             </v-row>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="payment">
-            <button class="btn">Add to cart</button>
+          <div style="margin-top: 30px">
+            <input type="number" class="name-choose" id="" v-model="quantityBuy">
+            <span style="margin-left: 20px">Số lượng</span>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="payment"
+          >
+            <button @click="addToCart" class="btn">Add to cart</button>
             <button class="btn">Buy it now</button>
             <p>FREE domestic shipping and 30 day returns</p>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="secured">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="secured"
+          >
             <div class="secured-item">
               <i class="fas fa-camera-retro"></i>
               <p>5 Lenses & 1 Body</p>
@@ -100,35 +100,53 @@
               <p>5 Lenses & 1 Body</p>
             </div>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="description-product">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="description-product"
+          >
             <h3>Description</h3>
             <p>{{ product.description }}</p>
           </div>
 
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="features-product">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="features-product"
+          >
             <h3>Features <i class="fas fa-plus"></i></h3>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="features-product">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="features-product"
+          >
             <h3>Weight & Dimenstion <i class="fas fa-plus"></i></h3>
           </div>
-          <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="features-product">
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
+            class="features-product"
+          >
             <h3>Shipping & Returns <i class="fas fa-plus"></i></h3>
           </div>
         </div>
       </div>
-      <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="related-product">
+      <div
+        data-aos="fade-up"
+        data-aos-anchor-placement="center-bottom"
+        class="related-product"
+      >
         <h3>Các sản phâm tương tự</h3>
         <div class="related-product-content">
           <ProductCategory :listProducts="listRelatedProduct" />
         </div>
       </div>
-      <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="reviews-product">
+      <div
+        data-aos="fade-up"
+        data-aos-anchor-placement="center-bottom"
+        class="reviews-product"
+      >
         <div class="vote-product">
           <h3>REVIEWS</h3>
           <div class="vote-action">
@@ -138,11 +156,13 @@
             <span>107 Reviews, 40 Questions</span>
           </div>
         </div>
-        <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="reviews-content">
+        <div
+          data-aos="fade-up"
+          data-aos-anchor-placement="center-bottom"
+          class="reviews-content"
+        >
           <div class="menu-review">
-            <div class="menu-left">
-            </div>
+            <div class="menu-left"></div>
             <div class="menu-right">
               <button @click="isShowComment = !isShowComment">
                 Write a review
@@ -200,17 +220,71 @@ import ProductCategory from "../components/ProductCategory.vue";
 export default {
   data() {
     return {
-      isShowComment: true,
+      isShowComment: false,
       product: {},
+      listVariantsProduct: null,
       listComments: {},
       listRelatedProduct: {},
+      arrColor: [],
+      arrSize: [],
+      colorVariantAddToCart : null,
+      sizeVariantAddToCart : null,
+      quantityBuy : 3,
     };
   },
   components: {
     ProductCategory,
   },
   methods: {
-    fetchProduct() {
+    setColor(color){
+      if(color == 'red'){
+        this.colorVariantAddToCart = 'Đỏ'
+      }
+       if(color == 'green'){
+        this.colorVariantAddToCart = 'Xanh'
+      }
+       if(color == 'yellow'){
+        this.colorVariantAddToCart = 'Vàng'
+      }
+    },
+    setSize(size){
+      this.sizeVariantAddToCart = size.substring(0,1);
+    },
+    addToCart(){
+      let productTempVariant = null;
+      this.listVariantsProduct.forEach(element =>{
+          if(element.size == this.sizeVariantAddToCart && element.color == this.colorVariantAddToCart){
+            productTempVariant = element;
+            productTempVariant['quantity'] = this.quantityBuy;
+          }
+      });
+      // let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: 1,
+          id_variant: productTempVariant.id,
+          quantity : productTempVariant['quantity'],
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=addToCart",
+      }).then((response) => {
+        console.log(response.data.status)
+      });
+      // let self = this;
+      // const id = this.$route.params.id;
+      // axios({
+      //   method: "post",
+      //   data: {
+      //     id: id,
+      //   },
+      //   url: "https://localhost/ecommerce_backend/index.php?controller=comment&action=getByIdProduct&id_product=".concat(
+      //     id
+      //   ),
+      // }).then((response) => {
+      //   self.listComments = response.data.payload;
+      // });
+    },
+      fetchProduct() {
       let self = this;
       const id = this.$route.params.id;
       axios({
@@ -222,8 +296,11 @@ export default {
           id
         ),
       }).then((response) => {
-        console.log(response.data.payload[0]);
+        self.listVariantsProduct = response.data.payload;
         self.product = response.data.payload[0];
+        console.log(self.product)
+        this.filterColor();
+        this.filterSize();
       });
     },
     fetchComments() {
@@ -255,6 +332,49 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.listRelatedProduct = response.data.payload;
+        }
+      });
+    },
+    filterColor() {
+      let arrColor = [];
+      this.listVariantsProduct.forEach((element) => {
+        arrColor.push(element.color);
+      });
+      arrColor = arrColor.filter(function (item, pos) {
+        return arrColor.indexOf(item) == pos;
+      });
+      arrColor.forEach((color) => {
+        if(color == 'Đỏ'){
+          this.arrColor.push('red');
+        }
+        if(color == 'Xanh'){
+          this.arrColor.push('green');
+        }
+        if(color == 'Vàng'){
+          this.arrColor.push('yellow');
+        }
+      });
+    },
+    filterSize() {
+      let arrSize = [];
+      this.listVariantsProduct.forEach((element) => {
+        arrSize.push(element.size);
+      });
+      arrSize = arrSize.filter(function (item, pos) {
+        return arrSize.indexOf(item) == pos;
+      });
+      arrSize.forEach((color) => {
+        if(color == 'S'){
+          this.arrSize.push('S 40-50KG');
+        }
+        if(color == 'M'){
+          this.arrSize.push('M 44-55KG');
+        }
+        if(color == 'L'){
+          this.arrSize.push('L 50-65KG');
+        }
+        if(color == 'XL'){
+          this.arrSize.push('XL 65-80KG');
         }
       });
     },
@@ -344,9 +464,22 @@ button:hover {
       letter-spacing: 0.04em;
       margin-bottom: 20px;
     }
-    span.price-span {
+    p.price-span {
+      padding: 15px 10px;
+      background: #ebe9e9;
+      position: relative;
       font-size: 26px;
       font-weight: 700;
+
+      .price-span-currency {
+        color: orangered;
+        position: absolute;
+        top: 0px;
+      }
+      .price-value {
+        color: orangered;
+        padding-left: 20px;
+      }
     }
     p {
       margin-top: 20px;
@@ -376,7 +509,6 @@ button:hover {
     .choose-size {
       margin-top: 25px;
       h3 {
-        margin-top: 20px;
         text-transform: capitalize;
         flex-shrink: 0;
         align-items: center;
@@ -459,16 +591,7 @@ button:hover {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid black;
-      // button {
-      //   position: relative;
-      //   padding: 15px 40px;
-      //   margin-right: 25px;
-      //   font-size: 23px;
-      //   margin-left: 25px;
-      //   background-color: black;
-      //   color: white;
-      //   z-index: 1;
-      // }
+
       .menu-left {
         padding-bottom: 20px;
       }
@@ -538,5 +661,14 @@ button:hover {
   .related-product-content {
     padding-top: 30px;
   }
+}
+.name-choose{
+  background: white;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+}
+.quantityBuy  + span{
+  margin-left: 10px;
 }
 </style>

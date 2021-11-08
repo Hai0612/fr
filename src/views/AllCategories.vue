@@ -15,7 +15,7 @@
             <div class="categories-item-content">
               <div class="categories-item-content-img">
                 <img
-                  src="https://cf.shopee.vn/file/18fd9d878ad946db2f1bf4e33760c86f_tn"
+                  :src="category.image"
                   alt=""
                 />
               </div>
@@ -81,9 +81,11 @@ export default {
 .container {
   width: 60%;
   .all-categories {
+    padding-bottom: 100px;
     display: flex;
     flex-wrap: wrap;
     .categories-item {
+      padding: 30px 10px;
       border-right: 1px solid rgba(0, 0, 0, 0.15);
       border-left: 1px solid rgba(0, 0, 0, 0.15);
       border-bottom: 1px solid rgba(0, 0, 0, 0.25);
@@ -97,15 +99,17 @@ export default {
           .categories-item-content-img {
             img {
               width: 100%;
+              height: 20vh;
               background-size: cover;
               background-repeat: no-repeat;
             }
           }
           .categories-item-content-name {
             h3 {
+              padding-top: 20px;
               text-align: center;
               color: rgba(0, 0, 0, 0.8);
-              font-size: 0.875rem;
+              font-size: 1.25rem;
               line-height: 1.25rem;
               margin: 0 auto;
               display: -webkit-box;

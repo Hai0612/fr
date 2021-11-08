@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar/>
+    <Navbar v-if="this.$route.name != 'Login'"/>
     <v-main>
       <router-view/>
     </v-main>
@@ -16,6 +16,8 @@ export default {
   }),
   components:{
     Navbar
+  },
+  created(){
   }
 };
 </script> 

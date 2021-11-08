@@ -87,11 +87,17 @@
                     </div>
                 </div>
             </div> -->
-      <table data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" id="cart-table" class="table table-hover table-condensed">
+      <table
+        data-aos="fade-up"
+        data-aos-anchor-placement="center-bottom"
+        id="cart-table"
+        class="table table-hover table-condensed"
+      > 
+    
         <thead>
           <tr>
-            <th style="width: 50%">Product</th>
+            <th style="width: 3%"></th>
+            <th style="width: 45%">Product</th>
             <th style="width: 10%">Price</th>
             <th style="width: 8%">Quantity</th>
             <th style="width: 22%" class="text-center">Subtotal</th>
@@ -99,7 +105,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="td-product-item">
+          <tr
+            v-for="(product, index) in cartProducts"
+            v-bind:key="index"
+            class="td-product-item"
+          >
+            <td><input type="checkbox" name="" id="" @change="addToBill(product.id_variant,$event)"></td>
             <td id="td-info">
               <div class="row">
                 <div class="col-sm-3 hidden-xs">
@@ -110,8 +121,7 @@
                   />
                 </div>
                 <div class="col-sm-5">
-                  <h4 class="product-name">Product 1</h4>
-                  <p class="product-des">Hello</p>
+                  <h4 class="product-name">{{ product.name }}</h4>
                 </div>
                 <div class="col-sm-4 product-options">
                   <p>Phân loại hàng: <i class="fas fa-sort-down"></i></p>
@@ -124,7 +134,7 @@
                         <v-btn depressed> XL (65-80KG) </v-btn>
                       </div>
                     </div>
-                    <hr>
+                    <hr />
                     <div class="option-item">
                       <p>Màu sắc</p>
                       <div class="list-size">
@@ -137,84 +147,40 @@
                 </div>
               </div>
             </td>
-            <td id="td-price">$5.11</td>
+            <td id="td-price">{{ product.price }}</td>
             <td id="td-quantity">
               <div class="td-content">
-                <input
-                  type="number"
-                  class="form-control text-center"
-                  value="1"
-                />
+                <div
+                  class="value-button"
+                  id="decrease"
+                  @click="decreaseQuantity(product.id_variant, product.id_user)"
+                  value="Decrease Value"
+                >
+                  -
+                </div>
+                <input type="text" id="number" :value="product.quantity" />
+                <div
+                  class="value-button"
+                  id="increase"
+                  @click="increaseQuantity(product.id_variant, product.id_user)"
+                  value="Increase Value"
+                >
+                  +
+                </div>
               </div>
             </td>
             <td id="subtotal" class="text-center">
-              <div class="td-content">$5.11</div>
-            </td>
-            <td class="" data-th="">
-              <button class="btn btn-info btn-sm">
-                <i class="fa fa-refresh"></i>
-              </button>
-              <button class="btn btn-danger btn-sm">
-                <i class="fa fa-trash-o"></i>
-              </button>
-            </td>
-          </tr>
-          <tr class="td-product-item">
-            <td id="td-info">
-              <div class="row">
-                <div class="col-sm-3 hidden-xs">
-                  <img
-                    src="http://placehold.it/100x100"
-                    alt="..."
-                    class="img-responsive"
-                  />
-                </div>
-                <div class="col-sm-5">
-                  <h4 class="product-name">Product 1</h4>
-                  <p class="product-des">Hello</p>
-                </div>
-                <div class="col-sm-4 product-options">
-                  <p>Phân loại hàng: <i class="fas fa-sort-down"></i></p>
-                  <div class="product-options-model">
-                    <div class="option-item">
-                      <p>Size</p>
-                      <div class="list-option-item">
-                        <v-btn depressed> S (40-50KG) </v-btn>
-                        <v-btn depressed> L (50-65KG) </v-btn>
-                        <v-btn depressed> XL (65-80KG) </v-btn>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="option-item">
-                      <p>Màu sắc</p>
-                      <div class="list-size">
-                        <v-btn depressed>Đỏ</v-btn>
-                        <v-btn depressed>Vàng</v-btn>
-                        <v-btn depressed>Xanh</v-btn>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td id="td-price">$5.11</td>
-            <td id="td-quantity">
               <div class="td-content">
-                <input
-                  type="number"
-                  class="form-control text-center"
-                  value="1"
-                />
+                {{ product.price * product.quantity }}
               </div>
             </td>
-            <td id="subtotal" class="text-center">
-              <div class="td-content">$5.11</div>
-            </td>
             <td class="" data-th="">
-              <button class="btn btn-info btn-sm">
-                <i class="fa fa-refresh"></i>
-              </button>
-              <button class="btn btn-danger btn-sm">
+              <button
+                @click="
+                  deleteProductInCart(product.id_user, product.id_variant)
+                "
+                class="btn btn-danger btn-sm"
+              >
                 <i class="fa fa-trash-o"></i>
               </button>
             </td>
@@ -232,23 +198,106 @@
               <strong>Total $ 5.11</strong>
             </td>
             <td>
-              <a href="#" class="btn btn-success btn-block"
+              <router-link to="/checkout" class="btn btn-success btn-block"
                 >Checkout <i class="fa fa-angle-right"></i
-              ></a>
+              ></router-link>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 <script>
-import Footer from '../components/Footer.vue';
+import axios from "axios";
+import Footer from "../components/Footer.vue";
 export default {
-  components:{
+  data() {
+    return {
+      cartProducts: null,
+    };
+  },
+  components: {
     Footer,
-  }
+  },
+  methods: {
+    decreaseQuantity(id_variant, id_user){
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: id_user,
+            id_variant : id_variant
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
+      }).then((response) => {
+        if(response.data.status == 200){
+          self.fetchCart();
+        }
+      });
+    },
+    increaseQuantity(id_variant, id_user){
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: id_user,
+            id_variant : id_variant
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=increaseQuantity",
+      }).then((response) => {
+        if(response.data.status == 200){
+          self.fetchCart();
+        }
+      });
+    },
+    fetchCart() {
+      let user = JSON.parse(localStorage.getItem('user'));
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: user.id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=fetchByUser",
+      }).then((response) => {
+        // console.log(response.data.payload);
+        self.cartProducts = response.data.payload;
+      });
+    },
+    addToBill(id_variant, event){
+      if(event.target.checked){
+        let products = null;
+        this.cartProducts.forEach(element => {
+          if(element.id_variant == id_variant){
+            products = element;
+          }
+        });
+        this.$store.dispatch('addTemporaryCart', products);
+      }
+      console.log(this.$store.state.temporaryCart)
+    },
+    deleteProductInCart(id_user, id_variant) {
+      console.log(id_user, id_variant);
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: id_user,
+          id_variant: id_variant,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=deleteProduct",
+      }).then((response) => {
+        if (response.data.status) {
+          self.fetchCart();
+        }
+      });
+    },
+  },
+  created() {
+    this.fetchCart();
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -270,7 +319,17 @@ export default {
   width: 70%;
   margin: auto;
   table {
+    input{
+        transform: scale(2);
+        -ms-transform: scale(2);
+        -webkit-transform: scale(2);
+        padding: 10px;
+      }
     thead {
+      
+      tr th:first-child{
+
+      }
     }
     tbody {
       tr {
@@ -293,8 +352,8 @@ export default {
                 margin: 0;
               }
             }
-            .col-sm-4.product-options p:hover{
-              &+.product-options-model{
+            .col-sm-4.product-options p:hover {
+              & + .product-options-model {
                 background: cornflowerblue;
                 display: block;
               }
@@ -357,5 +416,37 @@ export default {
     }
   }
 }
+#td-quantity {
+  .td-content {
+    display: flex;
+    flex-wrap: nowrap;
+    border: 1px solid rgba(0, 0, 0, 0.74);
 
+    .value-button {
+      padding: 5px 15px;
+      font-size: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.74);
+    }
+    .value-button:hover{
+      cursor: pointer;
+      background: rosybrown;
+    }
+    #number {
+      width: 20%;
+      text-align: center;
+      border: none;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      margin: 0px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
 </style>

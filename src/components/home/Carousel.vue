@@ -8,31 +8,46 @@
     <input type="radio" name="slider" title="slide3" class="slider__nav"/>
     <input type="radio" name="slider" title="slide4" class="slider__nav"/>
     <div class="slider__inner" >
-      <div class="slider__contents" style="background-image : url('https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
-        <h2 class="slider__caption">codepen</h2>
-        <p class="slider__txt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cupiditate omnis possimus illo quos, corporis minima!</p>
+      <div v-for="product in listFeaturedProducts" v-bind:key="product" class="slider__contents" style="background-image : url('https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
+        <h2 class="slider__caption">{{product.name}}</h2>
+        <p class="slider__txt">{{product.description}}</p>
       </div>
-      <div class="slider__contents" style="background-image : url('https://i.shgcdn.com/f85b7608-c7fd-48d6-9482-1ac178ebbd0d/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
-        <h2 class="slider__caption">codepen</h2>
-        <p class="slider__txt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cupiditate omnis possimus illo quos, corporis minima!</p>
-      </div>
-      <div class="slider__contents" style="background-image : url('https://i.shgcdn.com/555c98fd-66c0-458e-a747-ce52a0f0e41b/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
-        <h2 class="slider__caption">codepen</h2>
-        <p class="slider__txt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cupiditate omnis possimus illo quos, corporis minima!</p>
-      </div>
-      <div class="slider__contents" style="background-image : url('https://i.shgcdn.com/fc230f0e-c4d0-4a85-978d-96160662e29b/-/format/auto/-/preview/3000x3000/-/quality/lighter/')">
-        <h2 class="slider__caption">codepen</h2>
-        <p class="slider__txt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cupiditate omnis possimus illo quos, corporis minima!</p>
-      </div>
+     
     </div>
   </div>
  </div>
 
 </template>
 <script>  
+import axios from 'axios';
 export default {
-   
-   created(){}
+  data(){
+    return{
+      listFeaturedProducts: null
+    }
+  },
+  methods: {
+    fetchFeaturedProduct() {
+      let self = this;
+      const id = this.$route.params.id;
+      axios({
+        method: "post",
+        data: {
+          id: id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=getFeatured",
+      }).then((response) => {
+        if (response.data.status) {
+          console.log('tst')
+          console.log(response.data.payload);
+          self.listFeaturedProducts = response.data.payload;
+        }
+      });
+    },
+  },
+   created(){
+     this.fetchFeaturedProduct();
+   }
 }
 </script>
 <style lang="scss" scoped>

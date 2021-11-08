@@ -42,9 +42,7 @@
               </ins>
             </span>
 
-            <div class="button">
-              <a href="#">Añadir</a>
-            </div>
+            
           </div>
         </div>
       </li>
@@ -54,9 +52,7 @@
 </template>
 <script>
 export default {
-  props: {
-    listProducts: Array,
-  },
+  props: ['listProducts'],
 };
 </script>
 <style lang="scss" scoped>

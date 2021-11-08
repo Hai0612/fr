@@ -16,6 +16,7 @@
       <div class="categories-content">
         <div class="row">
           <div class="col col-sm-3 categories-filter">
+
             <v-card class="mx-auto" max-width="500">
               <v-list-group no-action sub-group>
                 <template v-slot:activator>
@@ -35,7 +36,9 @@
                       active-class="deep-purple--text text--accent-4"
                     >
                       <template v-slot:default="{ active }">
-                        <v-list-item-content>
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
                           <v-list-item-title v-text="item"> </v-list-item-title>
                         </v-list-item-content>
 
@@ -61,23 +64,25 @@
                 </template>
                 <v-list-item-group v-model="model">
                   <template v-for="(item, i) in listBrands">
-                    <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
+                    <v-divider v-if="!item" :key="`divider1-${i}`"></v-divider>
 
                     <v-list-item
                       @click="showByBrand(item)"
                       v-else
-                      :key="`item-${i}`"
+                      :key="`item1-${i}`"
                       :value="item"
                       active-class="deep-purple--text text--accent-4"
                     >
-                      <template v-slot:default="{ active }">
-                        <v-list-item-content>
+                      <template v-slot:default="{ yes }">
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
                           <v-list-item-title v-text="item"></v-list-item-title>
                         </v-list-item-content>
 
                         <v-list-item-action>
                           <v-checkbox
-                            :input-value="active"
+                            :input-value="yes"
                             color="deep-purple accent-4"
                           ></v-checkbox>
                         </v-list-item-action>
@@ -107,7 +112,9 @@
                       active-class="deep-purple--text text--accent-4"
                     >
                       <template v-slot:default="{ active }">
-                        <v-list-item-content>
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
                           <v-list-item-title v-text="item"></v-list-item-title>
                         </v-list-item-content>
 
@@ -143,7 +150,9 @@
                       active-class="deep-purple--text text--accent-4"
                     >
                       <template v-slot:default="{ active }">
-                        <v-list-item-content>
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
                           <v-list-item-title v-text="item"></v-list-item-title>
                         </v-list-item-content>
 
@@ -183,7 +192,7 @@ export default {
     return {
       listProducts: {},
       listCategorys: ["Trouser", "Hat", "", "Socks", "Shirt", "T-shirt"],
-      listBrands: ["Nice", "Elvi", "Adidas", "Chanel", "Balenciaga"],
+      listBrands: ["Nike", "Elvi", "Adidas", "Chanel", "Balenciaga"],
       listPrices: [
         "0 - 500.000",
         "Dưới 1 triệu",
@@ -198,9 +207,30 @@ export default {
       sortPrice: "",
       sortBrand: "",
       sortState: "",
+      text : null,
     };
   },
   methods: {
+    
+    showByCategory(category) {
+      this.sortCategory = category;
+      this.sortByOption();
+
+    },
+    showByBrand(brand) {
+      console.log(brand);
+      this.sortBrand = brand;
+      this.sortByOption();
+    },
+    showByPrice(price) {
+      this.sortPrice = price;
+      this.sortByOption();
+    },
+    showByState(state) {
+      this.sortState = state;
+      this.text = 'hello';
+      this.sortByOption();
+    },
     fetchProductByCategory() {
       let self = this;
       const productLine = this.$route.params.category;
@@ -216,34 +246,22 @@ export default {
         self.listProducts = response.data.payload;
       });
     },
-    showByCategory(category) {
-      this.sortCategory = category;
-    },
-    showByBrand(brand) {
-      console.log(brand);
-      this.sortBrand = brand;
-    },
-    showByPrice(price) {
-      this.sortPrice = price;
-    },
-    showByState(state) {
-      this.sortState = state;
-      this.sortByOption();
-    },
     sortByOption() {
       let self = this;
       axios({
         method: "post",
         data: {
-           category: this.sortCategory,
-           brand: this.sortBrand,
-           price : this.sortPrice,
-           state: this.sortState
+           category: self.sortCategory,
+           brand: self.sortBrand,
+           price : self.sortPrice,
+           state: self.sortState
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=category&action=getByOption",
       }).then((response) => {
-        if (response.data.state) {
+        console.log(response.data)
+        if (response.data.status == 200) {
           self.listProducts = response.data.payload;
+          console.log(response.data.payload)
         }
       });
     },
@@ -269,6 +287,7 @@ export default {
   padding-left: 300px;
   .categories-preview-content {
     h2 {
+      color: #ff0000;
       font-size: 56px;
       font-weight: 800;
       letter-spacing: 3px;
@@ -284,7 +303,7 @@ export default {
       }
       a {
         text-decoration: none;
-        color: black;
+        color: black; 
         i {
           transition: all 0.5s ease;
           color: red;
