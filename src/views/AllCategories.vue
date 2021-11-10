@@ -1,8 +1,9 @@
 <template>
   <div data-aos="fade-up"
-     data-aos-anchor-placement="center-bottom" class="all-category">
-    <div class="container">
-      <v-breadcrumbs :items="items">
+     data-aos-anchor-placement="center-bottom" class="container-fluid">
+    <div class="section-allcategories">
+      <v-breadcrumbs :items="items" class="pt-10" 
+        >
         <template v-slot:divider>
           <v-icon>mdi-forward</v-icon>
         </template>
@@ -28,12 +29,10 @@
       
       </div>
     </div>
-    <Footer/>
   </div>
 </template>
 <script>
 import axios from 'axios';
-import Footer from "../components/Footer.vue"
 export default {
   data: () => ({
     items: [
@@ -70,16 +69,22 @@ export default {
     this.fetchAllCategories()
   },
   components:{
-    Footer
   }
 };
 </script>
 <style lang="scss" scoped>
-.all-category {
-  background: rgb(235, 232, 232);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
 }
-.container {
-  width: 60%;
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right top, #fce1b5, #f5e4c8);
+}
+.section-allcategories {
+  width: 70%;
+  margin: auto;
   .all-categories {
     padding-bottom: 100px;
     display: flex;
@@ -99,7 +104,7 @@ export default {
           .categories-item-content-img {
             img {
               width: 100%;
-              height: 20vh;
+              height: 23vh;
               background-size: cover;
               background-repeat: no-repeat;
             }

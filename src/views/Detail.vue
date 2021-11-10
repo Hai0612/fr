@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container-fluid">
+    <div class="detail-section">
       <div
         data-aos="fade-up"
         data-aos-anchor-placement="center-bottom"
@@ -214,6 +215,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 <script>
@@ -234,6 +236,13 @@ export default {
       sizeVariantAddToCart : null,
       quantityBuy : 3,
     };
+  },
+  watch: {
+    '$route' (to, from) {
+      console.log(to);
+      console.log(from);
+      this.fetchProduct();
+    }
   },
   components: {
     ProductCategory,
@@ -353,6 +362,7 @@ export default {
         ),
       }).then((response) => {
         if (response.data.status) {
+          console.log(response.data.payload)
           self.listRelatedProduct = response.data.payload;
         }
       });
@@ -409,8 +419,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right top, #fce4bf, #fcefdb);
+}
+.detail-section{
   width: 70%;
+  margin: auto;
+
 }
 button {
   position: relative;

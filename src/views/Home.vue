@@ -12,7 +12,7 @@
       />
       <!-- <Collections/> -->
       <div class="list-categories">
-        <h3>Category Items</h3>
+        <h3>Category Items <i class="fas fa-forward"></i></h3>
         <div class="list-categories-content">
           <div class="row">
             <div
@@ -22,7 +22,7 @@
               data-aos-anchor-placement="center-bottom"
               class="col col-sm-4 list-categories-item"
             >
-              <router-link :to="{ name: 'ShowCategory', params: { category: category.name_category }}">>
+              <router-link :to="{ name: 'ShowCategory', params: { category: category.name_category }}">
                 <div class="item-a">
                   <img :src="category.image" alt="" />
                   <h3>{{ category.name_category }}</h3>
@@ -67,7 +67,6 @@
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   </div>
 </template>   
@@ -80,7 +79,6 @@ import axios from "axios";
 import Introduce from "../components/home/Introduce.vue";
 // import Collections from "../components/home/Collections.vue";
 import Carousel from "../components/home/Carousel.vue";
-import Footer from "../components/Footer.vue";
 import Iframe from "../components/home/Iframe.vue";
 
 export default {
@@ -133,7 +131,6 @@ export default {
     // this.checkUser();
   },
   components: {
-    Footer,
     Iframe,
     Carousel,
     Introduce,
@@ -142,7 +139,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-* {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
 }
 .container-fluid {
@@ -168,8 +167,17 @@ export default {
     }
   }
   .list-categories {
+
+    margin-top: 50px ;
     * {
       color: white;
+    }
+    h3:nth-child(1){
+          font-size: 45px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: black;
+    text-align: center;
     }
     h3 {
       text-align: center;

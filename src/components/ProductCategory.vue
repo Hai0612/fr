@@ -4,10 +4,10 @@
       <li data-aos="fade-up"
      data-aos-anchor-placement="center-bottom" v-for="(product, index) in listProducts" v-bind:key="index" class="product col-xs-12 col-sm-4 col-md-3">
         <div class="product-item">
-          <router-link :to="{ name: 'Detail', params: { id: product.id }}" class="cover-link">
+          <router-link :to="{ name: 'Detail', params: { id: product.id_product }}" class="cover-link">
             <div class="see">
               <i class="fa fa-eye"></i>
-              <span><router-link :to="{ name: 'Detail', params: { id: product.url }}">see</router-link></span>
+              <span><router-link :to="{ name: 'Detail', params: { id: product.id_product }}">see</router-link></span>
             </div>
 
             <div class="ima" :style="{backgroundImage: `url(${product.url})`}">

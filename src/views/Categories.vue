@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <div class="categories-preview">
       <div class="categories-preview-content">
         <h2>Accessories</h2>
@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="container-category">
       <div class="categories-content">
         <div class="row">
           <div class="col col-sm-3 categories-filter">
@@ -180,19 +180,17 @@
         </div>
       </div>
     </div>
-    <Footer/>
   </div>
 </template>
 <script>
 import axios from "axios";
 import ProductCategory from "../components/ProductCategory.vue";
-import Footer from "../components/Footer.vue"
 export default {
   data() {
     return {
       listProducts: {},
       listCategorys: ["Trouser", "Hat", "", "Socks", "Shirt", "T-shirt"],
-      listBrands: ["Nike", "Elvi", "Adidas", "Chanel", "Balenciaga"],
+      listBrands: ["Adidas", "Nike", "Louis Vuitton", "Dolce&Gabanna", "Gucci","Zara", "Chanel"],
       listPrices: [
         "0 - 500.000",
         "Dưới 1 triệu",
@@ -218,7 +216,6 @@ export default {
 
     },
     showByBrand(brand) {
-      console.log(brand);
       this.sortBrand = brand;
       this.sortByOption();
     },
@@ -258,17 +255,16 @@ export default {
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=category&action=getByOption",
       }).then((response) => {
-        console.log(response.data)
         if (response.data.status == 200) {
           self.listProducts = response.data.payload;
-          console.log(response.data.payload)
+          console.log(response.data)
         }
       });
     },
   },
 
   components: {
-    ProductCategory,Footer
+    ProductCategory,
   },
   created() {
     this.fetchProductByCategory();
@@ -276,8 +272,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right top, #fce1b5, #f5e4c8);
+}
+.container-category{
   width: 70%;
+  margin: auto;
+
 }
 .categories-preview {
   background-image: url("../assets/images/Contact-me.png");

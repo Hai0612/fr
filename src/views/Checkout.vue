@@ -299,7 +299,7 @@
           <div class="pymt-radio">
             <div class="row-payment-method payment-row">
               <div class="select-icon">
-                <input type="radio" id="radio0" name="radios" value="pp" />
+                <input type="radio" @click="payment_type = 'Cash On Delivery'" id="radio0" name="radios" value="pp" />
                 <label for="radio0"></label>
               </div>
               <div class="select-txt">
@@ -315,7 +315,7 @@
           <div v-for="payment,index in paymentMethods" v-bind:key="index" class="pymt-radio" >
             <div class="row-payment-method payment-row">
               <div class="select-icon">
-                <input type="radio" :id="'radio-'.concat(index)" name="radios" value="pp" />
+                <input type="radio" :id="'radio-'.concat(index)" @click="card_id = payment.id;payment_type = 'Online' " name="radios" value="pp" />
                 <label :for="'radio-'.concat(index)"></label>
               </div>
               <div class="select-txt">
@@ -337,7 +337,7 @@
           <div class="pymt-radio">
             <div class="row-payment-method payment-row">
               <div class="select-icon">
-                <input type="radio" id="radio1" name="radios" value="pp" />
+                <input type="radio" @click="card_type = 'Paypal'" id="radio1" name="radios" value="pp" />
                 <label for="radio1"></label>
               </div>
               <div class="select-txt">
@@ -362,6 +362,7 @@
                   type="radio"
                   id="radio2"
                   name="radios"
+                  @click="card_type = 'Visa'"
                   value="pp"
                   checked
                 />
@@ -399,13 +400,23 @@
                   type="text"
                   class="input cc-txt text-validated"
                   value="4542 9931 9292 2293"
+                  v-model="accountNb"
+                />
+              </div>
+              <div class="cc-field">
+                <div class="cc-title">Provider</div>
+                <input
+                  type="text"
+                  class="input cc-txt"
+                  value="BIDV"
+                  v-model="provider"
                 />
               </div>
             </div>
             <div class="row-cc">
               <div class="cc-field">
                 <div class="cc-title">Expiry Date</div>
-                <select class="input cc-ddl">
+                <select @change="chooseDay($event)" class="input cc-ddl">   
                   <option selected>01</option>
                   <option>02</option>
                   <option>03</option>
@@ -419,7 +430,7 @@
                   <option>11</option>
                   <option>12</option>
                 </select>
-                <select class="input cc-ddl">
+                <select @change="chooseMonth($event)" class="input cc-ddl">
                   <option>01</option>
                   <option>02</option>
                   <option>03</option>
@@ -455,9 +466,9 @@
               </div>
               <div class="cc-field">
                 <div class="cc-title">
-                  CVV Code<span class="numberCircle">?</span>
+                  Year<span class="numberCircle">?</span>
                 </div>
-                <input type="text" class="input cc-txt" />
+                <input type="text" class="input cc-txt" v-model="yearNb" />
               </div>
             </div>
             <div class="row-cc">
@@ -467,7 +478,9 @@
               </div>
             </div>
           </div>
-          <div
+          <button class="btn btn-danger mx-5 mt-5 mb-5" @click="insertUserPayment()">Thêm phương thức</button>
+        </div>
+        <div
             data-aos="fade-up"
             data-aos-anchor-placement="center-bottom"
             class="button-master-container"
@@ -479,7 +492,6 @@
               <btn @click="submitOrder">Finish Order</btn>
             </div>
           </div>
-        </div>
       </section>
       
     </div>
@@ -503,6 +515,15 @@ export default {
       detailAddress: null,
       postalCode: null,
       showNewMethod: false,
+      id_order: null,
+      dayNb :null,
+      monthNb : null, 
+      yearNb : null,
+      accountNb: null,
+      provider: null,
+      card_type : null,
+      card_id: null,
+      payment_type : null,
     };
 
   },
@@ -518,25 +539,22 @@ export default {
     }
   },
   methods: {
+    chooseCartType(mes){
+      console.log(mes)
+    },
+    chooseDay(event) {
+      console.log(this.card_type);
+          this.dayNb = event.target.value
+      },
+      chooseMonth(event) {
+         this.monthNb = event.target.value
+
+      },
     fetchCart() {
       this.cartProducts = this.$store.state.temporaryCart;
       console.log(this.cartProducts);
     },
-    decreaseQuantity(id_variant, id_user) {
-      let self = this;
-      axios({
-        method: "post",
-        data: {
-          id_user: id_user,
-          id_variant: id_variant,
-        },
-        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
-      }).then((response) => {
-        if (response.data.status == 200) {
-          self.fetchCart();
-        }
-      });
-    },
+    
     fetchPaymentInfo(){
       let user = this.$store.state.user.info;
       // let user = 1;
@@ -549,6 +567,7 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=getPaymentInfo",
       }).then((response) => {
         if(response.data.status == 200){
+          console.log(response.data.payload);
           self.paymentMethods = response.data.payload ;
         }
       });
@@ -572,62 +591,143 @@ export default {
 
       });
     }, 
-    // incQuantityTempCart(id_variant) {
-    //   let self = this;
-    //   axios({
-    //     method: "post",
-    //     data: {
-    //       id_user: id_user,
-    //         id_variant : id_variant
-    //     },
-    //     url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=increaseQuantity",
-    //   }).then((response) => {
-    //     if(response.data.status == 200){
-    //       self.fetchCart();
-    //     }
-    //   });
-    //   this.$store.dispatch('decQuanTempCart', id_variant);
-    // },
-    // decQuantityTempCart(id_variant) {
-    //   let self = this;
-    //   axios({
-    //     method: "post",
-    //     data: {
-    //       id_user: id_user,
-    //         id_variant : id_variant
-    //     },
-    //     url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
-    //   }).then((response) => {
-    //     if(response.data.status == 200){
-    //       self.fetchCart();
-    //     }
-    //   });
-    //   this.$store.dispatch('incQuanTempCart', id_variant);
+    incQuantityTempCart(id_variant) {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: self.$store.state.user.info.id,
+            id_variant : id_variant
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=increaseQuantity",
+      }).then((response) => {
+        if(response.data.status == 200){
+          self.fetchCart();
+        }
+      });
+      this.$store.dispatch('incQuanTempCart', id_variant);
+    },
+    decQuantityTempCart(id_variant) {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user: self.$store.state.user.info.id,
+            id_variant : id_variant
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
+      }).then((response) => {
+        if(response.data.status == 200){
+          self.fetchCart();
+        }
+      });
+      this.$store.dispatch('decQuanTempCart', id_variant);
 
-    // },
+    },
     deleTempCart(id_variant) {
       this.$store.dispatch('deleTempCart' ,id_variant);
     },
     submitOrder(){
-      
+      // console.log(this.totalPriceOrder);
+      // this.insertOrders();
+      this.insertOrders();
     },
-    insertOrders() {
-      // let self = this;
-      // axios({
-      //   method: "post",
-      //   data: {
-      //     id_user: id_user,
-      //     orderAddress : self.detailAddress,
-      //     id_variant: id_variant,
-      //     totalAmount : self.totalPriceOrder,
-      //     status : 'shipping'
-      //   },
-      //   url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=decreaseQuantity",
-      // }).then((response) => {
-      //   if (response.data.status == 200) {
-      //     self.fetchCart();
-      //   }
-      // });
+     insertOrders() {
+      // this.deleteProductIncart();
+      let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_user: self.$store.state.user.info.id,
+          orderAddress : self.detailAddress,
+          totalAmount : self.totalPriceOrder,
+          status : 'shipping'
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=order&action=addOrder",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.id_order  = response.data.payload;
+          console.log('insertOrder');
+          self.insertOrdersDetail(self.id_order);
+          self.insertPaymentDetail();
+        }
+      });
+    },
+    async insertOrdersDetail(id_order) {
+      console.log('test');
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_order : id_order,
+          products : self.cartProducts,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=order&action=addOrderDetail",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          console.log('inserOrderDetail')
+          self.deleteProductIncart();
+          self.fetchCart();
+        }
+      });
+    },
+    
+    deleteProductIncart() {
+
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user : self.$store.state.user.info.id,
+          products : self.cartProducts,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=deleteListProduct",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.fetchCart();
+        }
+      });
+      self.$store.dispatch('clearTempCart');
+    },
+    async insertPaymentDetail() {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id : self.id_order,
+          payment_type : self.payment_type,
+          card_id : self.card_id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=payment&action=insertPaymentDetail",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          console.log('insertPaymentDetail')
+
+          self.fetchCart();
+        }
+      });
+    },
+    async insertUserPayment() {
+      let ex = this.yearNb.concat('-').concat(this.dayNb).concat('-').concat(this.monthNb);
+      let self = this;
+      self.showNewMethod = false;
+
+      axios({
+        method: "post",
+        data: {
+          user_id : self.$store.state.user.info.id,
+          card_type : self.card_type,
+          provider : self.provider,
+          account_no : self.accountNb,
+          expiry : ex,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=payment&action=insertUserPayment",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.fetchPaymentInfo();
+          console.log('insertUserPayemnt')
+        }
+      });
     },
     
   },
@@ -642,6 +742,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
  table {
     thead {
     }

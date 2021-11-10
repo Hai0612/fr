@@ -34,6 +34,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    clearTempCart(state){
+      state.temporaryCart = [];
+    },
     addCart(state, book){
 
       let flag = false;
@@ -166,6 +169,9 @@ export default new Vuex.Store({
     async deleTempCart({commit},id_variant){
       commit("deleTempCart" , id_variant);
       
+    },
+    async clearTempCart({commit}){
+      commit('clearTempCart');
     }
   },
   modules: {

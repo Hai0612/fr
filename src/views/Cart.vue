@@ -1,92 +1,12 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="section-cart">
     <div class="cart-title">
       <h2>Shopping Bag</h2>
       <span>5</span> Items
     </div>
     <div class="cart-main">
-      <!-- <div class="row">
-                <div class="cart-table col col-md-8 col-sm-12">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><img src="../assets/images/icon.jpg" alt=""></td>
-                                <td>
-                                    <h2>Free Makeup Melt Cleanser Sample</h2>
-                                    <p>Dry/wet Gentle Jelly Cleanser With Rose Flower</p>
-                                </td>
-                                <td>
-                                    <div class="change-quantity">
-                                        <button><i class="fas fa-minus"></i></button>
-                                        <span>5</span>
-                                        <button><i class="fas fa-plus"></i></button>
-                                    </div>
-                                </td>
-                                <td>$32.00</td>
-                                <td><button>Remove</button></td>
-                            </tr>
-                             <tr>
-                                <td><img src="../assets/images/icon.jpg" alt=""></td>
-                                <td>
-                                    <h2>Free Makeup Melt Cleanser Sample</h2>
-                                    <p>Dry/wet Gentle Jelly Cleanser With Rose Flower</p>
-                                </td>
-                                <td>
-                                    <div class="change-quantity">
-                                        <button><i class="fas fa-minus"></i></button>
-                                        <span>5</span>
-                                        <button><i class="fas fa-plus"></i></button>
-                                    </div>
-                                </td>
-                                <td>$32.00</td>
-                                <td><button>Remove</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="cart-checkout col col-md-3 col-sm-12">
-                    <ul>
-                        <li>
-                            <div class="row">
-                                <div class="col col-md-6 type">Subtotal</div>
-                                <div class="col col-md-6 result">$40.00</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row">
-                                <div class="col col-md-6 type">Shipping:</div>
-                                <div class="col col-md-6 result">Add info</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row">
-                                <div class="col col-md-6 type">Coupon Code</div>
-                                <div class="col col-md-6 result">Add coupon</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row">
-                                <div class="col col-md-6 type">Grand total:</div>
-                                <div class="col col-md-6 result">$40.00</div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="button-checkout">
-                            <router-link to="/checkout">
-                                <v-btn depressed color="primary" block ><i class="fas fa-user-lock"></i>Checkout</v-btn>
-                            </router-link>
-                    </div>
-                </div>
-            </div> -->
+      
       <table
         data-aos="fade-up"
         data-aos-anchor-placement="center-bottom"
@@ -158,7 +78,7 @@
                 >
                   -
                 </div>
-                <input type="text" id="number" :value="product.quantity" />
+                <input disabled type="text" id="number" :value="product.quantity" />
                 <div
                   class="value-button"
                   id="increase"
@@ -195,34 +115,60 @@
             </td>
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center">
-              <strong>Total $ 5.11</strong>
+              <strong>Total {{totalPriceOrder}}</strong>
             </td>
             <td>
-              <router-link to="/checkout" class="btn btn-success btn-block"
+              <button @click="preparePayment()" to="/checkout" href="#myModal" data-toggle="modal" class="btn btn-success btn-block"
                 >Checkout <i class="fa fa-angle-right"></i
-              ></router-link>
+              ></button>
+                <!-- Modal HTML -->
+                <div id="myModal" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <p>Chưa có sản phẩm nào để thanh toán.</p>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+
+
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
-    <Footer />
+  </div>
   </div>
 </template>
 <script>
 import axios from "axios";
-import Footer from "../components/Footer.vue";
 export default {
   data() {
     return {
       cartProducts: null,
+      tempArrayWaitPushToTempCart : [],
     };
   },
+  computed: {
+    // a computed getter
+    totalPriceOrder: function () {
+      let total = 0;
+      this.$store.state.temporaryCart.forEach(element => {
+        total += element.price * element.quantity
+      });
+      // `this` points to the vm instance
+      return total;
+    }
+  },
   components: {
-    Footer,
   },
   methods: {
     decreaseQuantity(id_variant, id_user){
+      console.log(id_variant);
       let self = this;
       axios({
         method: "post",
@@ -252,7 +198,7 @@ export default {
         }
       });
     },
-    fetchCart() {
+    async fetchCart() {
       let user = this.$store.state.user.info;
       let self = this;
       axios({
@@ -266,16 +212,37 @@ export default {
         self.cartProducts = response.data.payload;
       });
     },
-    addToBill(id_variant, event){
+
+    async addToBill(id_variant, event){
+       
+      await this.fetchCart();
       if(event.target.checked){
-        let products = null;
+        console.log('check')
         this.cartProducts.forEach(element => {
           if(element.id_variant == id_variant){
-            products = element;
+            this.tempArrayWaitPushToTempCart.push(element);
           }
         });
-        this.$store.dispatch('addTemporaryCart', products);
+        console.log(this.tempArrayWaitPushToTempCart)
+
+        // this.$store.dispatch('addTemporaryCart', products);
       }
+      else{
+        this.cartProducts.forEach((element,index) => {
+          if(element.id_variant == id_variant){
+            // this.tempArrayWaitPushToTempCart.remove(index);
+              console.log(index);
+          }
+        });
+        console.log(JSON.parse(JSON.stringify(this.tempArrayWaitPushToTempCart)))
+
+      // console.log(this.$store.state.temporaryCart)
+      }
+    },
+    preparePayment(){
+      this.tempArrayWaitPushToTempCart.forEach(( )=>{
+        
+      });
       console.log(this.$store.state.temporaryCart)
     },
     deleteProductInCart(id_user, id_variant) {
@@ -300,7 +267,22 @@ export default {
   },
 };
 </script>
+
+
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right top, #fce1b5, #f5e4c8);
+}
+.section-cart {
+  width: 70%;
+  margin: auto;
+}
 .cart-title {
   padding: 50px;
   text-align: center;
@@ -448,5 +430,86 @@ export default {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+
+//check model
+.modal-confirm .modal-content {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	font-size: 14px;
+}
+.modal-confirm .modal-header {
+	border-bottom: none;   
+	position: relative;
+}
+.modal-confirm h4 {
+	text-align: center;
+	font-size: 26px;
+	margin: 30px 0 -10px;
+}
+.modal-confirm .close {
+	position: absolute;
+	top: -5px;
+	right: -2px;
+}
+.modal-confirm .modal-body {
+	color: #999;
+}
+.modal-confirm .modal-footer {
+	border: none;
+	text-align: center;		
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 10px 15px 25px;
+}
+.modal-confirm .modal-footer a {
+	color: #999;
+}		
+.modal-confirm .icon-box {
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	border-radius: 50%;
+	z-index: 9;
+	text-align: center;
+	border: 3px solid #f15e5e;
+}
+.modal-confirm .icon-box i {
+	color: #f15e5e;
+	font-size: 46px;
+	display: inline-block;
+	margin-top: 13px;
+}
+.modal-confirm .btn, .modal-confirm .btn:active {
+	color: #fff;
+	border-radius: 4px;
+	background: #60c7c1;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	min-width: 120px;
+	border: none;
+	min-height: 40px;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.modal-confirm .btn-secondary {
+	background: #c1c1c1;
+}
+.modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus {
+	background: #a8a8a8;
+}
+.modal-confirm .btn-danger {
+	background: #f15e5e;
+}
+.modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+	background: #ee3535;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
 }
 </style>

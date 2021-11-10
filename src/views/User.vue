@@ -280,33 +280,85 @@
                 <tbody>
                   
                   <tr v-for="order, index in listOrdereds" v-bind:key="index">
-                    <td scope="row">1</td>
+                    <td scope="row"></td>
                     <td>{{order.orderDate}}</td>
                     <td>{{order.shippedDate}}</td>
                     <td>{{order.totalAmount}}</td>
-                    <td><btn href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#showDetailOrder">Show Detail</btn></td>
+                    <td><button class="btn btn-lg btn-success" @click="fetchOrderDetail(order.id)" href="#myModal" data-toggle="modal" data-target="#showDetailOrder">Show Detail</button></td>
                   </tr>
             <!--  modal -->
             <!-- xử lí nội dung đơn hàng tùy thuộc vào đơn -->
-                    <div class="modal fade" id="showDetailOrder" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Basic Modal</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <h3>Modal Body</h3>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                          </div>
-                        </div>
+                <div id="showDetailOrder" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-body">
+<table
+                        data-aos="fade-up"
+                        data-aos-anchor-placement="center-bottom"
+                        id="cart-table"
+                        class="table table-hover table-condensed"
+                      > 
+                        <thead>
+                          <tr>
+                            <th style="width: 3%">STT</th>
+                            <th style="width: 45%">Product</th>
+                            <th style="width: 10%">Price</th>
+                            <th style="width: 8%">Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="order_item,index in orderDetail" v-bind:key="index">
+                            <td>{{index + 1}}</td>
+                            <td id="td-info">
+                              <div class="row">
+                                <div class="col-sm-3 hidden-xs">
+                                  <img
+                                    src="http://placehold.it/100x100"
+                                    alt="..."
+                                    class="img-responsive"
+                                  />
+                                </div>
+                                <div class="col-sm-5">
+                                  <h4 class="product-name">{{order_item.name}}</h4>
+                                </div>
+                               
+                              </div>
+                            </td>
+                            <td id="td-price">{{ order_item.price }}</td>
+                            <td id="td-quantity">
+                              <div class="td-content">
+                                
+                                <h4>{{order_item.quantity_product}} </h4>
+                               
+                              </div>
+                            </td>
+                          
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            
+                            <td colspan="3" class="hidden-xs">Total</td>
+                            <td class="hidden-xs text-center">
+                              <strong>{{totalOrder}}</strong>
+                            </td>
+                            
+                          </tr>
+                        </tfoot>
+                      </table>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       </div>
                     </div>
+                  </div>
+                </div>  
+                    <!-- <div class="modal fade" id="showDetailOrder" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                      
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div> -->
                 </tbody>
               </table>
               </div>
@@ -421,7 +473,19 @@ export default {
     oldPassword: null,
     newPassword: null ,
     reNewPassword : null,
+    orderDetail: null,
+    totalOrder: 0,
   }),
+  computed:{
+    totalPriceOrder: function () {
+      let total = 0;
+      this.orderDetail.forEach(element => {
+        total += element.price * element.quantity_product
+      });
+      // `this` points to the vm instance
+      return total;
+    }
+  },
   methods: {
     closeOther(index, items) {
       items.forEach((x, i) => {
@@ -542,7 +606,6 @@ export default {
     },
     fetchOrders(status){
       let self = this;
-      console.log(self.user);
       axios({
         method: "post",
         data:{
@@ -563,6 +626,27 @@ export default {
         }
       });
       
+    },
+    fetchOrderDetail(order_id){
+      let self = this;
+      axios({
+        method: "get",
+        url: "https://localhost/ecommerce_backend/index.php?controller=order&action=getDetail&order_id=".concat(
+          order_id
+        ),
+      }).then((response) => {
+        if(response.data.status == 200){
+          console.log(response.data.payload);
+          self.orderDetail = response.data.payload;
+          let total = 0;
+          self.orderDetail.forEach(element => {
+            total += element.price * element.quantity_product
+          });
+          // `this` points to the vm instance
+          self.totalOrder = total;
+        }
+      });
+      
     }
   },
   created() {
@@ -573,6 +657,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
 td{
   vertical-align: middle;
   text-align: center;
@@ -626,5 +714,119 @@ input {
       }
     }
   }
+}
+
+
+//show detail order 
+table {
+    input{
+        transform: scale(2);
+        -ms-transform: scale(2);
+        -webkit-transform: scale(2);
+        padding: 10px;
+      }
+    thead {
+      
+      tr th:first-child{
+
+      }
+    }
+    tbody {
+      tr {
+        #td-info {
+          .row {
+            .col-sm-3 {
+              img {
+                width: 100%;
+              }
+            }
+            .col-sm-5 {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: left;
+              h4 {
+                font-size: 1rem;
+              }
+              p {
+                font-size: 1vw;
+                margin: 0;
+              }
+            }
+            .col-sm-4.product-options p:hover {
+              & + .product-options-model {
+                background: cornflowerblue;
+                display: block;
+              }
+            }
+            .col-sm-4.product-options {
+              position: relative;
+              p {
+                i {
+                }
+              }
+              .product-options-model {
+                padding: 5px 10px;
+                transition: all 1s ease;
+                background: chartreuse;
+                position: absolute;
+                display: none;
+                top: 50px;
+                width: 110%;
+                button {
+                  padding: 0;
+                }
+                .option-item {
+                  p {
+                    text-transform: capitalize;
+                    color: rgba(0, 0, 0, 0.74);
+                    font-size: 1rem;
+                    margin: 0;
+                  }
+                  .list-option-item {
+                    display: flex;
+                    flex-wrap: wrap;
+                    button {
+                      min-width: 40px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        td {
+          vertical-align: middle;
+        }
+        button {
+          margin: 5px;
+        }
+      }
+    }
+    tfoot {
+      td {
+        vertical-align: middle;
+      }
+      tr {
+        a {
+          text-decoration: none;
+          color: white;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+#td-quantity {
+  .td-content {
+    
+    }
+    #number {
+      width: 20%;
+      text-align: center;
+      border: none;
+      padding: 0px;
+      margin: 0px;
+      }
 }
 </style>
