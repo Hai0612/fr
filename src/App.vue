@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <Navbar1 v-if="this.$route.name != 'Login'"/>
+    <Navbar1 v-if="this.$route.name != 'Login' || this.$route.name != 'Admin'"/>
     <v-main style="margin-top: 90px;">
       <router-view/>
     </v-main>
-    <Footer/>
+    <Footer v-if="this.$route.name != 'Admin'"/>
     <Social/>
   </v-app>
 </template>
