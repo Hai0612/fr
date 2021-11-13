@@ -20,45 +20,30 @@
         <div class="carousel-item active">
           <img
             class="d-block w-100"
-            src="https://i.postimg.cc/bNQp0RDW/1.jpg"
+            :src="listFeaturedProducts[5].url"
             alt="First slide"
           />
           <div class="carousel-caption d-none d-md-block">
-            <h5>Slider One Item</h5>
+            <h5>{{listFeaturedProducts[5].name}}</h5>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime,
-              nulla, tempore. Deserunt excepturi quas vero.
+              {{listFeaturedProducts[5].description}}
             </p>
           </div>
         </div>
-        <div class="carousel-item">
+        <div v-for="(product, index) in listFeaturedProducts" v-bind:key="index" class="carousel-item">
           <img
             class="d-block w-100"
-            src="https://i.postimg.cc/pVzg3LWn/2.jpg"
+            :src="product.url"
             alt="Second slide"
           />
           <div class="carousel-caption d-none d-md-block">
-            <h5>Slider One Item</h5>
+            <h5>{{product.name}}</h5>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime,
-              nulla, tempore. Deserunt excepturi quas vero.
+              {{product.description}}
             </p>
           </div>
         </div>
-        <div class="carousel-item">
-          <img
-            class="d-block w-100"
-            src="https://i.postimg.cc/0y2F6Gpp/3.jpg"
-            alt="Third slide"
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Slider One Item</h5>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime,
-              nulla, tempore. Deserunt excepturi quas vero.
-            </p>
-          </div>
-        </div>
+      
       </div>
       <a
         class="carousel-control-prev"
@@ -128,6 +113,10 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+    img{
+      width: 100%;
+      height: 100%;
+    }
 }
 .carousel-caption {
   bottom: 270px;

@@ -218,7 +218,7 @@
           aria-expanded="false"
         >
           <i class="fas fa-shopping-cart"></i>
-          <span class="countPill cart-quantity countPill--positive">2</span>
+          <span class="countPill cart-quantity countPill--positive">{{numberInCart}}</span>
         </router-link>
         <router-link v-if="this.$store.state.user.info.id != null"
           class="nav-link"
@@ -238,18 +238,49 @@
               
                 </v-avatar>
         </router-link>
-        <router-link to="/login">Đăng xuất</router-link>
+        <button @click="handleLogout()">Đăng xuất</button>
       </div>
     </div>
   </nav>
 </template>
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
       search: "",
+      numberInCart : 0,
     };
   },
+  methods:{
+    handleLogout(){
+      this.$store.state.user.token = '';
+      this.$store.state.user.info = {};
+      this.$router.push({ name : 'Login'});
+    },
+    getNumberInCart(){
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user : self.$store.state.user.info.id
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=getNumberInCart",
+      }).then((response) => {
+        if(response.data.status == 200){
+          console.log(response.data.payload);
+          this.numberInCart = response.data.payload
+        }
+      });
+    },
+  },
+  
+  created(){
+    // setInterval(() => {
+
+    //   this.getNumberInCart();
+    // }, 1000);
+  }
 };
 </script>
 
@@ -346,6 +377,7 @@ export default {
         span{
             position: absolute;
             top: 50%;
+            color:black;
             left: 60%;
         }
     }

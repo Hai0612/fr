@@ -9,21 +9,13 @@
       >
         <div class="product-img">
           <div class="product-img-show">
-            <img src="../assets/images/clother.jpg" alt="" />
+            <img id="imageIsShowing" src="../assets/images/clother.jpg" alt="" />
           </div>
           <div class="listImage">
-            <div  class="image-product-item">
-              <img src="../assets/images/clother.jpg" alt="" />
+            <div v-for="image, index in listProductImage" v-bind:key="index"  class="image-product-item">
+              <img @click="showImage(image.url)" :src="image.url" alt="" />
             </div>
-            <div class="image-product-item">
-              <img src="../assets/images/clother.jpg" alt="" />
-            </div>
-            <div class="image-product-item">
-              <img src="../assets/images/clother.jpg" alt="" />
-            </div>
-            <div class="image-product-item">
-              <img src="../assets/images/clother.jpg" alt="" />
-            </div>
+           
           </div>
         </div>
         <div class="product-detail">
@@ -74,12 +66,45 @@
             <input type="number" class="name-choose" id="" v-model="quantityBuy">
             <span style="margin-left: 20px">Số lượng</span>
           </div>
+          <div class="alert-choose-class" v-if="chooseClassProduct">
+                <v-alert
+                  dense
+                  border="left"
+                  type="warning"
+                >
+                Vui lòng chọn <strong>phân loại hàng</strong> !
+                </v-alert>
+          </div>
           <div
             data-aos="fade-up"
             data-aos-anchor-placement="center-bottom"
             class="payment"
           >
-            <button @click="addToCart" class="btn">Add to cart</button>
+            <button @click="addToCart"
+                  data-toggle="modal"
+                  href="#myAddtoCartModal"
+                  class="btn btn-primary">Add to cart</button>
+
+                <div v-if="this.colorVariantAddToCart !== null && this.sizeVariantAddToCart !== null" class="text-center">
+                  <div id="myAddtoCartModal" class="modal fade">
+                    <div class="modal-dialog modal-confirm" >
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>Đã thêm vào giỏ hàng.<i class="fas fa-check-circle"></i></p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                          <a
+                            type="button"
+                            class="close btn btn-danger"
+                            data-dismiss="modal"
+                            >Cancel</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             <button class="btn">Buy it now</button>
             <p>FREE domestic shipping and 30 day returns</p>
           </div>
@@ -230,18 +255,26 @@ export default {
       listVariantsProduct: null,
       listComments: {},
       listRelatedProduct: {},
+      listProductImage : {},
       arrColor: [],
       arrSize: [],
       colorVariantAddToCart : null,
       sizeVariantAddToCart : null,
       quantityBuy : 3,
+      chooseClassProduct: false,
     };
   },
   watch: {
     '$route' (to, from) {
       console.log(to);
       console.log(from);
+      this.arrColor = [];
+      this.arrSize = [];
+      this.sizeVariantAddToCart = null;
+      this.colorVariantAddToCart = null;
       this.fetchProduct();
+      this.fetchComments();
+      this.fetchRelatedProduct();
     }
   },
   components: {
@@ -258,45 +291,55 @@ export default {
        if(color == 'yellow'){
         this.colorVariantAddToCart = 'Vàng'
       }
+      if(this.sizeVariantAddToCart !== null){
+        this.chooseClassProduct = false;
+      }
     },
     setSize(size){
       this.sizeVariantAddToCart = size.substring(0,1);
+      if(this.colorVariantAddToCart !== null){
+        this.chooseClassProduct = false;
+      }
     },
-    addToCart(){
-      let productTempVariant = null;
-      this.listVariantsProduct.forEach(element =>{
-          if(element.size == this.sizeVariantAddToCart && element.color == this.colorVariantAddToCart){
-            productTempVariant = element;
-            productTempVariant['quantity'] = this.quantityBuy;
-          }
-      });
-      // let self = this;
-      axios({
-        method: "post",
-        data: {
-          id_user: 1,
-          id_variant: productTempVariant.id,
-          quantity : productTempVariant['quantity'],
-        },
-        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=addToCart",
-      }).then((response) => {
-        console.log(response.data.status)
-      });
-      // let self = this;
-      // const id = this.$route.params.id;
-      // axios({
-      //   method: "post",
-      //   data: {
-      //     id: id,
-      //   },
-      //   url: "https://localhost/ecommerce_backend/index.php?controller=comment&action=getByIdProduct&id_product=".concat(
-      //     id
-      //   ),
-      // }).then((response) => {
-      //   self.listComments = response.data.payload;
-      // });
+    async addToCart(){
+      if(this.sizeVariantAddToCart === null || this.colorVariantAddToCart === null){
+        this.chooseClassProduct = true;
+      }else{
+        this.chooseClassProduct = false;
+      }
+      console.log(this.colorVariantAddToCart )
+      console.log(this.sizeVariantAddToCart );
+      if(this.$store.state.user.info.id){
+        let productTempVariant = null;
+        this.listVariantsProduct.forEach(element =>{
+            if(element.size == this.sizeVariantAddToCart && element.color == this.colorVariantAddToCart){
+              productTempVariant = element;
+              productTempVariant['quantity'] = this.quantityBuy;
+            }
+        });
+        if(productTempVariant !== null){
+            let self = this;
+            await axios({
+              method: "post",
+              data: {
+                id_user: self.$store.state.user.info.id,
+                id_variant: productTempVariant.id,
+                quantity : productTempVariant['quantity'],
+              },
+              url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=addToCart",
+            }).then((response) => {
+              console.log(response.data.status)
+              self.completeAddToCart();
+            });
+            }
+     
+      }else{
+        this.$store.state.oldUrl = '/detail/'.concat(this.$route.params.id);
+        this.$router.push({ path: '/login' });
+
+      }
     },
-      addComment(){
+    addComment(){
         console.log('addcm')
         let self = this;
         axios({
@@ -314,7 +357,7 @@ export default {
           }
         });
       },
-      fetchProduct() {
+    fetchProduct() {
       let self = this;
       const id = this.$route.params.id;
       axios({
@@ -367,6 +410,24 @@ export default {
         }
       });
     },
+    fetchFullImage(){
+      let self = this;
+      const id = this.$route.params.id;
+      axios({
+        method: "post",
+        data: {
+          id: id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=getImage&id=".concat(
+          id
+        ),
+      }).then((response) => {
+        if (response.data.status) {
+          console.log(response.data.payload)
+          self.listProductImage = response.data.payload;
+        }
+      });
+    },
     filterColor() {
       let arrColor = [];
       this.listVariantsProduct.forEach((element) => {
@@ -410,12 +471,25 @@ export default {
         }
       });
     },
+    showImage(url){
+      document.getElementById('imageIsShowing').src = url;
+    },
+    completeAddToCart() {
+      setTimeout(() => {
+        document.getElementsByClassName("close")[0].click();
+      }, 1000);
+    },
   },
+
   created() {
     this.fetchProduct();
     this.fetchComments();
+    this.fetchFullImage();
     this.fetchRelatedProduct();
   },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -713,5 +787,14 @@ button:hover {
 }
 .quantityBuy  + span{
   margin-left: 10px;
+}
+.modal-confirm{
+  margin-top: 25%;
+}
+.alert-choose-class{
+  padding: 20px 25px;
+}
+.close{
+  display: none;
 }
 </style>

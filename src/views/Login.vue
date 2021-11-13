@@ -166,9 +166,9 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       let self = this;
-      axios({
+      await axios({
         method: "post",
         data: {
           username: self.username,
@@ -182,7 +182,13 @@ export default {
           // localStorage.setItem('token', response.data.token);
           self.$store.state.user.info = response.data.account[0];
           self.$store.state.user.token = response.data.token;
-          self.$router.push({ path: '/home' })
+          console.log(self.$store.state.oldUrl)
+          if(self.$store.state.oldUrl == ''){
+            self.$router.push({ path: '/home' })
+          }
+          else{
+            self.$router.push({ path: self.$store.state.oldUrl });
+          }
         }
       });
     },
@@ -192,7 +198,10 @@ export default {
   components: {
   },
   created(){
-  }
+  },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 <style lang="scss">

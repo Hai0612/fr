@@ -106,35 +106,20 @@ export default {
       });
     },
 
-    checkUser() {
-      // let self = this;
-      // axios({
-      //   method: "get",
-      //   url: "https://localhost/ecommerce_backend/index.php?controller=user&action=authenticate",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     Authorization: localStorage.getItem("token"),
-      //   },
-      // }).then((response) => {
-      //   if (response.data.status) {
-      //     self.user = response.data.account[0]
-      //   }
-      // });
-    },
+   
   },
   created() {
     this.fetchCategories();
-    this.checkUser();
     console.log(this.$store.state.user.token);
 
-    // this.checkUser();
   },
+    mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
   components: {
     Iframe,
     Carousel,
     Introduce,
-    // Collections
   },
 };
 </script>

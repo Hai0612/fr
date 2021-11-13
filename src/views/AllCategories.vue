@@ -69,7 +69,10 @@ export default {
     this.fetchAllCategories()
   },
   components:{
-  }
+  },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 <style lang="scss" scoped>

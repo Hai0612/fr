@@ -7,21 +7,15 @@ export default new Vuex.Store({
   state:{
     user: {
       token: {
-
       },
-      test: "eeee",
       info: {
       },
-      info1 : {
-        hai : 'hello',
-      }
+  
     },
-    user1 : {
-
-    },
+    oldUrl : '',
     temporaryCart : [
     ],
-
+  
       total : 0,
     },
   getters: {

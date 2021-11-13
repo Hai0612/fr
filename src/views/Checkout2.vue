@@ -88,7 +88,8 @@ import FormCheckout from '../components/FormCheckout.vue'
 export default {
     components:{
         FormCheckout,
-    }
+    },
+    
 }
 </script>
 <style lang="scss">

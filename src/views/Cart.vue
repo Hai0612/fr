@@ -118,10 +118,12 @@
               <strong>Total {{totalPriceOrder}}</strong>
             </td>
             <td>
-              <button @click="preparePayment()" to="/checkout" href="#myModal" data-toggle="modal" class="btn btn-success btn-block"
+              <button v-if="this.$store.state.temporaryCart.length > 0" @click="preparePayment()"  class="btn btn-success btn-block"
                 >Checkout <i class="fa fa-angle-right"></i
               ></button>
-                <!-- Modal HTML -->
+              <button v-if="this.$store.state.temporaryCart.length == 0" @click="preparePayment()"  href="#myModal" data-toggle="modal" class="btn btn-success btn-block"
+                >Checkout <i class="fa fa-angle-right"></i
+              ></button>
                 <div id="myModal" class="modal fade">
                   <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
@@ -168,7 +170,6 @@ export default {
   },
   methods: {
     decreaseQuantity(id_variant, id_user){
-      console.log(id_variant);
       let self = this;
       axios({
         method: "post",
@@ -208,7 +209,6 @@ export default {
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=fetchByUser",
       }).then((response) => {
-        console.log(response.data);
         self.cartProducts = response.data.payload;
       });
     },
@@ -217,7 +217,6 @@ export default {
        
       await this.fetchCart();
       if(event.target.checked){
-        console.log('check')
         this.cartProducts.forEach(element => {
           if(element.id_variant == id_variant){
             this.tempArrayWaitPushToTempCart.push(element);
@@ -228,25 +227,22 @@ export default {
         // this.$store.dispatch('addTemporaryCart', products);
       }
       else{
-        this.cartProducts.forEach((element,index) => {
-          if(element.id_variant == id_variant){
-            // this.tempArrayWaitPushToTempCart.remove(index);
-              console.log(index);
-          }
-        });
-        console.log(JSON.parse(JSON.stringify(this.tempArrayWaitPushToTempCart)))
-
-      // console.log(this.$store.state.temporaryCart)
+        console.log('else')
+        this.tempArrayWaitPushToTempCart = this.tempArrayWaitPushToTempCart.filter(function(el) { return el.id_variant != id_variant; }); 
+        console.log(this.tempArrayWaitPushToTempCart);
       }
     },
-    preparePayment(){
-      this.tempArrayWaitPushToTempCart.forEach(( )=>{
-        
+    async preparePayment(){
+      await this.tempArrayWaitPushToTempCart.forEach((product)=>{
+        this.$store.dispatch('addTemporaryCart', product);
       });
-      console.log(this.$store.state.temporaryCart)
+      if(this.$store.state.temporaryCart.length > 0){
+        this.$router.push({name : 'Checkout'});
+      }else{
+        // alert
+      }
     },
     deleteProductInCart(id_user, id_variant) {
-      console.log(id_user, id_variant);
       let self = this;
       axios({
         method: "post",
@@ -264,7 +260,11 @@ export default {
   },
   created() {
     this.fetchCart();
+    console.log(this.$store.state.temporaryCart.length)
   },
+  mounted() {
+      this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 

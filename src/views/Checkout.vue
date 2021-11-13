@@ -489,7 +489,21 @@
               <a href="#content3">Return to Shipping</a>
             </div>
             <div class="button-next-methods button-finish">
-              <btn @click="submitOrder">Finish Order</btn>
+              <btn @click="submitOrder" href="#modelSubmit" data-toggle="modal">Finish Order</btn>
+          
+                <div v-if="isShow" id="modelSubmit" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <Loading/>
+                        <p>Thanh toán thành công.</p>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <router-link to = '/home' type="button" class="btn btn-danger" data-dismiss="modal">Cancel</router-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
             </div>
           </div>
       </section>
@@ -501,9 +515,11 @@
 <script>
 import axios from "axios";
 import Footer from "../components/Footer.vue";
+import Loading from "../components/Animation/Loading.vue"
 export default {
   data() {
     return {
+      isShow:false,
       paymentMethods: null,
       cartProducts: null,
       infoUser : null,
@@ -591,7 +607,7 @@ export default {
 
       });
     }, 
-    incQuantityTempCart(id_variant) {
+    async incQuantityTempCart(id_variant) {
       let self = this;
       axios({
         method: "post",
@@ -605,11 +621,11 @@ export default {
           self.fetchCart();
         }
       });
-      this.$store.dispatch('incQuanTempCart', id_variant);
+      await this.$store.dispatch('incQuanTempCart', id_variant);
     },
-    decQuantityTempCart(id_variant) {
+    async decQuantityTempCart(id_variant) {
       let self = this;
-      axios({
+      await axios({
         method: "post",
         data: {
           id_user: self.$store.state.user.info.id,
@@ -621,16 +637,15 @@ export default {
           self.fetchCart();
         }
       });
-      this.$store.dispatch('decQuanTempCart', id_variant);
+      await this.$store.dispatch('decQuanTempCart', id_variant);
 
     },
-    deleTempCart(id_variant) {
-      this.$store.dispatch('deleTempCart' ,id_variant);
+    async deleTempCart(id_variant) {
+       await this.$store.dispatch('deleTempCart' ,id_variant);
     },
     submitOrder(){
-      // console.log(this.totalPriceOrder);
+      this.isShow = true;
       // this.insertOrders();
-      this.insertOrders();
     },
      insertOrders() {
       // this.deleteProductIncart();
@@ -666,13 +681,14 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           console.log('inserOrderDetail')
+         
           self.deleteProductIncart();
           self.fetchCart();
         }
       });
     },
     
-    deleteProductIncart() {
+    async deleteProductIncart() {
 
       let self = this;
       axios({
@@ -687,7 +703,7 @@ export default {
           self.fetchCart();
         }
       });
-      self.$store.dispatch('clearTempCart');
+       self.$store.dispatch('clearTempCart');
     },
     async insertPaymentDetail() {
       let self = this;
@@ -737,7 +753,7 @@ export default {
     this.fetchPaymentInfo();
   },
   components: {
-    Footer,
+    Footer,Loading
   },
 };
 </script>

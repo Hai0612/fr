@@ -269,6 +269,9 @@ export default {
   created() {
     this.fetchProductByCategory();
   },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 <style lang="scss" scoped>

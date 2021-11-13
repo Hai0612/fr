@@ -1,9 +1,9 @@
 <template>
     <div class="social-fast">
         <ul>
-            <li><i class="fab fa-facebook"></i></li>
-            <li><i class="fab fa-instagram"></i></li>
-            <li><i class="fas fa-envelope"></i></li>
+            <li><a href="facebook.com"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://mail.google.com/mail"><i class="fas fa-envelope"></i></a></li>
         </ul>
     </div>
 </template>

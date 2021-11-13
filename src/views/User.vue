@@ -654,6 +654,9 @@ export default {
     this.user = this.$store.state.user.info;
     console.log(this.user);
   },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
 };
 </script>
 <style lang="scss" scoped>
