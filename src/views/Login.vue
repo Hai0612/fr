@@ -188,6 +188,7 @@ export default {
           }
           else{
             self.$router.push({ path: self.$store.state.oldUrl });
+            self.$store.state.oldUrl = '/'
           }
         }
       });

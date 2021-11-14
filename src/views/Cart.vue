@@ -16,12 +16,12 @@
     
         <thead>
           <tr>
-            <th style="width: 3%"></th>
-            <th style="width: 45%">Product</th>
-            <th style="width: 10%">Price</th>
-            <th style="width: 8%">Quantity</th>
-            <th style="width: 22%" class="text-center">Subtotal</th>
-            <th style="width: 10%"></th>
+            <th></th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th class="text-center">Subtotal</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +30,9 @@
             v-bind:key="index"
             class="td-product-item"
           >
-            <td><input type="checkbox" name="" id="" @change="addToBill(product.id_variant,$event)"></td>
+            <td>
+              <input type="checkbox" name="" id="" @change="addToBill(product.id_variant,$event)">
+            </td>
             <td id="td-info">
               <div class="row">
                 <div class="col-sm-3 hidden-xs">
@@ -101,7 +103,7 @@
                 "
                 class="btn btn-danger btn-sm"
               >
-                <i class="fa fa-trash-o"></i>
+                <i class="fas fa-trash-o"></i>
               </button>
             </td>
           </tr>
@@ -110,7 +112,7 @@
           <tr>
             <td>
               <a href="#" class="btn btn-warning"
-                ><i class="fa fa-angle-left"></i> Continue Shopping</a
+                ><i class="fas fa-chevron-left"></i> Continue Shopping</a
               >
             </td>
             <td colspan="2" class="hidden-xs"></td>

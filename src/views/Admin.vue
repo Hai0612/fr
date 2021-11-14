@@ -38,7 +38,7 @@
         <div v-if="showProduct" class="container table-responsive table-products py-5">
           <div class="section-title">
             <h3>Danh sách sản phẩm</h3>
-            <button @click="newProduct = !newProduct" class="btn btn-success">Thêm sản phẩm</button>
+            <button @click="newProduct = ! newProduct" class="btn btn-success">Thêm sản phẩm</button>
           </div>
           <!-- thêm sản phẩm -->
           <div v-if="newProduct" class="form-new" action="">
@@ -58,6 +58,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
+                        v-model="newProductData.id"
                         placeholder="ID sản phẩm"
                       />
                     </div>
@@ -65,7 +66,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
-                        v-model="address"
+                        v-model="newProductData.name"
                         placeholder="Name"
                       />
                     </div>
@@ -78,39 +79,29 @@
                   <div class="row">
                     
                     <div class="col col-sm-2">
-                      <select class="input cc-ddl">
+                      <select @change="chooseCategory($event)" class="input cc-ddl">
                         <option selected>
                           Danh mục <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>America</option>
-                        <option>Thailand</option>
-                        <option>Laos</option>
-                        <option>VietNam</option>
-                        <option>Chile</option>
-                        <option>Argentina</option>
-                        <option>Russia</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                        <option>T-shirt</option>
+                        <option>Shirt</option>
+                        <option>Trouser</option>
+                        <option>Hat</option>
+                        <option>Socks</option>
                       </select>
                     </div>
                     <div class="col col-sm-2">
-                     <select class="input cc-ddl">
+                     <select @change="chooseBrand($event)" class="input cc-ddl">
                         <option selected>
                           Nhãn hiệu <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>America</option>
-                        <option>Thailand</option>
-                        <option>Laos</option>
-                        <option>VietNam</option>
-                        <option>Chile</option>
-                        <option>Argentina</option>
-                        <option>Russia</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                        <option>Adidas</option>
+                        <option>Nike</option>
+                        <option>Louis Vuitton</option>
+                        <option>Dolce&Gabanna</option>
+                        <option>Gucci</option>
+                        <option>Zara</option>
+                        <option>Chanel</option>
                       </select>
                     </div>
                     <div class="col col-sm-3">
@@ -118,6 +109,7 @@
                         type="text"
                         class="input cc-txt"
                         placeholder="Giá"
+                        v-model="newProductData.price"
                       />
                     </div>
                     <div class="col col-sm-5">
@@ -125,6 +117,7 @@
                         type="text"
                         class="input cc-txt"
                         placeholder="Giảm giá"
+                        v-model="newProductData.discount_id"
                       />
                     </div>
                   </div>
@@ -133,14 +126,14 @@
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="city" /></div>
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="newProductData.description" /></div>
                   </div>
                 </div>
               </div>
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                    <div class="col col-sm-3"><button @click="addProduct()" class="btn btn-block btn-success">Lưu</button></div>
                   </div>
                 </div>
               </div>
@@ -148,6 +141,110 @@
              
             </div>
         </div>
+
+          <!-- Chỉnh sửa sản phẩm -->
+            <div v-if="isEditProduct" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Chỉnh sửa sản phẩm</h4></div>
+                  <div class="row">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-4">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="productEdit.id"
+                        disabled
+                        placeholder="ID sản phẩm"
+                      />
+                    </div>
+                    <div class="col col-sm-8">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="productEdit.name"
+                        placeholder="Name"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    
+                    <div class="col col-sm-2">
+                      <select @change="editCategoryProduct($event)" class="input cc-ddl">
+                        <option selected>
+                          Danh mục <i class="fas fa-arrow-down"></i>
+                        </option>
+                        <option>T-shirt</option>
+                        <option>Shirt</option>
+                        <option>Trouser</option>
+                        <option>Hat</option>
+                        <option>Socks</option>
+                      </select>
+                    </div>
+                    <div class="col col-sm-2">
+                     <select @change="editBrandProduct($event)" class="input cc-ddl">
+                        <option selected>
+                          Nhãn hiệu <i class="fas fa-arrow-down"></i>
+                        </option>
+                        <option>Adidas</option>
+                        <option>Nike</option>
+                        <option>Louis Vuitton</option>
+                        <option>Dolce&Gabanna</option>
+                        <option>Gucci</option>
+                        <option>Zara</option>
+                        <option>Chanel</option>
+                      </select>
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="Giá"
+                        v-model="productEdit.price"
+                      />
+                    </div>
+                    <div class="col col-sm-5">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="Giảm giá"
+                        v-model="productEdit.discount_id"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="productEdit.description" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button @click="changeProduct()" class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+             
+            </div>
+        </div>
+
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -167,11 +264,28 @@
                 <td>{{ product.price }}</td>
                 <td>{{ product.discount_id }}</td>
                 <td>
-                  <button class="btn btn-danger">
+                   <button @click="deleteProduct(product.id)" class="btn btn-danger" href="#myModal" data-toggle="modal">
                     <i class="fas fa-trash"></i></button
-                  ><button class="btn btn-primary">
+                  ><button @click="openEditProduct(product.id)" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                   </button>
+                  <!-- <div id="myModal" class="modal fade">
+                    <div class="modal-dialog modal-confirm">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>Chưa có sản phẩm nào để thanh toán.</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                          {{product.id}}
+                          <button   type="button" class="btn btn-danger" data-dismiss="modal">Xác nhận</button>
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>   -->
+
+
+                 
                 </td>
               </tr>
             </tbody>
@@ -198,6 +312,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
+                        v-model="newBrandData.id_"
                         placeholder="ID nhãn hiệu phẩm"
                       />
                     </div>
@@ -205,7 +320,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
-                        v-model="address"
+                        v-model="newBrandData.name_brand"
                         placeholder="Tên nhãn hiệu"
                       />
                     </div>
@@ -213,7 +328,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
-                        v-model="address"
+                        v-model="newBrandData.image"
                         placeholder="Hình Ảnh"
                       />
                     </div>
@@ -225,14 +340,14 @@
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="city" /></div>
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="newBrandData.desc_brand" /></div>
                   </div>
                 </div>
               </div>
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                    <div class="col col-sm-3"><button @click="addBrand()" class="btn btn-block btn-success">Lưu</button></div>
                   </div>
                 </div>
               </div>
@@ -241,6 +356,68 @@
              
             </div>
         </div>
+
+            <!-- chỉnh sửa nhãn hiệu -->
+            <div v-if="isEditBrand" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Chỉnh sửa nhãn hiệu</h4></div>
+             
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-2">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="brandEdit.id_"
+                        placeholder="ID nhãn hiệu phẩm"
+                      />
+                    </div>
+                    <div class="col col-sm-7">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="brandEdit.name_brand"
+                        placeholder="Tên nhãn hiệu"
+                      />
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="brandEdit.image"
+                        placeholder="Hình Ảnh"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="brandEdit.desc_brand" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button @click="changeBrand()" class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+
+             
+            </div>
+        </div>
+
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -258,9 +435,9 @@
                 <td>{{ brand.desc_brand }}</td>
                 <td>{{ brand.image }}</td>
                 <td>
-                  <button class="btn btn-danger">
+                  <button @click="deleteBrand(brand.id_)" class="btn btn-danger">
                     <i class="fas fa-trash"></i></button
-                  ><button class="btn btn-primary">
+                  ><button  @click="openEditBrand(brand.id_)" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                   </button>
                 </td>
@@ -289,6 +466,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
+                        v-model="newCategoryData.id_"
                         placeholder="ID danh mục"
                       />
                     </div>
@@ -296,7 +474,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
-                        v-model="address"
+                        v-model="newCategoryData.name_category"
                         placeholder="Tên danh mục"
                       />
                     </div>
@@ -304,7 +482,7 @@
                       <input
                         type="text"
                         class="input cc-txt"
-                        v-model="address"
+                        v-model="newCategoryData.image"
                         placeholder="Hình Ảnh"
                       />
                     </div>
@@ -316,14 +494,14 @@
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="city" /></div>
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="newCategoryData.desc_category" /></div>
                   </div>
                 </div>
               </div>
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                    <div class="col col-sm-3"><button @click="addCategory()" class="btn btn-block btn-success">Lưu</button></div>
                   </div>
                 </div>
               </div>
@@ -331,6 +509,68 @@
              
             </div>
         </div>
+
+          <!-- chỉnh sửa danh mục -->
+           <div v-if="isEditCategory" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Thêm danh mục mới</h4></div>
+             
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-2">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="categoryEdit.id_"
+                        placeholder="ID danh mục"
+                      />
+                    </div>
+                    <div class="col col-sm-7">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="categoryEdit.name_category"
+                        placeholder="Tên danh mục"
+                      />
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="categoryEdit.image"
+                        placeholder="Hình Ảnh"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="categoryEdit.desc_category" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button  @click="changeCategory()" class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+             
+            </div>
+        </div>
+
+
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -343,14 +583,14 @@
             </thead>
             <tbody>
               <tr v-for="(category, index) in listCategories" v-bind:key="index">
-                <th scope="row">{{ category.id }}</th>
+                <th scope="row">{{ category.id_ }}</th>
                 <td>{{ category.name_category }}</td>
                 <td>{{ category.desc_category }}</td>
                 <td>{{ category.image }}</td>
                 <td>
-                  <button class="btn btn-danger">
+                  <button @click="deleteCategory(category.id_)" class="btn btn-danger">
                     <i class="fas fa-trash"></i></button
-                  ><button class="btn btn-primary">
+                  ><button @click="openEditCategory(category.id_)" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                   </button>
                 </td>
@@ -422,6 +662,17 @@ import axios from "axios";
 export default {
   data() {
     return {
+      isEditProduct  : 0,
+      isEditBrand  : 0,
+      isEditCategory  : 0,
+      
+      productEdit: {},
+      categoryEdit: {},
+      brandEdit: {},
+
+      newProductData : {},
+      newBrandData : {},
+      newCategoryData : {},
       showCategory : false,
       showOrder : false,
       showBrand : false,
@@ -438,9 +689,16 @@ export default {
     };
   },
   methods: {
+    chooseCategory(event){
+      this.newProductData.category = event.target.value;
+      console.log( this.newProductData.category)
+    },
+    chooseBrand(event){
+      this.newProductData.brand = event.target.value;
+      console.log(this.newProductData.brand)
+    },
     showSetting(message){
       if(message === 'product'){
-        console.log('fddfs');
         this.showProduct = true;
         this.showCategory = false;
         this.showBrand = false;
@@ -532,6 +790,202 @@ export default {
         }
       });
     },
+    async addProduct(){
+      let self = this;
+      console.log(self.newProductData.id)
+
+      axios({
+        method: "post",
+        data: {
+          id : self.newProductData.id,
+          name : self.newProductData.name ,
+          description : self.newProductData.description,
+          price : self.newProductData.price,
+          brand : self.newProductData.brand,
+          category : self.newProductData.category,
+          discount_id: self.newProductData.discount_id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=addProduct",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.newProduct = ! self.newProduct
+            self.newProductData = {},
+            self.getAllProducts();
+          }
+      });
+    },
+    async addBrand(){
+      let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_ : self.newBrandData.id_,
+          name_brand : self.newBrandData.name_brand ,
+          desc_brand : self.newBrandData.desc_brand,
+          image : self.newBrandData.image,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=addbrand",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.newBrand = ! self.newBrand;
+            self.getAllBrands();
+          }
+        });
+    },
+    async addCategory(){
+      let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_ : self.newCategoryData.id_,
+          name_category : self.newCategoryData.name_category ,
+          desc_category : self.newCategoryData.desc_category,
+          image : self.newCategoryData.image,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=addCategory",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.newCategory = ! self.newCategory;
+            self.getAllCategories();
+          }
+        });
+    },
+    async deleteCategory(id){
+      console.log(id)
+       let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_ : id
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=deleteCategory",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.getAllCategories();
+          }
+        });
+    },
+    async deleteBrand(id){
+      console.log(id)
+       let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_ : id
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=deleteBrand",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.getAllBrands();
+          }
+        });
+    },
+    async deleteProduct(id){
+      console.log(id)
+       let self = this;
+       axios({
+        method: "post",
+        data: {
+          id : id
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=deleteProductById",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.getAllProducts();
+          }
+        });
+    },
+    async openEditProduct(id){
+        this.isEditProduct = id;
+        this.listProducts.forEach(product => {
+          if(product.id == id){
+            this.productEdit = product;
+          }
+        });
+   
+    },
+    async openEditBrand(id){
+      console.log(id)
+        this.isEditBrand = id;
+        this.listBrands.forEach(brand => {
+          if(brand.id_ == id){
+            this.brandEdit = brand;
+          }
+        });
+   
+    },
+    async openEditCategory(id){
+        this.isEditCategory = id;
+        this.listCategories.forEach(category => {
+          if(category.id_ == id){
+            this.categoryEdit = category;
+          }
+        });
+   
+    },
+    async changeProduct(){
+      
+       let self = this;
+       axios({
+        method: "post",
+        data: {
+          id : self.productEdit.id,
+          name : self.productEdit.name,
+          description : self.productEdit.description,
+          price : self.productEdit.price,
+          discount_id : self.productEdit.discount_id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=editProduct",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.productEdit = {},
+            self.isEditProduct = 0;
+            self.getAllProducts();
+          }
+        });
+    },
+    async changeBrand(){
+      
+       let self = this;
+       axios({
+        method: "post",
+        data: {
+          id_ : self.brandEdit.id_,
+          name_brand : self.brandEdit.name_brand,
+          desc_brand : self.brandEdit.desc_brand,
+          image : self.brandEdit.image,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=editBrand",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.brandEdit = {},
+            self.isEditBrand = 0;
+            self.getAllBrands();
+          }
+        });
+    },
+    async changeCategory(){
+       let self = this;
+       console.log()
+       axios({
+        method: "post",
+        data: {
+          id_ : self.categoryEdit.id_,
+          name_category : self.categoryEdit.name_category,
+          desc_category : self.categoryEdit.desc_category,
+          image : self.categoryEdit.image,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=editCategory",
+      }).then((response) => {
+          if(response.data.status == 200){
+            self.categoryEdit = {},
+            self.isEditCategory = 0;
+            self.getAllCategories();
+          }
+        });
+    },
+    
+    
   },
   created() {
     this.getAllProducts();
