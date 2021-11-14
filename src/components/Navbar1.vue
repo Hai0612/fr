@@ -209,7 +209,7 @@
           pa-0
           required
         ></v-text-field>
-        <router-link
+        <button @click="accessCart()"
           class="nav-link cart-info"
           data-cart-preview=""
           data-dropdown="cart-preview-dropdown"
@@ -219,7 +219,7 @@
         >
           <i class="fas fa-shopping-cart"></i>
           <span class="countPill cart-quantity countPill--positive">{{numberInCart}}</span>
-        </router-link>
+        </button>
         <router-link v-if="this.$store.state.user.info.id != null"
           class="nav-link"
           data-cart-preview=""
@@ -257,6 +257,14 @@ export default {
       this.$store.state.user.token = '';
       this.$store.state.user.info = {};
       this.$router.push({ name : 'Login'});
+    },
+    accessCart(){
+      if(this.$store.state.user.info.id){
+          this.$router.push({path: '/cart'});
+      }else{
+        this.$store.state.oldUrl = '/cart/';
+        this.$router.push({ path: '/login' });
+      }
     },
     getNumberInCart(){
       let self = this;
@@ -372,7 +380,7 @@ export default {
         transform: scale(1.3);
         position: relative;
         i{
-
+            color:orangered;
         }
         span{
             position: absolute;

@@ -489,7 +489,7 @@
               <a href="#content3">Return to Shipping</a>
             </div>
             <div class="button-next-methods button-finish">
-              <btn @click="submitOrder" href="#modelSubmit" data-toggle="modal">Finish Order</btn>
+              <btn @click="submitOrder()" href="#modelSubmit" data-toggle="modal">Finish Order</btn>
           
                 <div v-if="isShow" id="modelSubmit" class="modal fade">
                   <div class="modal-dialog modal-confirm">
@@ -499,7 +499,7 @@
                         <p>Thanh toán thành công.</p>
                       </div>
                       <div class="modal-footer justify-content-center">
-                        <router-link to = '/home' type="button" class="btn btn-danger" data-dismiss="modal">Cancel</router-link>
+                        <router-link to = '/home' type="button" class="btn btn-danger" data-dismiss="modal">Tiếp tục mua hàng</router-link>
                       </div>
                     </div>
                   </div>
@@ -537,7 +537,7 @@ export default {
       yearNb : null,
       accountNb: null,
       provider: null,
-      card_type : null,
+      card_type : 'Visa',
       card_id: null,
       payment_type : null,
     };
@@ -645,7 +645,7 @@ export default {
     },
     submitOrder(){
       this.isShow = true;
-      // this.insertOrders();
+      this.insertOrders();
     },
      insertOrders() {
       // this.deleteProductIncart();
@@ -727,7 +727,7 @@ export default {
       let ex = this.yearNb.concat('-').concat(this.dayNb).concat('-').concat(this.monthNb);
       let self = this;
       self.showNewMethod = false;
-
+      console.log(self.accountNb);
       axios({
         method: "post",
         data: {

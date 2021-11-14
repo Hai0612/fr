@@ -63,7 +63,8 @@
                       type="text"
                       v-model="user.first_name"
                       class="form-control info-input"
-                      id="username"
+                      id="username" 
+                      disabled
                     />
                     </div>
                     <div class="form-group col col-sm-6">
@@ -73,18 +74,23 @@
                         v-model="user.last_name"
                         class="form-control info-input"
                         id="username"
+                      disabled
+
                       />
                   
                     </div>
                   </div>
                   
                   <div class="form-group">
-                    <label for="username">Last Name</label>
+                    <label for="username">Ngày sinh</label>
                     <input
                       type="text"
-                      v-model="user.last_name"
+                      v-model="user.date"
+                      placeholder="yyyy-mm-dd"
                       class="form-control info-input"
                       id="username"
+                      disabled
+
                     />
                  
                   </div>
@@ -96,6 +102,8 @@
                       v-model="user.email"
                       class="form-control info-input"
                       id="email"
+                      disabled
+
                       aria-describedby="emailHelp"
                     />
                  
@@ -107,6 +115,8 @@
                       v-model="user.phone"
                       class="form-control info-input"
                       id="telephone"
+                      disabled
+
                     />
                   </div>
                   <div class="form-group">
@@ -116,13 +126,15 @@
                       v-model="user.url"
                       class="form-control info-input"
                       id="username"
+                      disabled
+
                     />
                   
                   </div>
-                  <button @click="updateInfo(user.first_name)" type="submit" class="btn btn-success mt-5 px-5">
+                  <button id="saveInfo" disabled @click="updateInfo(user.first_name)" type="submit" class="btn btn-success mt-5 px-5">
                     Lưu
                   </button>
-                  <button @click="activeChange('info')"  class="btn btn-danger mt-5 px-5 mx-5">
+                  <button id="changeInfo" @click="activeChange('info')"  class="btn btn-danger mt-5 px-5 mx-5">
                     Chỉnh sửa
                   </button>
                 </div>
@@ -151,6 +163,8 @@
                       v-model="user.address"
                       class="form-control address-input"
                       id="address"
+                      disabled
+
                     />
                   </div>
                   <div class="form-group">
@@ -160,6 +174,8 @@
                       v-model="user.city"
                       class="form-control address-input"
                       id="address"
+                      disabled
+
                     />
                   </div>
 
@@ -170,6 +186,8 @@
                       v-model="user.country"
                       class="form-control address-input"
                       id="address"
+                      disabled
+
                     />
                   </div>
                   <div class="form-group">
@@ -179,13 +197,14 @@
                       type="text"
                       class="form-control address-input"
                       id="pastalcode"
+                      disabled
                     />
                   </div>
                 
-                  <button @click="updateAddressInfo" type="submit" class="btn btn-success mt-5 px-5">
+                  <button disabled id="saveAddress" @click="updateAddressInfo" type="submit" class="btn btn-success mt-5 px-5">
                     Lưu
                   </button>
-                  <button @click="activeChange('address')" type="" class="btn btn-danger mt-5 px-5 mx-5">
+                  <button id="changeAddress" @click="activeChange('address')" type="" class="btn btn-danger mt-5 px-5 mx-5">
                     Chỉnh sửa
                   </button>
                 </div>
@@ -285,10 +304,7 @@
                     <td>{{order.shippedDate}}</td>
                     <td>{{order.totalAmount}}</td>
                     <td><button class="btn btn-lg btn-success" @click="fetchOrderDetail(order.id)" href="#myModal" data-toggle="modal" data-target="#showDetailOrder">Show Detail</button></td>
-                  </tr>
-            <!--  modal -->
-            <!-- xử lí nội dung đơn hàng tùy thuộc vào đơn -->
-                <div id="showDetailOrder" class="modal fade">
+                      <div id="showDetailOrder" class="modal fade">
                   <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
                       <div class="modal-body">
@@ -340,7 +356,7 @@
                             
                             <td colspan="3" class="hidden-xs">Total</td>
                             <td class="hidden-xs text-center">
-                              <strong>{{totalOrder}}</strong>
+                              <strong>{{order.totalAmount}}</strong>
                             </td>
                             
                           </tr>
@@ -352,7 +368,11 @@
                       </div>
                     </div>
                   </div>
-                </div>  
+                </div> 
+                  </tr>
+            <!--  modal -->
+            <!-- xử lí nội dung đơn hàng tùy thuộc vào đơn -->
+                 
                     <!-- <div class="modal fade" id="showDetailOrder" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                       
                       <div class="modal-footer justify-content-center">
@@ -540,14 +560,54 @@ export default {
     activeChange(mes){
       console.log(mes)
       if(mes == 'info'){
-        let x = document.getElementsByClassName('info-input');
-        console.log(x.length);
-        for(let i = 0 ; i < x.length ; i++){
-          x[i].eq(i).attr('disabled', 'disabled');
-        }
+        this.disabledInput('info-input','change');
+      }else if(mes == 'address'){
+        this.disabledInput('address-input','change');
+
       }
     },
+    disabledInput(inputClass, action){
+      if(inputClass === 'info-input'){
+        if(action === 'change'){
+          let x = document.getElementsByClassName('info-input');
+          for(let i = 0 ; i < x.length ; i++){
+            x[i].disabled = false;
+          }
+        document.getElementById('saveInfo').disabled = false;
+        document.getElementById('changeInfo').disabled = true;
+        }else if(action === 'save'){
+          let x = document.getElementsByClassName('info-input');
+          for(let i = 0 ; i < x.length ; i++){
+            x[i].disabled = true;
+          }
+          document.getElementById('saveInfo').disabled = true;
+          document.getElementById('changeInfo').disabled = false;
+        }
+        
+      }
+      if(inputClass === 'address-input'){
+        if(action === 'change'){
+          let x = document.getElementsByClassName('address-input');
+          for(let i = 0 ; i < x.length ; i++){
+            x[i].disabled = false;
+          }
+        document.getElementById('saveAddress').disabled = false;
+        document.getElementById('changeAddress').disabled = true;
+        }else if(action === 'save'){
+          console.log('test')
+          let x = document.getElementsByClassName('address-input');
+          for(let i = 0 ; i < x.length ; i++){
+            x[i].disabled = true;
+          }
+          document.getElementById('saveAddress').disabled = true;
+          document.getElementById('changeAddress').disabled = false;
+        }
+        
+      }
+     
+    },
     updateInfo(){
+      console.log('fdsf')
       let self = this;
       axios({
         method: "post",
@@ -556,13 +616,16 @@ export default {
             first_name : self.user.first_name,
             last_name : self.user.last_name,
             email : self.user.email,
-            phone : self.user.telephone,
+            phone : self.user.phone,
             url : self.user.url,
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=updateInfo",
       }).then((response) => {
         if(response.data.status == 200){
           console.log(response.data);
+          document.getElementById('changeInfo').disabled = false;
+          document.getElementById('saveInfo').disabled = true;
+
         }
       });
       
@@ -583,6 +646,7 @@ export default {
       }).then((response) => {
         if(response.data.status == 200){
           console.last_name(response.data);
+          self.disabledInput('address-input', 'save');
         }
       });
     },

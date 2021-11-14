@@ -1,29 +1,29 @@
 <template>
   <div>
     <div class="sidebar-container">
-      <div class="sidebar-logo">Project Name</div>
+      <div class="sidebar-logo">E-commerce Web</div>
       <ul class="sidebar-navigation">
         <li class="header">Navigation</li>
-        <li @click="showBrand()">
+        <li @click="showSetting('product')">
           <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i> Product
           </a>
         </li>
-        <li @click="showBrand()">
+        <li @click="showSetting('brand')">
           <a href="#"><i class="fas fa-code-branch" aria-hidden="true"></i> Brand </a>
         </li>
-        <li @click="showBrand()">
+        <li @click="showSetting('category')">
           <a href="#">
             <i class="fas fa-folder-open" aria-hidden="true"></i>   Category
           </a>
         </li>
-        <li @click="showBrand()">
+        <li @click="showSetting('order')">
           <a href="#"> <i class="fa fa-cog" aria-hidden="true"></i> Đơn hàng </a>
         </li>
-        <li @click="showBrand()">
+        <li @click="showSetting('user')">
           <a href="#"> <i class="fa fa-users" aria-hidden="true"></i> Người sử dụng </a>
         </li>
-        <li @click="showBrand()">
+        <li @click="showSetting('info')">
           <a href="#">
             <i class="fa fa-info-circle" aria-hidden="true"></i> Information
           </a>
@@ -35,8 +35,119 @@
       <div class="container-fluid">
         <!-- Main component for a primary marketing message or call to action -->
 
-        <div v-if="true" class="container table-responsive table-products py-5">
-          <h3>Danh sách sản phẩm</h3>
+        <div v-if="showProduct" class="container table-responsive table-products py-5">
+          <div class="section-title">
+            <h3>Danh sách sản phẩm</h3>
+            <button @click="newProduct = !newProduct" class="btn btn-success">Thêm sản phẩm</button>
+          </div>
+          <!-- thêm sản phẩm -->
+          <div v-if="newProduct" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Thêm sản phẩm mới</h4></div>
+                  <div class="row">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-4">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="ID sản phẩm"
+                      />
+                    </div>
+                    <div class="col col-sm-8">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="address"
+                        placeholder="Name"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    
+                    <div class="col col-sm-2">
+                      <select class="input cc-ddl">
+                        <option selected>
+                          Danh mục <i class="fas fa-arrow-down"></i>
+                        </option>
+                        <option>America</option>
+                        <option>Thailand</option>
+                        <option>Laos</option>
+                        <option>VietNam</option>
+                        <option>Chile</option>
+                        <option>Argentina</option>
+                        <option>Russia</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                      </select>
+                    </div>
+                    <div class="col col-sm-2">
+                     <select class="input cc-ddl">
+                        <option selected>
+                          Nhãn hiệu <i class="fas fa-arrow-down"></i>
+                        </option>
+                        <option>America</option>
+                        <option>Thailand</option>
+                        <option>Laos</option>
+                        <option>VietNam</option>
+                        <option>Chile</option>
+                        <option>Argentina</option>
+                        <option>Russia</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                      </select>
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="Giá"
+                      />
+                    </div>
+                    <div class="col col-sm-5">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="Giảm giá"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="city" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+             
+            </div>
+        </div>
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -66,8 +177,70 @@
             </tbody>
           </table>
         </div>
-        <div class="container table-responsive table-brands py-5">
-          <h3>Danh sách nhãn hiệu</h3>
+        <div v-if="showBrand" class="container table-responsive table-brands py-5">
+          <div class="section-title">
+            <h3>Danh sách nhãn hiệu</h3>
+            <button @click="newBrand = ! newBrand" class="btn btn-success">Thêm nhãn hiệu</button>
+          </div>
+          <!-- thêm nhãn hiệu -->
+           <div v-if="newBrand" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Thêm nhãn hiệu mới</h4></div>
+             
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-2">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="ID nhãn hiệu phẩm"
+                      />
+                    </div>
+                    <div class="col col-sm-7">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="address"
+                        placeholder="Tên nhãn hiệu"
+                      />
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="address"
+                        placeholder="Hình Ảnh"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="city" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+
+             
+            </div>
+        </div>
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -95,8 +268,69 @@
             </tbody>
           </table>
         </div>
-        <div class="container table-responsive table-categories py-5">
-          <h3>Danh sách danh mục</h3>
+        <div v-if="showCategory" class="container table-responsive table-categories py-5">
+          <div class="section-title">
+            <h3>Danh sách danh mục</h3>
+            <button @click="newCategory = ! newCategory" class="btn btn-success">Thêm danh mục</button>
+          </div>
+          <!-- thêm danh mục -->
+           <div v-if="newCategory" class="form-new" action="">
+            <div class="form-cc">
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="cc-title"><h4>Thêm danh mục mới</h4></div>
+             
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-2">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        placeholder="ID danh mục"
+                      />
+                    </div>
+                    <div class="col col-sm-7">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="address"
+                        placeholder="Tên danh mục"
+                      />
+                    </div>
+                    <div class="col col-sm-3">
+                      <input
+                        type="text"
+                        class="input cc-txt"
+                        v-model="address"
+                        placeholder="Hình Ảnh"
+                      />
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả nhãn hiệu" v-model="city" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-cc">
+                <div class="cc-field">
+                  <div class="row">
+                    <div class="col col-sm-3"><button class="btn btn-block btn-success">Lưu</button></div>
+                  </div>
+                </div>
+              </div>
+
+             
+            </div>
+        </div>
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -124,8 +358,10 @@
             </tbody>
           </table>
         </div>
-        <div class="container table-responsive table-orders py-5">
-          <h3>Danh sách đơn đặt hàng</h3>
+        <div v-if="showOrder" class="container table-responsive table-orders py-5">
+          <div class="section-title">
+            <h3>Danh sách đơn đặt hàng</h3>
+          </div>
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -134,7 +370,6 @@
                 <th scope="col">Ngày Đặt</th>
                 <th scope="col">Địa Chỉ</th>
                 <th scope="col">Tổng giá</th>
-                <th scope="col" style="width: 10%"></th>
               </tr>
             </thead>
             <tbody>
@@ -144,19 +379,15 @@
                 <td>{{ order.orderDate }}</td>
                 <td>{{ order.orderAddress }}</td>
                 <td>{{ order.totalAmount }}</td>
-                <td>
-                  <button class="btn btn-danger">
-                    <i class="fas fa-trash"></i></button
-                  ><button class="btn btn-primary">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </td>
+             
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="container table-responsive table-user py-5">
-          <h3>Danh sách người dùng</h3>
+        <div v-if="showUser" class="container table-responsive table-user py-5">
+          <div class="section-title">
+            <h3>Danh sách người dùng</h3>
+          </div>
           <table class="table table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
@@ -166,7 +397,6 @@
                 <th scope="col">Ngày sinh</th>
                 <th scope="col">Email</th>
                 <th scope="col">Số điện thoại</th>
-                <th scope="col" style="width: 10%"></th>
               </tr>
             </thead>
             <tbody>
@@ -177,13 +407,7 @@
                 <td>{{ user.date }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone }}</td>
-                <td>
-                  <button class="btn btn-danger">
-                    <i class="fas fa-trash"></i></button
-                  ><button class="btn btn-primary">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </td>
+               
               </tr>
             </tbody>
           </table>
@@ -198,14 +422,56 @@ import axios from "axios";
 export default {
   data() {
     return {
+      showCategory : false,
+      showOrder : false,
+      showBrand : false,
+      showUser : false,
+      showProduct : true,
       listProducts: [],
       listCategories: [],
       listBrands: [],
       listOrders : [],
-      listUsers : []
+      listUsers : [],
+      newProduct : false,
+      newBrand: false,
+      newCategory : false,
     };
   },
   methods: {
+    showSetting(message){
+      if(message === 'product'){
+        console.log('fddfs');
+        this.showProduct = true;
+        this.showCategory = false;
+        this.showBrand = false;
+        this.showUser = false;
+        this.showOrder = false;
+      }else if(message === 'order'){
+        this.showProduct = false;
+        this.showCategory = false;
+        this.showBrand = false;
+        this.showUser = false;
+        this.showOrder = true;
+      }else if(message === 'user'){
+        this.showProduct = false;
+        this.showCategory = false;
+        this.showBrand = false;
+        this.showUser = true;
+        this.showOrder = false;
+      }else if(message === 'brand'){
+        this.showProduct = false;
+        this.showCategory = false;
+        this.showBrand = true;
+        this.showUser = false;
+        this.showOrder = false;
+      }else if(message === 'category'){
+        this.showProduct = false;
+        this.showCategory = true;
+        this.showBrand = false;
+        this.showUser = false;
+        this.showOrder = false;
+      }
+    },
     async getAllProducts() {
       let self = this;
       await axios({
@@ -308,7 +574,61 @@ table {
     margin-right: 10px;
   }
 }
-
+//form
+.form-new{
+  width: 50%;
+  margin: auto;
+  .form-cc {
+  display: table;
+  width: 100%;
+  text-align: left;
+  padding: 0px 0px 30px 30px;
+}
+}
+.row-cc {
+  display: table;
+  width: 100%;
+  padding-bottom: 7px;
+}
+.cc-txt {
+  border-color: #e1e8ee;
+  width: 100%;
+}
+.input {
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  height: 38px;
+  padding-left: 15px;
+  font-weight: 600;
+  font-size: 11pt;
+  color: #5e6977;
+}
+input[type="text"] {
+  display: initial;
+  padding: 15px;
+}
+.text-validated {
+  border-color: #7dc855;
+  background-image: url("https://www.dropbox.com/s/1mve74fafiwsae1/icon-tick.png?raw=1");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.cc-ddl {
+  border-color: #f0f4f7;
+  background-color: #f0f4f7;
+  width: 100px;
+  margin-right: 10px;
+}
+.cc-title {
+  font-size: 10.5pt;
+  padding-bottom: 8px;
+}
+.cc-field {
+  padding-top: 15px;
+  padding-right: 30px;
+  display: table-cell;
+}
 .sidebar-container {
   position: fixed;
   width: 220px;
@@ -322,6 +642,15 @@ table {
 
 .content-container {
   padding-top: 20px;
+  .table-responsive{
+    .section-title{
+      padding-bottom: 30px;
+      display: flex;
+      button{
+        margin-left: 50%;
+      }
+    }
+  }
 }
 
 .sidebar-logo {

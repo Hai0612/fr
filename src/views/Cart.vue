@@ -181,6 +181,11 @@ export default {
       }).then((response) => {
         if(response.data.status == 200){
           self.fetchCart();
+          self.tempArrayWaitPushToTempCart.forEach((product) =>{
+              if(product.id_variant == id_variant){
+                product['quantity'] = product['quantity'] - 1;
+              }
+          });
         }
       });
     },
@@ -196,8 +201,16 @@ export default {
       }).then((response) => {
         if(response.data.status == 200){
           self.fetchCart();
+          self.tempArrayWaitPushToTempCart.forEach((product,index) =>{
+
+              if(product.id_variant == id_variant){
+                self.tempArrayWaitPushToTempCart[index]['quantity'] = parseInt(self.tempArrayWaitPushToTempCart[index]['quantity']) + 1;
+              }
+          });
         }
       });
+      
+
     },
     async fetchCart() {
       let user = this.$store.state.user.info;
@@ -227,7 +240,6 @@ export default {
         // this.$store.dispatch('addTemporaryCart', products);
       }
       else{
-        console.log('else')
         this.tempArrayWaitPushToTempCart = this.tempArrayWaitPushToTempCart.filter(function(el) { return el.id_variant != id_variant; }); 
         console.log(this.tempArrayWaitPushToTempCart);
       }
@@ -260,7 +272,9 @@ export default {
   },
   created() {
     this.fetchCart();
-    console.log(this.$store.state.temporaryCart.length)
+    // console.log(this.$store.state.temporaryCart.length)
+    this.$store.state.oldUrl = '';
+
   },
   mounted() {
       this.$store.dispatch('clearTempCart');

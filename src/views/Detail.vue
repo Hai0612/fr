@@ -328,7 +328,7 @@ export default {
               },
               url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=addToCart",
             }).then((response) => {
-              console.log(response.data.status)
+              console.log(response.data.status);
               self.completeAddToCart();
             });
             }
