@@ -66,6 +66,9 @@ export default {
     },
   },
   created(){
+    if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
     this.fetchAllCategories()
   },
   components:{

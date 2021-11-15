@@ -59,6 +59,7 @@
                         type="text"
                         class="input cc-txt"
                         v-model="newProductData.id"
+                        disabled
                         placeholder="ID sản phẩm"
                       />
                     </div>
@@ -83,25 +84,15 @@
                         <option selected>
                           Danh mục <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>T-shirt</option>
-                        <option>Shirt</option>
-                        <option>Trouser</option>
-                        <option>Hat</option>
-                        <option>Socks</option>
+                        <option v-for="category,index in listCategories" v-bind:key="index">{{category.name_category}}</option>
                       </select>
                     </div>
                     <div class="col col-sm-2">
                      <select @change="chooseBrand($event)" class="input cc-ddl">
-                        <option selected>
+                         <option selected>
                           Nhãn hiệu <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>Adidas</option>
-                        <option>Nike</option>
-                        <option>Louis Vuitton</option>
-                        <option>Dolce&Gabanna</option>
-                        <option>Gucci</option>
-                        <option>Zara</option>
-                        <option>Chanel</option>
+                        <option v-for="brand,index in listBrands" v-bind:key="index">{{brand.name_brand}}</option>
                       </select>
                     </div>
                     <div class="col col-sm-3">
@@ -126,7 +117,7 @@
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-12"><textarea cols="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="newProductData.description" /></div>
+                    <div class="col col-sm-12"><textarea cols="15" rows="15" type="text" class="input cc-txt" placeholder="Mô tả" v-model="newProductData.description" /></div>
                   </div>
                 </div>
               </div>
@@ -186,11 +177,7 @@
                         <option selected>
                           Danh mục <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>T-shirt</option>
-                        <option>Shirt</option>
-                        <option>Trouser</option>
-                        <option>Hat</option>
-                        <option>Socks</option>
+                        <option v-for="category,index in listCategories" v-bind:key="index">{{category.name_category}}</option>
                       </select>
                     </div>
                     <div class="col col-sm-2">
@@ -198,13 +185,9 @@
                         <option selected>
                           Nhãn hiệu <i class="fas fa-arrow-down"></i>
                         </option>
-                        <option>Adidas</option>
-                        <option>Nike</option>
-                        <option>Louis Vuitton</option>
-                        <option>Dolce&Gabanna</option>
-                        <option>Gucci</option>
-                        <option>Zara</option>
-                        <option>Chanel</option>
+                        <option v-for="brand,index in listBrands" v-bind:key="index">{{brand.name_brand}}</option>
+
+                      
                       </select>
                     </div>
                     <div class="col col-sm-3">
@@ -313,6 +296,7 @@
                         type="text"
                         class="input cc-txt"
                         v-model="newBrandData.id_"
+                        disabled
                         placeholder="ID nhãn hiệu phẩm"
                       />
                     </div>
@@ -797,7 +781,7 @@ export default {
       axios({
         method: "post",
         data: {
-          id : self.newProductData.id,
+          // id : self.newProductData.id,
           name : self.newProductData.name ,
           description : self.newProductData.description,
           price : self.newProductData.price,
@@ -819,7 +803,6 @@ export default {
        axios({
         method: "post",
         data: {
-          id_ : self.newBrandData.id_,
           name_brand : self.newBrandData.name_brand ,
           desc_brand : self.newBrandData.desc_brand,
           image : self.newBrandData.image,
@@ -837,7 +820,6 @@ export default {
        axios({
         method: "post",
         data: {
-          id_ : self.newCategoryData.id_,
           name_category : self.newCategoryData.name_category ,
           desc_category : self.newCategoryData.desc_category,
           image : self.newCategoryData.image,
@@ -988,6 +970,9 @@ export default {
     
   },
   created() {
+    if(this.$store.state.user.info.first_name !== 'admin'){
+        this.$router.push({ name : 'Login'});
+    }
     this.getAllProducts();
     this.getAllBrands();
     this.getAllOrders();
@@ -1021,6 +1006,9 @@ table {
   tbody {
     tr {
       td {
+         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -1052,7 +1040,7 @@ table {
   border-radius: 5px;
   border-style: solid;
   border-width: 2px;
-  height: 38px;
+  height: 40px;
   padding-left: 15px;
   font-weight: 600;
   font-size: 11pt;
@@ -1061,6 +1049,9 @@ table {
 input[type="text"] {
   display: initial;
   padding: 15px;
+}
+textarea{
+  height: 80px !important;
 }
 .text-validated {
   border-color: #7dc855;

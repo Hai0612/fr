@@ -109,12 +109,17 @@ export default {
    
   },
   created() {
+    if(localStorage.getItem('info') !== null){
+      this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+    }
     this.fetchCategories();
     console.log(this.$store.state.user.token);
+    
 
   },
     mounted() {
         this.$store.dispatch('clearTempCart');
+        // console.log(localStorage.getItem('info'));
     },
   components: {
     Iframe,
@@ -190,6 +195,8 @@ export default {
                 height: 100%;
               }
               h3 {
+      color:black;
+
                 font-size: 3vw;
                 position: absolute;
                 top: 70%;

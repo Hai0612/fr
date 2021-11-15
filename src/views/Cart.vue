@@ -268,11 +268,17 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.fetchCart();
+          console.log('ffđf')
+          this.$store.dispatch('changeCart');
+
         }
       });
     },
   },
   created() {
+    if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
     this.fetchCart();
     // console.log(this.$store.state.temporaryCart.length)
     this.$store.state.oldUrl = '';

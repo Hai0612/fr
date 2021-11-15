@@ -1,154 +1,80 @@
 <template>
   <div>
-    <div class="login">
+    <div class="container">
       <div class="navi">
         <div class="navi-main">
           <div class="logo-login">
             <router-link to="/">
               <img src="../assets/images/logoweb.png" alt="" />
             </router-link>
-            <div>Đăng nhập</div>
+            <div>Đăng ký thành viên</div>
           </div>
           <div class="help">
             <a href="#">Cần giúp đỡ?</a>
           </div>
         </div>
       </div>
-      <div class="main">
-        <div class="content-main">
-          <div class="login-wrap">
-            <div class="login-html">
-              <input
-                id="tab-1"
-                type="radio"
-                name="tab"
-                class="sign-in"
-                checked
-              /><label for="tab-1" class="tab">Sign In</label>
-              <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
-                for="tab-2"
-                class="tab"
-                >Sign Up</label
-              >
-              <div class="login-form">
-                <div class="sign-in-htm">
-                  <div class="group">
-                    <label for="user" class="label">Username</label>
-                    <input
-                      id="user"
-                      v-model="username"
-                      type="text"
-                      class="input"
-                    />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Password</label>
-                    <input
-                      id="pass"
-                      v-model="password"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  <div class="group">
-                    <input
-                      id="check"
-                      v-model="remember"
-                      type="checkbox"
-                      class="check"
-                      checked
-                    />
-                    <label for="check"
-                      ><span class="icon"></span> Keep me Signed in</label
-                    >
-                  </div>
-                  <div class="group">
-                    <input
-                      type="submit"
-                      class="button"
-                      value="Sign In"
-                      @click="login"
-                    />
-                  </div>
-                  <div class="hr"></div>
-                  <div class="foot-lnk">
-                    <a href="#forgot">Forgot Password?</a>
-                  </div>
-                </div>
-                <div class="sign-up-htm">
-                  <div class="group">
-                    <label for="user" class="label">Username</label>
-                    <input id="user" type="text" class="input" />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Password</label>
-                    <input
-                      id="pass"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  
-                  <div class="group">
-                    <label for="pass" class="label">Repeat Password</label>
-                    <input
-                      id="pass"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Email Address</label>
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Repeat Password</label>
-                    <input
-                      id="pass"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Email Address</label>
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Repeat Password</label>
-                    <input
-                      id="pass"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Email Address</label>
-                  </div>
-
-                  <div class="group">
-                    <label for="pass" class="label">Repeat Password</label>
-                    <input
-                      id="pass"
-                      type="password"
-                      class="input"
-                      data-type="password"
-                    />
-                  </div>
-                  <div class="group">
-                    <label for="pass" class="label">Email Address</label>
-                  </div>
-
-                  <div class="group">
-                    <input type="submit" class="button" value="Sign Up" />
-                  </div>
-                  <div class="hr"></div>
-                  <div class="foot-lnk"></div>
-                </div>
+      <div class="row m-5 no-gutters shadow-lg">
+        <div class="col-md-6 d-none d-md-block">
+          <img
+            src="https://images.unsplash.com/photo-1566888596782-c7f41cc184c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+            class="img-fluid"
+            style="min-height: 50%"
+          />
+        </div>
+        <div class="col-md-6 bg-white p-5">
+          <h3 class="pb-3">Đăng nhập</h3>
+          <div class="form-style">
+              <div class="form-group pb-3">
+                <input
+                  type="text"
+                  placeholder="Tài khoản"
+                  class="form-control"
+                  v-model="username"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                />
               </div>
+              <div class="form-group pb-3">
+                <input
+                  type="password"
+                  placeholder="Mật khẩu"
+                  v-model="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                />
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <input v-model="remember" name="" type="checkbox" value="" />
+                  <span class="pl-2 font-weight-bold">Remember Me</span>
+                </div>
+                <div><a href="#">Forget Password?</a></div>
+              </div>
+              <div v-if="loggedIn" class="message">
+                  <div>
+                        Không tồn tại tài khoản này
+                  </div>
+              </div>
+              <div class="pb-2">
+                <button
+                 @click="login()"
+                  type="submit"
+                  class="btn btn-success w-100 font-weight-bold mt-2"
+                >
+                  Đăng nhập
+                </button>
+              </div>
+            <div class="sideline">OR</div>
+            <div>
+              <router-link to="/signup"
+                type="submit"
+                class="btn btn-danger w-100 font-weight-bold mt-2"
+              >
+                <i class="fa fa-facebook" aria-hidden="true"></i> Đăng kí thành viên
+              </router-link>
             </div>
+            
           </div>
         </div>
       </div>
@@ -163,35 +89,51 @@ export default {
       username: "",
       password: "",
       remember: "",
+      loggedIn: false,
     };
   },
   methods: {
     async login() {
+      console.log(this.remember)
       let self = this;
-      await axios({
-        method: "post",
-        data: {
-          username: self.username,
-          password : self.password,
-        },
-        url: "https://localhost/ecommerce_backend/index.php?controller=user&action=login",
-      }).then((response) => {
-        if(response.data.status == 200){
-            console.log(response.data.account[0]);
-          
-          // localStorage.setItem('token', response.data.token);
-          self.$store.state.user.info = response.data.account[0];
-          self.$store.state.user.token = response.data.token;
-          console.log(self.$store.state.oldUrl)
-          if(self.$store.state.oldUrl == ''){
-            self.$router.push({ path: '/home' })
+      if(self.username !== '' && self.password !== ''){
+         await axios({
+          method: "post",
+          data: {
+            username: self.username,
+            password : self.password,
+          },
+          url: "https://localhost/ecommerce_backend/index.php?controller=user&action=login",
+        }).then((response) => {
+          if(response.data.status == 200){
+              if(self.remember){
+                localStorage.setItem('info' , JSON.stringify(response.data.account[0]));
+                // console.log("JSON.parse(localStorage.getItem('info'))")
+
+                }else{
+                  self.$store.state.user.info = response.data.account[0];
+                  self.$store.state.user.token = response.data.token;
+                }
+              if(self.username === 'admin'){
+                self.$router.push({ path: '/admin' })
+              }else if( self.$store.state.oldUrl == ''){
+                self.$router.push({ path: '/home' })
+              }
+              else{
+                self.$router.push({ path: self.$store.state.oldUrl });
+                self.$store.state.oldUrl = '/'
+              }
+          }else{
+              console.log('sai')
+              self.loggedIn = true;
+              self.username = "";
+              self.password = "";
           }
-          else{
-            self.$router.push({ path: self.$store.state.oldUrl });
-            self.$store.state.oldUrl = '/'
-          }
-        }
-      });
+        });
+      }else{
+        self.loggedIn = true;
+      }
+     
     },
  
    
@@ -205,13 +147,8 @@ export default {
     },
 };
 </script>
-<style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
-*{
-  font-family: 'Roboto', sans-serif;
-}
-.login {
-  .navi {
+<style lang="scss" scoped>
+.navi {
     color: orangered;
 
     width: 75%;
@@ -248,161 +185,54 @@ export default {
       }
     }
   }
-  .main {
-    background-image: url("../assets/images/background-login.jpg");
-    background-size: cover;
-    padding: 100px 0px;
-    .content-main {
-      .login-wrap {
-        width: 100%;
-        margin: auto;
-        max-width: 525px;
-        min-height: 670px;
-        position: relative;
-        background: wheat;
-        box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
-          0 17px 50px 0 rgba(0, 0, 0, 0.19);
-      }
-      .login-html {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        padding: 90px 70px 50px 70px;
-        background: rgba(40, 57, 101, 0.9);
-      }
-      .login-html .sign-in-htm,
-      .login-html .sign-up-htm {
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        position: absolute;
-        transform: rotateY(180deg);
-        backface-visibility: hidden;
-        transition: all 0.4s linear;
-      }
-      .login-html .sign-in,
-      .login-html .sign-up,
-      .login-form .group .check {
-        display: none;
-      }
-      .login-html .tab,
-      .login-form .group .label,
-      .login-form .group .button {
-        text-transform: uppercase;
-      }
-      .login-html .tab {
-        font-size: 22px;
-        margin-right: 15px;
-        padding-bottom: 5px;
-        margin: 0 15px 10px 0;
-        display: inline-block;
-        border-bottom: 2px solid transparent;
-      }
-      .login-html .sign-in:checked + .tab,
-      .login-html .sign-up:checked + .tab {
-        color: #fff;
-        border-color: #1161ee;
-      }
-      .login-form {
-        min-height: 345px;
-        position: relative;
-        perspective: 1000px;
-        transform-style: preserve-3d;
-      }
-      .login-form .group {
-        margin-bottom: 15px;
-      }
-      .login-form .group .label,
-      .login-form .group .input,
-      .login-form .group .button {
-        width: 100%;
-        color: #fff;
-        display: block;
-      }
-      .login-form .group .input,
-      .login-form .group .button {
-        border: none;
-        padding: 15px 20px;
-        border-radius: 25px;
-        background: rgba(255, 255, 255, 0.1);
-      }
-      .login-form .group input[data-type="password"] {
-        text-security: circle;
-        -webkit-text-security: circle;
-      }
-      .login-form .group .label {
-        color: #aaa;
-        font-size: 12px;
-      }
-      .login-form .group .button {
-        background: #1161ee;
-      }
-      .login-form .group label .icon {
-        width: 15px;
-        height: 15px;
-        border-radius: 2px;
-        position: relative;
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.1);
-      }
-      .login-form .group label .icon:before,
-      .login-form .group label .icon:after {
-        content: "";
-        width: 10px;
-        height: 2px;
-        background: #fff;
-        position: absolute;
-        transition: all 0.2s ease-in-out 0s;
-      }
-      .login-form .group label .icon:before {
-        left: 3px;
-        width: 5px;
-        bottom: 6px;
-        transform: scale(0) rotate(0);
-      }
-      .login-form .group label .icon:after {
-        top: 6px;
-        right: 0;
-        transform: scale(0) rotate(0);
-      }
-      .login-form .group .check:checked + label {
-        color: #fff;
-      }
-      .login-form .group .check:checked + label .icon {
-        background: #1161ee;
-      }
-      .login-form .group .check:checked + label .icon:before {
-        transform: scale(1) rotate(45deg);
-      }
-      .login-form .group .check:checked + label .icon:after {
-        transform: scale(1) rotate(-45deg);
-      }
-      .login-html
-        .sign-in:checked
-        + .tab
-        + .sign-up
-        + .tab
-        + .login-form
-        .sign-in-htm {
-        transform: rotate(0);
-      }
-      .login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
-        transform: rotate(0);
-      }
-
-      .hr {
-        height: 2px;
-        margin: 60px 0 50px 0;
-        background: rgba(255, 255, 255, 0.2);
-      }
-      .foot-lnk {
-        text-align: center;
-      }
+.message{
+    div{
+        margin: auto    ;
+        color:red;
     }
-  }
 }
-a {
-  text-decoration: none;
+    .form-style input{
+	border:0;
+	height:50px;
+	border-radius:0;
+border-bottom:1px solid #ebebeb;	
+}
+.form-style input:focus{
+border-bottom:1px solid #007bff;	
+box-shadow:none;
+outline:0;
+background-color:#ebebeb;	
+}
+.sideline {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+	color:#ccc;
+}
+button{
+height:50px;	
+}
+.sideline:before,
+.sideline:after {
+    content: '';
+    border-top: 1px solid #ebebeb;
+    margin: 0 20px 0 0;
+    flex: 1 0 20px;
+}
+
+.sideline:after {
+    margin: 0 0 0 20px;
 }
 </style>
+
+
+
+
+
+
+
+
+
+

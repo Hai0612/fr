@@ -1,7 +1,7 @@
 <template>
     <div class="social-fast">
         <ul>
-            <li><a href="facebook.com"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a></li>
             <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
             <li><a href="https://mail.google.com/mail"><i class="fas fa-envelope"></i></a></li>
         </ul>

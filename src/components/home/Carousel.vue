@@ -20,7 +20,7 @@
         <div class="carousel-item active">
           <img
             class="d-block w-100"
-            :src="listFeaturedProducts[5].url"
+            :src="listFeaturedProducts[1].url"
             alt="First slide"
           />
           <div class="carousel-caption d-none d-md-block">
@@ -119,6 +119,7 @@ export default {
     }
 }
 .carousel-caption {
+  color:black;
   bottom: 270px;
 }
 

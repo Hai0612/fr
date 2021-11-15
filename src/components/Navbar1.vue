@@ -202,13 +202,24 @@
         </li>
       </ul>
       <div class="form-inline my-lg-0">
-        <v-text-field
+        <div class="form-search">
+          <v-text-field
           v-model="search"
           color="purple darken-2"
           label="Search"
           pa-0
+          v-on:keyup.enter="searchMachine()"
           required
         ></v-text-field>
+        <!-- <div class="result-search">
+          <ul>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+          </ul>
+        </div> -->
+        </div>
         <button @click="accessCart()"
           class="nav-link cart-info"
           data-cart-preview=""
@@ -233,7 +244,7 @@
                 >
                   <img
                     alt="Avatar"
-                    src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
+                    :src="this.$store.state.user.info.url"
                   >
               
                 </v-avatar>
@@ -252,10 +263,16 @@ export default {
       numberInCart : 0,
     };
   },
+  watch: {
+  '$store.state.changeCart': function() {
+    this.getNumberInCart();
+  }
+},
   methods:{
     handleLogout(){
       this.$store.state.user.token = '';
       this.$store.state.user.info = {};
+      localStorage.removeItem('info');
       this.$router.push({ name : 'Login'});
     },
     accessCart(){
@@ -267,11 +284,12 @@ export default {
       }
     },
     getNumberInCart(){
+      console.log(this.$store.state.user.info.id)
       let self = this;
       axios({
         method: "post",
         data: {
-          id_user : self.$store.state.user.info.id
+          id_user : self.$store.state.user.info.id,
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=getNumberInCart",
       }).then((response) => {
@@ -281,18 +299,56 @@ export default {
         }
       });
     },
+    searchMachine(){
+        if(this.search !== ''){
+          this.temp = this.search ;
+          this.search = '';
+           this.$router.push({ name: 'Search', params: { text: this.temp } })
+        }
+      
+    }
   },
   
   created(){
     // setInterval(() => {
-
-    //   this.getNumberInCart();
+      if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
+      this.getNumberInCart();
+      
     // }, 1000);
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.form-search{
+  position: relative;
+  .result-search {
+    position: absolute;
+    z-index: 5;
+    background: aliceblue;
+    top: 100%;
+    left: -15%;
+    ul{
+      margin: 0;
+      padding: 0;
+      li{
+        padding: 5px 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        list-style-type: none;
+        opacity: 0.8;
+        width: 20vw;
+      }
+      li:hover{
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
 /* adds some margin below the link sets  */
 .navbar .dropdown-menu div[class*="col"] {
   margin-bottom: 1rem;
@@ -397,3 +453,6 @@ a{
     
 }
 </style>
+
+
+

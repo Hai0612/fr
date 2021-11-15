@@ -17,6 +17,7 @@ export default new Vuex.Store({
     ],
   
       total : 0,
+      changeCart: 0,
     },
   getters: {
     total: state => {
@@ -30,6 +31,10 @@ export default new Vuex.Store({
   mutations: {
     clearTempCart(state){
       state.temporaryCart = [];
+    },
+    changeCart(state){
+      console.log('dfsfd');
+      state.changeCart  += 1;
     },
     addCart(state, book){
 
@@ -146,6 +151,9 @@ export default new Vuex.Store({
     }
   },
    actions: {
+    async changeCart({commit}){
+      commit("changeCart");
+    },
     async setToken({commit} , token){
       commit("setToken" , token);
     },

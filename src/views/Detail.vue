@@ -260,7 +260,7 @@ export default {
       arrSize: [],
       colorVariantAddToCart : null,
       sizeVariantAddToCart : null,
-      quantityBuy : 3,
+      quantityBuy : 1,
       chooseClassProduct: false,
     };
   },
@@ -329,6 +329,7 @@ export default {
               url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=addToCart",
             }).then((response) => {
               console.log(response.data.status);
+              this.$store.dispatch('changeCart');
               self.completeAddToCart();
             });
             }
@@ -482,6 +483,9 @@ export default {
   },
 
   created() {
+    if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
     this.fetchProduct();
     this.fetchComments();
     this.fetchFullImage();

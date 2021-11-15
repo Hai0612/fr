@@ -701,9 +701,12 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           self.fetchCart();
+          self.$store.dispatch('changeCart');
+
         }
       });
        self.$store.dispatch('clearTempCart');
+       console.log('fdfsf');
     },
     async insertPaymentDetail() {
       let self = this;
@@ -748,6 +751,9 @@ export default {
     
   },
   created() {
+    if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
     this.fetchInfoUser()
     this.fetchCart();
     this.fetchPaymentInfo();

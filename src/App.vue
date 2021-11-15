@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar1 v-if="this.$route.name != 'Login' || this.$route.name != 'Admin'"/>
+    <Navbar1 v-if="this.$route.name !== 'Login' && this.$route.name !=='Signup'"/>
     <v-main style="margin-top: 90px;">
       <router-view/>
     </v-main>
@@ -26,6 +26,7 @@ export default {
     Social,
   },
   created(){
+    console.log(this.$route)
   }
 };
 </script> 

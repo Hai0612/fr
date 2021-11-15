@@ -7,7 +7,7 @@
             <router-link to="/">
               <img src="../assets/images/logoweb.png" alt="" />
             </router-link>
-            <div>Đăng nhập</div>
+            <div>Đăng ký thành viên</div>
           </div>
           <div class="help">
             <a href="#">Cần giúp đỡ?</a>
@@ -32,19 +32,22 @@
                       <div class="row-cc">
                         <div class="cc-field">
                           <div class="row">
-                            <div class="col col-sm-4">
+                            <div class="col col-sm-4 div-message">
                               <input
                                 type="text"
                                 class="input cc-txt"
                                 v-model="username"
+                                required
                                 placeholder="Tên đăng nhập"
                               />
+                              <p id="message-signup">Tài khoản không khả dụng</p>
                             </div>
                             <div class="col col-sm-4">
                               <input
                                 type="text"
                                 v-model="firstname"
                                 class="input cc-txt"
+                                required
                                 placeholder="Họ"
                               />
                             </div>
@@ -53,6 +56,7 @@
                                 type="text"
                                 class="input cc-txt"
                                 placeholder="Tên"
+                                required
                                 v-model="lastname"
                               />
                             </div>
@@ -67,16 +71,19 @@
                                 type="text"
                                 class="input cc-txt"
                                 v-model="password"
+                                required
                                 placeholder="Mật khẩu"
                               />
                             </div>
-                            <div class="col col-sm-6">
+                            <div class="col col-sm-6 div_mesPass">
                               <input
                                 type="text"
                                 class="input cc-txt"
                                 v-model="rePassword"
+                                required
                                 placeholder="Nhập lại mật khẩu"
                               />
+                              <span id="repw">{{mesRepass}}</span>
                             </div>
                           </div>
                         </div>
@@ -87,24 +94,28 @@
                             <div class="col col-sm-4">
                               <input
                                 type="text"
+                                required
                                 class="input cc-txt"
                                 v-model="date"
                                 placeholder="Ngày sinh (yyyy-mm-dd)"
                               />
                             </div>
-                            <div class="col col-sm-4">
+                            <div class="col col-sm-4 div_mesEmail">
                               <input
                                 type="text"
                                 class="input cc-txt"
                                 v-model="email"
+                                required
                                 placeholder="Email"
                               />
+                              <span id="mesEmail">{{messageEmail}}</span>
                             </div>
                             <div class="col col-sm-4">
                               <input
                                 type="text"
                                 class="input cc-txt"
                                 v-model="phone"
+                                required
                                 placeholder="Số điện thoại"
                               />
                             </div>
@@ -120,6 +131,7 @@
                                 class="input cc-txt"
                                 v-model="address"
                                 placeholder="Địa chỉ"
+                                required
                               />
                             </div>
                             <div class="col col-sm-4">
@@ -128,6 +140,7 @@
                                 class="input cc-txt"
                                 v-model="city"
                                 placeholder="Thành phố"
+                                required
                               />
                             </div>
                           </div>
@@ -140,6 +153,7 @@
                               <input
                                 type="text"
                                 class="input cc-txt"
+                                required
                                 v-model="country"
                                 placeholder="Quốc gia"
                               />
@@ -149,6 +163,7 @@
                                 type="text"
                                 class="input cc-txt"
                                 v-model="postalCode"
+                                required
                                 placeholder="Mã bưu điện"
                               />
                             </div>
@@ -158,7 +173,11 @@
                       <div class="row-cc" style="margin-top: 50px">
                         <div class="cc-field">
                           <div class="row">
-                            <div class="col col-sm-9"></div>
+                            <div class="col col-sm-9">
+                                <p style="margin-left : 60px ; color: red">
+                                  {{alertMes}}
+                                </p>
+                            </div>
                             <div class="col col-sm-3">
                               <button
                                 @click="signupNewUser()"
@@ -195,10 +214,11 @@
         <div class="modal-content">
             <div class="modal-body">
                 <br>
-            Đăng ký thành công <i class="fas fa-check-circle"></i>
+            {{statusSingup}} <i class="fas fa-check-circle"></i>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+            <router-link v-if="showStatusSignup" to="/login" type="button" class="btn btn-success" data-dismiss="modal">Đăng nhập</router-link>
+            <button v-if="!showStatusSignup" type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
             </div>
         </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -218,18 +238,63 @@ export default {
       password: "",
       rePassword: "",
       city: "",
+      alertMes : '',
       country: "",
+      statusSingup: "",
+      showStatusSignup: true,
       postalCode: "",
       address: "",
       date: "",
       email: "",
       phone: "",
       remember: "",
+      messageEmail: '',
+      mesRepass : '',
+      completeSignup: true,
+      correctEmail: false,
+      matchPass : false,
     };
   },
+  watch: {
+  'email': function(to, from) {
+    console.log(from)
+    if(this.validateEmail(to)){
+      this.messageEmail = 'Email hợp lệ'
+      this.correctEmail = true;
+      document.getElementById('mesEmail').style.color = 'green'
+    }else{
+      this.correctEmail = false;
+      this.messageEmail = 'Email không hợp lệ'
+      document.getElementById('mesEmail').style.color = 'red'
+
+    }
+    if(to === ''){
+      this.messageEmail = '   '
+    }
+    },
+    'rePassword': function(to) {
+        if(this.rePassword == ''){
+          this.mesRepass = ''
+
+        }
+        if(to !== this.password && this.password !== ''){
+          this.matchPass = false;
+          this.mesRepass = 'Mật khẩu không khớp'
+          document.getElementById('repw').style.color = 'red';
+        }
+        if(this.rePassword == this.password && this.password !== ''){
+          this.matchPass = true;
+          this.mesRepass = 'Mật khẩu khớp';
+           document.getElementById('repw').style.color = 'green';
+        }
+    }
+  },
+  
   methods: {
     async signupNewUser() {
-      let self = this;
+      if(this.username != '' && this.password != '' && this.firstname != '' && this.lastname != '' && this.email != '' && this.username != '' && this.matchPass && this.correctEmail){
+        console.log('dung')
+        let self = this;
       await axios({
         method: "post",
         data: {
@@ -250,10 +315,34 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=signup",
       }).then((response) => {
         if (response.data.status == 200) {
+          self.statusSingup = "Đăng kí thành công";
+          self.showStatusSignup = true;
           console.log(response.data);
+          
+        }else{
+          self.statusSingup = "Đăng kí không thành công";
+          self.showStatusSignup = false;
+          self.alertMes = 'Tài khoản đã tồn tại'
+          self.completeSignup = !true;
         }
       });
+      }
+      else {
+        this.statusSingup = "Đăng kí không thành công";
+        this.showStatusSignup = false;
+        this.alertMes = 'Vui lòng nhập dữ liệu'
+        this.completeSignup = !true;
+        setTimeout(() => {
+          this.completeSignup = true;
+        }, 2000);
+      } 
+      
     },
+    validateEmail(){
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(this.email).toLowerCase());
+    },
+    
   },
 
   mounted() {
@@ -519,5 +608,31 @@ a {
     color: green;
     text-align: center;
     font-weight: 600;
+}
+.div-message{
+  position: relative;
+  p{
+    display: none;
+    position: absolute;
+    bottom: -25px;
+    left: 25px;
+    color: red;
+  }
+}
+.div_mesEmail{
+  position: relative;
+  #mesEmail{
+    position: absolute;
+    bottom: -10px;
+    left: 10%;
+  }
+}
+.div_mesPass{
+  position: relative;
+  #repw{
+    position: absolute;
+    left: 10%;
+    bottom:  -10px;
+  }
 }
 </style>
