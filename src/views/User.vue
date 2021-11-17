@@ -144,6 +144,7 @@
                   :src="user.url"
                   alt=""
                 />
+                <input @change="chooseFiles($event)" type="file" style=" width:80px;"/>
               </div>
             </div>
           </div>
@@ -507,6 +508,10 @@ export default {
     }
   },
   methods: {
+    chooseFiles(event){
+      console.log(event.target.files[0].name);
+      this.user.url = event.target.files[0].name;
+    },
     closeOther(index, items) {
       items.forEach((x, i) => {
         if (index != i) x.subactive = false;
@@ -529,7 +534,7 @@ export default {
         this.showNotification = false;
       }
     },
-    handleShowChildMenu(title) {
+     handleShowChildMenu(title) {
       console.log(title);
       if (title === "Hồ sơ") {
         this.showUser[1].isProfile = !this.showUser[1].isProfile;
@@ -547,14 +552,14 @@ export default {
         this.showUser[2].isAddress = false;
       }
       if (title === "Đang giao") {
+         this.fetchOrders('shipping');
         this.showOrder[2].isProcessing = !this.showOrder[2].isProcessing;
         this.showOrder[1].isOrdered = false;
-        this.fetchOrders('shipping');
       }
       if (title === "Đã giao") {
+        this.fetchOrders('shipped');
         this.showOrder[1].isOrdered = !this.showOrder[1].isOrdered;
         this.showOrder[2].isProcessing = false;
-        this.fetchOrders('shipped');
       }
     },
     activeChange(mes){
@@ -668,7 +673,7 @@ export default {
       });
       
     },
-    fetchOrders(status){
+    async fetchOrders(status){
       let self = this;
       axios({
         method: "post",
@@ -691,7 +696,7 @@ export default {
       });
       
     },
-    fetchOrderDetail(order_id){
+    async fetchOrderDetail(order_id){
       let self = this;
       axios({
         method: "get",
@@ -715,7 +720,12 @@ export default {
   },
   created() {
     // let x = document.getElementsByClassName("v-list-group__header");
+    
     this.user = this.$store.state.user.info;
+    if(this.user){
+      this.fetchOrders('shipped');
+    this.fetchOrders('shipping');
+    }
     console.log(this.user);
   },
   mounted() {

@@ -205,7 +205,7 @@
         <div class="form-search">
           <v-text-field
           v-model="search"
-          color="purple darken-2"
+          color="green darken-2"
           label="Search"
           pa-0
           v-on:keyup.enter="searchMachine()"

@@ -3,7 +3,7 @@
     <div class="section-cart">
     <div class="cart-title">
       <h2>Shopping Bag</h2>
-      <span>5</span> Items
+      <span>{{numItems}}</span> Items
     </div>
     <div class="cart-main">
       
@@ -36,11 +36,13 @@
             <td id="td-info">
               <div class="row">
                 <div class="col-sm-3 hidden-xs">
-                  <img
+                  <router-link :to="{name : 'Detail', params : {id : product.id}}">
+                    <img
                     src="http://placehold.it/100x100"
                     alt="..."
                     class="img-responsive"
                   />
+                  </router-link>
                 </div>
                 <div class="col-sm-5">
                   <h4 class="product-name">{{ product.name }}</h4>
@@ -103,7 +105,7 @@
                 "
                 class="btn btn-danger btn-sm"
               >
-                <i class="fas fa-trash-o"></i>
+                <i class="fas fa-trash"></i>
               </button>
             </td>
           </tr>
@@ -111,9 +113,8 @@
         <tfoot>
           <tr>
             <td>
-              <a href="#" class="btn btn-warning"
-                ><i class="fas fa-chevron-left"></i> Continue Shopping</a
-              >
+              <router-link to="/" class="btn btn-warning"
+                ><i class="fas fa-arrow-circle-left"></i> Continue Shopping</router-link>
             </td>
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center">
@@ -153,19 +154,19 @@ import axios from "axios";
 export default {
   data() {
     return {
+      numItems: 0,
+      totalPriceOrder: 0,
       cartProducts: null,
       tempArrayWaitPushToTempCart : [],
     };
   },
-  computed: {
+  watch: {
     // a computed getter
-    totalPriceOrder: function () {
-      let total = 0;
-      this.$store.state.temporaryCart.forEach(element => {
-        total += element.price * element.quantity
-      });
-      // `this` points to the vm instance
-      return total;
+    'tempArrayWaitPushToTempCart': function () {
+      this.totalPriceOrder=  0; 
+      for(let i = 0 ; i < this.tempArrayWaitPushToTempCart.length; i++){
+        this.totalPriceOrder += parseInt(this.tempArrayWaitPushToTempCart[i].quantity * this.tempArrayWaitPushToTempCart[i].price)
+      }
     }
   },
   components: {
@@ -225,6 +226,10 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=fetchByUser",
       }).then((response) => {
         self.cartProducts = response.data.payload;
+        self.numItems = 0;
+        for(let i = 0; i < self.cartProducts.length ; i++){
+          self.numItems += parseInt(self.cartProducts[i].quantity)
+        }
       });
     },
 
@@ -358,11 +363,13 @@ export default {
             }
             .col-sm-4.product-options p:hover {
               & + .product-options-model {
+                z-index: 5;
                 background: cornflowerblue;
                 display: block;
               }
             }
             .col-sm-4.product-options {
+              
               position: relative;
               p {
                 i {

@@ -499,7 +499,7 @@
             <div class="form-cc">
               <div class="row-cc">
                 <div class="cc-field">
-                  <div class="cc-title"><h4>Thêm danh mục mới</h4></div>
+                  <div class="cc-title"><h4>Chỉnh sửa danh mục</h4></div>
              
                 </div>
               </div>

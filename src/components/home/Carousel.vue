@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-section">
     <h2 class="carousel-section-title">Featured Products</h2>
-
+    <img src="/assets/images/item.png" alt="">
     <div
       id="carouselExampleIndicators"
       class="carousel slide"
@@ -18,11 +18,13 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img
+          <router-link :to="{ name : 'Detail' , params :{id : listFeaturedProducts[5].id}}">
+            <img
             class="d-block w-100"
-            :src="listFeaturedProducts[1].url"
+            :src="listFeaturedProducts[5].url"
             alt="First slide"
           />
+          </router-link>
           <div class="carousel-caption d-none d-md-block">
             <h5>{{listFeaturedProducts[5].name}}</h5>
             <p>
@@ -31,11 +33,14 @@
           </div>
         </div>
         <div v-for="(product, index) in listFeaturedProducts" v-bind:key="index" class="carousel-item">
-          <img
+          <router-link  :to="{ name : 'Detail' , params :{id : product.id}}">
+             <img
             class="d-block w-100"
             :src="product.url"
             alt="Second slide"
           />
+          </router-link>
+         
           <div class="carousel-caption d-none d-md-block">
             <h5>{{product.name}}</h5>
             <p>
@@ -113,6 +118,9 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  a{
+    display: block;
+  }
     img{
       width: 100%;
       height: 100%;

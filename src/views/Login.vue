@@ -7,10 +7,10 @@
             <router-link to="/">
               <img src="../assets/images/logoweb.png" alt="" />
             </router-link>
-            <div>Đăng ký thành viên</div>
+            <div>Đăng nhập</div>
           </div>
           <div class="help">
-            <a href="#">Cần giúp đỡ?</a>
+            <router-link to="/help">Cần giúp đỡ?</router-link>
           </div>
         </div>
       </div>

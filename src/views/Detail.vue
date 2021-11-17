@@ -105,7 +105,7 @@
                   </div>
                 </div>
 
-            <button class="btn">Buy it now</button>
+            <button class="btn" @click="buyItNow()">Buy it now</button>
             <p>FREE domestic shipping and 30 day returns</p>
           </div>
           <div
@@ -135,27 +135,7 @@
             <p>{{ product.description }}</p>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-anchor-placement="center-bottom"
-            class="features-product"
-          >
-            <h3>Features <i class="fas fa-plus"></i></h3>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-anchor-placement="center-bottom"
-            class="features-product"
-          >
-            <h3>Weight & Dimenstion <i class="fas fa-plus"></i></h3>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-anchor-placement="center-bottom"
-            class="features-product"
-          >
-            <h3>Shipping & Returns <i class="fas fa-plus"></i></h3>
-          </div>
+          
         </div>
       </div>
       <div
@@ -480,6 +460,14 @@ export default {
         document.getElementsByClassName("close")[0].click();
       }, 1000);
     },
+    buyItNow(){
+      if(this.$store.state.user.info.id){
+          this.$router.push({path: '/cart'});
+      }else{
+        this.$store.state.oldUrl = '/cart/';
+        this.$router.push({ path: '/login' });
+      }
+    }
   },
 
   created() {

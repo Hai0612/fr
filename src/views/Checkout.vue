@@ -509,12 +509,10 @@
       </section>
       
     </div>
-    <Footer />
   </div>
 </template>
 <script>
 import axios from "axios";
-import Footer from "../components/Footer.vue";
 import Loading from "../components/Animation/Loading.vue"
 export default {
   data() {
@@ -754,12 +752,15 @@ export default {
     if(localStorage.getItem('info') !== null){
         this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
       }
+    if(this.$store.state.user.info.id == null || this.$store.state.temporaryCart.length == 0){
+      this.$router.push({ path: '/login' });
+    }
     this.fetchInfoUser()
     this.fetchCart();
     this.fetchPaymentInfo();
   },
   components: {
-    Footer,Loading
+    Loading
   },
 };
 </script>

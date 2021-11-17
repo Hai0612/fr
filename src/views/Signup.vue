@@ -68,7 +68,7 @@
                           <div class="row">
                             <div class="col col-sm-6">
                               <input
-                                type="text"
+                                type="password"
                                 class="input cc-txt"
                                 v-model="password"
                                 required
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col col-sm-6 div_mesPass">
                               <input
-                                type="text"
+                                type="password"
                                 class="input cc-txt"
                                 v-model="rePassword"
                                 required
