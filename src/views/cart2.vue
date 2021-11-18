@@ -32,7 +32,7 @@
             class="td-product-item"
           >
             <td>
-              <input type="checkbox" name="" id="" @change="changeStatusCart(product.id_variant,$event)">
+              <input type="checkbox" name="" id="" @change="addToBill(product.id_variant,$event)">
             </td>
             <td id="td-info">
               <div class="row">
@@ -241,37 +241,7 @@ export default {
         }
       });
     },
-    async changeStatusCart(id_variant,event){
-      let val = 0;
-      if(event.target.checked){
-        val = 1;
-        this.cartProducts.forEach(element => {
-          if(element.id_variant == id_variant){
-            this.tempArrayWaitPushToTempCart.push(element);
-          }
-        });
-      }else{
-        val = 0;
-        this.tempArrayWaitPushToTempCart = this.tempArrayWaitPushToTempCart.filter(function(el) { return el.id_variant != id_variant; }); 
-        console.log(this.tempArrayWaitPushToTempCart);
-        
-      }
-      let self = this;
-      await axios({
-        method: "post",
-        data: {
-          id_user: self.$store.state.user.info.id_user,
-          id_variant: id_variant,
-          value : val,
-        },
-        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=changeStatus",
-      }).then((response) => {
-        if (response.data.status) {
-          console.log(response.data)
 
-        }
-      });
-    },
     async addToBill(id_variant, event){
        
       await this.fetchCart();
@@ -318,18 +288,6 @@ export default {
         }
       });
     },
-    fetchTotalOrder(){
-      axios({
-        method: "get",
-        url: "https://localhost/ecommerce_backend/index.php?controller=order&action=countOrder",
-      }).then((response) => {
-        if (response.data.status == 200) {
-            console.log(response.data)
-
-        }
-      });
-      
-    }
   },
   created() {
     if(localStorage.getItem('info') !== null){
@@ -338,7 +296,6 @@ export default {
     this.fetchCart();
     // console.log(this.$store.state.temporaryCart.length)
     this.$store.state.oldUrl = '';
-    this.fetchTotalOrder()
 
   },
   mounted() {

@@ -18,6 +18,7 @@ export default new Vuex.Store({
   
       total : 0,
       changeCart: 0,
+      totalOrder: 0,
     },
   getters: {
     total: state => {

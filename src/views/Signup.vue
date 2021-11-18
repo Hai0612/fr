@@ -234,8 +234,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <br>
-            <p v-if="showStatusSignup">{{statusSingup}} <i class="fas fa-check-circle"></i></p>
-            <p v-else>{{statusSingup}}</p>
+            <p class="mesAlert" style="color: green" v-if="showStatusSignup">{{statusSingup}} <i class="fas fa-check-circle"></i></p>
+            <p class="mesAlert" style="color: red" v-else>{{statusSingup}}</p>
             </div>
             <div class="modal-footer">
             <router-link v-if="showStatusSignup" to="/login" type="button" class="btn btn-success" data-dismiss="modal">Đăng nhập</router-link>
@@ -349,7 +349,13 @@ export default {
       else {
         this.statusSingup = "Đăng kí không thành công";
         this.showStatusSignup = false;
-        this.alertMes = 'Vui lòng nhập đúng và đủ dữ liệu'
+        if(this.password.length < 8){
+          this.alertMes = 'Mật khẩu không đủ mạnh'
+        }else if(!this.correctEmail){
+          this.alertMes = 'Email không hợp lệ';
+        }else{
+          this.alertMes = 'Vui lòng nhập đúng và đủ dữ liệu'
+        }
         this.completeSignup = !true;
         setTimeout(() => {
           this.completeSignup = true;

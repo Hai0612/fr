@@ -2,7 +2,7 @@
   <div>
     <h1>Checkout Page</h1>
     <div class="tab_container">
-      <input id="tab1" type="radio" name="tabs" />
+      <input id="tab1" type="radio" name="tabs" checked/>
       <label for="tab1"
         ><span class="numberCircle">1</span><span>Cart</span></label
       >
@@ -18,7 +18,7 @@
         ><span class="numberCircle">3</span><span>Shipping</span></label
       >
 
-      <input id="tab4" type="radio" name="tabs" checked />
+      <input id="tab4" type="radio" name="tabs"  />
       <label for="tab4"
         ><span class="numberCircle">4</span><span>Payment</span></label
       >
@@ -197,103 +197,7 @@
           </div>
         </div> -->
       </section>
-
-      <section id="content3" class="tab-content">
-        <h3>Shipping</h3>
-        <div class="form-cc" action="">
-          <div class="">
-            
-            <div class="row-cc">
-              <div class="cc-field">
-                <div class="cc-title"><h4>Shipping Address</h4></div>
-                <div class="row">
-                  <div class="col col-sm-12">
-                    <input
-                      type="text"
-                      class="input cc-txt"
-                      v-model="detailAddress"
-                      placeholder="Địa chỉ cụ thể"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="row-cc">
-              <div class="cc-field">
-                <div class="row">
-                  <div class="col col-sm-7">
-                    <input
-                      type="text"
-                      class="input cc-txt"
-                      v-model="address"
-                      placeholder="Address"
-                    />
-                  </div>
-                  <div class="col col-sm-5">
-                    <input
-                      type="text"
-                      class="input cc-txt"
-                      placeholder="Apt, suite"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="row-cc">
-              <div class="cc-field">
-                <input type="text" class="input cc-txt" placeholder="City" v-model="city" />
-              </div>
-            </div> -->
-
-            <!-- <div class="row-cc">
-              <div class="cc-field">
-                <div class="row">
-                  <div class="col col-sm-6">
-                    <select class="input cc-ddl">
-                      <option selected>
-                        Country <i class="fas fa-arrow-down"></i>
-                      </option>
-                      <option>America</option>
-                      <option>Thailand</option>
-                      <option>Laos</option>
-                      <option>VietNam</option>
-                      <option>Chile</option>
-                      <option>Argentina</option>
-                      <option>Russia</option>
-                      <option>09</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                    </select>
-                  </div>
-                  <div class="col col-sm-6">
-                    <input
-                      type="text"
-                      class="input cc-txt"
-                      placeholder="Postal Code"
-                      v-model="postalCode"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          </div>
-        </div>
-        <!-- <div
-          data-aos="fade-up"
-          data-aos-anchor-placement="center-bottom"
-          class="button-master-container"
-        >
-          <div class="button-previous-methods">
-            <a to="#content3">Return to Customer Information</a>
-          </div>
-          <div class="button-next-methods button-finish">
-            <a href="#">Payment</a>
-          </div>
-        </div> -->
-      </section>
-
-      <section id="content4" class="tab-content">
+        <section id="content4" class="tab-content">
         <h4 class="payment-title">Chọn phương thức thanh toán</h4>
         <div v-if="!showNewMethod">
           <!-- <div class="pymt-radio">
@@ -534,6 +438,102 @@
             </div>
           </div>
       </section>
+      <section id="content3" class="tab-content">
+        <h3>Shipping</h3>
+        <div class="form-cc" action="">
+          <div class="">
+            
+            <div class="row-cc">
+              <div class="cc-field">
+                <div class="cc-title"><h4>Shipping Address</h4></div>
+                <div class="row">
+                  <div class="col col-sm-12">
+                    <input
+                      type="text"
+                      class="input cc-txt"
+                      v-model="detailAddress"
+                      placeholder="Địa chỉ cụ thể"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row-cc">
+              <div class="cc-field">
+                <div class="row">
+                  <div class="col col-sm-7">
+                    <input
+                      type="text"
+                      class="input cc-txt"
+                      v-model="address"
+                      placeholder="Address"
+                    />
+                  </div>
+                  <div class="col col-sm-5">
+                    <input
+                      type="text"
+                      class="input cc-txt"
+                      placeholder="Apt, suite"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="row-cc">
+              <div class="cc-field">
+                <input type="text" class="input cc-txt" placeholder="City" v-model="city" />
+              </div>
+            </div> -->
+
+            <!-- <div class="row-cc">
+              <div class="cc-field">
+                <div class="row">
+                  <div class="col col-sm-6">
+                    <select class="input cc-ddl">
+                      <option selected>
+                        Country <i class="fas fa-arrow-down"></i>
+                      </option>
+                      <option>America</option>
+                      <option>Thailand</option>
+                      <option>Laos</option>
+                      <option>VietNam</option>
+                      <option>Chile</option>
+                      <option>Argentina</option>
+                      <option>Russia</option>
+                      <option>09</option>
+                      <option>10</option>
+                      <option>11</option>
+                      <option>12</option>
+                    </select>
+                  </div>
+                  <div class="col col-sm-6">
+                    <input
+                      type="text"
+                      class="input cc-txt"
+                      placeholder="Postal Code"
+                      v-model="postalCode"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <!-- <div
+          data-aos="fade-up"
+          data-aos-anchor-placement="center-bottom"
+          class="button-master-container"
+        >
+          <div class="button-previous-methods">
+            <a to="#content3">Return to Customer Information</a>
+          </div>
+          <div class="button-next-methods button-finish">
+            <a href="#">Payment</a>
+          </div>
+        </div> -->
+      </section>
+
+    
       
     </div>
   </div>
@@ -665,17 +665,18 @@ export default {
        await this.$store.dispatch('deleTempCart' ,id_variant);
     },
     async submitOrder(){
-      this.isShow = 2; 
-      // if(this.orderAddress !== null && this.payment_type !== null){
-      //    this.insertOrders();
-      // }else{
-      //   console.log('lõi')
-      //   this.isShow = 2;
-      // }
+      // this.isShow = 2; 
+      if(this.orderAddress !== null && this.payment_type !== null){
+         this.insertOrders();
+      }else{
+        console.log('lõi')
+        this.isShow = 2;
+      }
     },
     async insertOrders() {
-      console.log('fdsf')
       // this.deleteProductIncart();
+        this.isShow = 1;
+
       let self = this;
        axios({
         method: "post",
@@ -691,7 +692,8 @@ export default {
           console.log('order');
 
           self.id_order  = response.data.payload;
-          self.insertOrdersDetail(self.id_order);
+
+          // self.insertOrdersDetail(self.id_order);
           self.insertPaymentDetail();
           self.$store.dispatch('changeCart');
 
@@ -752,9 +754,8 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           console.log('paymetn_detail')
-          self.isShow = 1;
           console.log(self.isShow)
-          self.deleteProductIncart();
+          // self.deleteProductIncart();
           self.fetchCart();
         }else{
              self.isShow = 2;
@@ -781,6 +782,7 @@ export default {
       });
     },
     async insertUserPayment() {
+      console.log('fdfs')
       let ex = this.yearNb.concat('-').concat(this.dayNb).concat('-').concat(this.monthNb);
       let self = this;
       self.showNewMethod = false;

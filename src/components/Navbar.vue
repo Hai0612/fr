@@ -85,6 +85,7 @@
             aria-expanded="false"
           >
             Quần
+
           </router-link>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div class="container">
@@ -249,6 +250,10 @@ export default {
   watch: {
   '$store.state.changeCart': function() {
     this.getNumberInCart();
+  },
+  '$route' (to,) {
+    console.log(to)
+    this.getNumberInCart();
   }
 },
   methods:{
@@ -276,6 +281,7 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=getNumberInCart",
       }).then((response) => {
         if(response.data.status == 200){
+          console.log(response.data)
           this.numberInCart = response.data.payload
         }
       });
@@ -289,7 +295,10 @@ export default {
       
     }
   },
-  
+  mounted(){
+    console.log(this.$router)
+
+  },
   created(){
     // setInterval(() => {
       if(localStorage.getItem('info') !== null){
