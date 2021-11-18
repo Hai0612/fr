@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    
     <div class="section-cart">
     <div class="cart-title">
       <h2>Shopping Bag</h2>
@@ -44,10 +45,10 @@
                   />
                   </router-link>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-9">
                   <h4 class="product-name">{{ product.name }}</h4>
                 </div>
-                <div class="col-sm-4 product-options">
+                <!-- <div class="col-sm-4 product-options">
                   <p>Phân loại hàng: <i class="fas fa-sort-down"></i></p>
                   <div class="product-options-model">
                     <div class="option-item">
@@ -68,7 +69,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </td>
             <td id="td-price">{{ product.price }}</td>
@@ -114,7 +115,7 @@
           <tr>
             <td>
               <router-link to="/" class="btn btn-warning"
-                ><i class="fas fa-arrow-circle-left"></i> Continue Shopping</router-link>
+                ><i class="fa fa-arrow-left" aria-hidden="true"></i> Continue Shopping</router-link>
             </td>
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center">
@@ -189,6 +190,10 @@ export default {
                 product['quantity'] = product['quantity'] - 1;
               }
           });
+          this.totalPriceOrder=  0; 
+          for(let i = 0 ; i < this.tempArrayWaitPushToTempCart.length; i++){
+            this.totalPriceOrder += parseInt(this.tempArrayWaitPushToTempCart[i].quantity * this.tempArrayWaitPushToTempCart[i].price)
+          }
         }
       });
     },
@@ -210,6 +215,10 @@ export default {
                 self.tempArrayWaitPushToTempCart[index]['quantity'] = parseInt(self.tempArrayWaitPushToTempCart[index]['quantity']) + 1;
               }
           });
+          this.totalPriceOrder=  0; 
+          for(let i = 0 ; i < this.tempArrayWaitPushToTempCart.length; i++){
+            this.totalPriceOrder += parseInt(this.tempArrayWaitPushToTempCart[i].quantity * this.tempArrayWaitPushToTempCart[i].price)
+          }
         }
       });
       
@@ -460,7 +469,21 @@ export default {
     margin: 0;
   }
 }
-
+.product-name{
+              height: 37px;
+              text-align: center;
+              font-size: .95rem;
+              position: relative;
+              word-wrap: break-word;
+              overflow: hidden;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;  
+                padding: 0;
+                margin: 0;
+                vertical-align: middle;
+}
 
 //check model
 .modal-confirm .modal-content {

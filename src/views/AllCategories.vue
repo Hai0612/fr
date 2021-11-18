@@ -16,9 +16,9 @@
             <div class="categories-item-content">
               <div class="categories-item-content-img">
                 <img
-                  :src="category.image"
-                  alt=""
+                  v-bind:src="require('../assets/images/categories/' + category.image)" alt=""
                 />
+
               </div>
               <div class="categories-item-content-name">
                 <h3>{{ category.name_category}}</h3>
@@ -45,7 +45,7 @@ export default {
       {
         text: "Danh mục",
         disabled: false,
-        href: "category",
+        href: "categories",
       },
     ],
     listCategories : {},
@@ -132,6 +132,9 @@ export default {
           }
         }
       }
+    }
+    .categories-item:hover{
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
   }
 }

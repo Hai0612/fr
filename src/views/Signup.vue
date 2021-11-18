@@ -5,7 +5,7 @@
         <div class="navi-main">
           <div class="logo-login">
             <router-link to="/">
-              <img src="../assets/images/logoweb.png" alt="" />
+              <img src="../assets/images/orther/logoweb.png" alt="" />
             </router-link>
             <div>Đăng ký thành viên</div>
           </div>
@@ -170,6 +170,26 @@
                           </div>
                         </div>
                       </div>
+                      <div class="row-cc">
+                        <div class="cc-field">
+                          <div class="row">
+                            <div class="col col-sm-6">
+                              <input
+                                type="text"
+                                class="input cc-txt"
+                                required
+                                v-model="urlAvatar"
+                                placeholder="Ảnh đại diện"
+                              />
+                            </div>
+                            <div class="col col-sm-6">
+                              <input @change="selectAvatar($event)"
+                                type="file"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="row-cc" style="margin-top: 50px">
                         <div class="cc-field">
                           <div class="row">
@@ -249,6 +269,7 @@ export default {
       phone: "",
       remember: "",
       messageEmail: '',
+      urlAvatar: '',
       mesRepass : '',
       completeSignup: true,
       correctEmail: false,
@@ -256,8 +277,7 @@ export default {
     };
   },
   watch: {
-  'email': function(to, from) {
-    console.log(from)
+  'email': function(to, ) {
     if(this.validateEmail(to)){
       this.messageEmail = 'Email hợp lệ'
       this.correctEmail = true;
@@ -292,8 +312,7 @@ export default {
   
   methods: {
     async signupNewUser() {
-      if(this.username != '' && this.password != '' && this.firstname != '' && this.lastname != '' && this.email != '' && this.username != '' && this.matchPass && this.correctEmail){
-        console.log('dung')
+      if(this.username != '' && this.password != '' && this.firstname != '' && this.lastname != '' && this.email != '' && this.address != '' && this.username != '' && this.matchPass && this.correctEmail && this.password.length >= 8){
         let self = this;
       await axios({
         method: "post",
@@ -305,7 +324,7 @@ export default {
           date: self.date,
           email: self.email,
           phone: self.phone,
-          url: "https://scontent.fhan5-7.fna.fbcdn.net/v/t1.6435-9/146475450_2769270033402673_5487437979516709612_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZMajIOR_VWsAX-l0z6u&tn=j9zFo5b3LI9ET1Pa&_nc_ht=scontent.fhan5-7.fna&oh=a8d0cf37b2532773e50f7eee9b3a0066&oe=61B3EDEA",
+          url: self.urlAvatar,
           address: self.address,
           city : self.city,
           country :self.country,
@@ -317,7 +336,6 @@ export default {
         if (response.data.status == 200) {
           self.statusSingup = "Đăng kí thành công";
           self.showStatusSignup = true;
-          console.log(response.data);
           
         }else{
           self.statusSingup = "Đăng kí không thành công";
@@ -330,13 +348,16 @@ export default {
       else {
         this.statusSingup = "Đăng kí không thành công";
         this.showStatusSignup = false;
-        this.alertMes = 'Vui lòng nhập dữ liệu'
+        this.alertMes = 'Vui lòng nhập đúng và đủ dữ liệu'
         this.completeSignup = !true;
         setTimeout(() => {
           this.completeSignup = true;
         }, 2000);
       } 
       
+    },
+    selectAvatar(event){
+      this.urlAvatar = event.target.files[0].name;
     },
     validateEmail(){
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -394,7 +415,7 @@ export default {
     }
   }
   .main {
-    background-image: url("../assets/images/background-login.jpg");
+    background-image: url("../assets/images/orther/background-login.jpg");
     background-size: cover;
     padding: 100px 0px;
     .content-main {

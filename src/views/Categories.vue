@@ -2,12 +2,11 @@
   <div class="container-fluid">
     <div class="categories-preview">
       <div class="categories-preview-content">
-        <h2>Accessories</h2>
+        <h2>Sản phẩm của chúng tôi</h2>
         <div class="categories-preview-extend">
           <span><i class="fas fa-square"></i> </span>
           <router-link to="/contact"
             >Contact Me
-            <i class="fas fa-chevron-circle-right"></i>
           </router-link>
         </div>
       </div>
@@ -27,9 +26,10 @@
                   v-model="selectedItem"
                   color="indigo"
                 >
-                <v-subheader>Danh Mục</v-subheader>
+                <v-subheader class="list-group-title" @click="hideCategory()">Danh Mục</v-subheader>
+                 <template v-if="!isShowCategory">
                   <v-list-item
-                    v-for="(item, i) in listCategorys"
+                    v-for="(item, i) in listCategories"
                     :key="i"
                   >
                     <v-list-item-icon>
@@ -40,6 +40,7 @@
                       <v-list-item-title v-text="item.text"></v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
+                 </template>
                 </v-list-item-group>
               </v-list>
             </v-card>
@@ -53,8 +54,8 @@
                   active-class="border"
                   color="indigo"
                 >
-                <v-subheader>Giá</v-subheader>
-
+                <v-subheader class="list-group-title" @click="hidePrice()">Giá</v-subheader>
+                  <template v-if="!isShowPrice">
                   <v-list-item
 
                     v-for="(item, i) in listPrices"
@@ -68,6 +69,7 @@
                       <v-list-item-title v-text="item.text"></v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
+                  </template>
                 </v-list-item-group>
               </v-list>
               
@@ -82,7 +84,7 @@
                   active-class="border"
                   color="indigo"
                 >
-                <v-subheader @click="hideBrand()">Nhãn hiệu</v-subheader>
+                <v-subheader class="list-group-title" @click="hideBrand()">Nhãn hiệu</v-subheader>
 
                   <template v-if="!isShowBrand">
                     <v-list-item
@@ -112,8 +114,8 @@
                   
                   color="indigo"
                 >
-                <v-subheader>Tình trạng</v-subheader>
-
+                <v-subheader class="list-group-title" @click="hideStatus()">Tình trạng</v-subheader>
+                  <template v-if="!isShowStatus">
                   <v-list-item
 
                     v-for="(item, i) in listStates"
@@ -127,6 +129,7 @@
                       <v-list-item-title v-text="item.text"></v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
+                  </template>
                 </v-list-item-group>
               </v-list>
               
@@ -152,7 +155,7 @@ export default {
   data() {
     return {
       listProducts: {},
-      listCategorys: [
+      listCategories: [
         {
           icon: 'mdi-assistant',
           text: 'Trouser',
@@ -215,7 +218,7 @@ export default {
         },
         {
           icon: 'mdi-alert-circle',
-          text: "Dưới 1 triệu",
+          text: "Từ 500.000 - 1 triệu",
         },
         {
           icon: 'mdi-cart',
@@ -243,6 +246,10 @@ export default {
       selectedItem : 0,
 
       isShowBrand: false,
+      isShowCategory: false,
+      isShowPrice: false,
+      isShowStatus: false,
+
       model: ["Carrots"],
       sortCategory: "",
       sortPrice: "",
@@ -251,11 +258,25 @@ export default {
       text : null,
     };
   },
+  watch:{
+    '$route.params.category': function(){
+      if(localStorage.getItem('info') !== null){
+        this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+      }
+    this.fetchProductByCategory();
+    this.getAllBrands();
+    this.getAllCategories();
+    this.listCategories.forEach((category,index) =>{
+      if(category.text.toUpperCase() == this.$route.params.category.toUpperCase()){
+        this.selectedItem = index;
+      }
+    });
+    }
+  },
   methods: {
     
     showByCategory(category) {
       if(this.sortCategory == category){
-        console.log('trung')
         this.sortCategory = '';
       }else{
         this.sortCategory = category;
@@ -265,7 +286,6 @@ export default {
     },
     showByBrand(brand) {
       if(this.sortBrand == brand){
-        console.log('trung')
         this.sortBrand = '';
       }else{
         this.sortBrand = brand;
@@ -273,13 +293,53 @@ export default {
       this.sortByOption();
     },
     showByPrice(price) {
-      this.sortPrice = price;
+      if(this.sortPrice == price){
+        this.sortPrice = '';
+      }else{
+        this.sortPrice = price;
+      }
       this.sortByOption();
+     
     },
     showByState(state) {
       this.sortState = state;
       this.text = 'hello';
       this.sortByOption();
+    },
+    async getAllBrands() {
+      let self = this;
+        await axios({
+        method: "get",
+        url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=fetchAll",
+      }).then((response) => {
+        if (response.data.status) {
+          self.listBrands = [];
+
+          for(let i = 0 ; i < response.data.payload.length; i++){
+            self.listBrands.push({
+              icon: 'mdi-source-branch',
+              text : response.data.payload[i].name_brand
+            });
+          }
+        }
+      });
+    },
+    async getAllCategories() {
+      let self = this;
+      await axios({
+        method: "get",
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=fetchAll",
+      }).then((response) => {
+        if (response.data.status) {
+          self.listCategories = [];
+         for(let i = 0 ; i < response.data.payload.length; i++){
+            self.listCategories.push({
+              icon: 'mdi-source-branch',
+              text : response.data.payload[i].name_category
+            });
+          }
+        }
+      });
     },
     fetchProductByCategory() {
       let self = this;
@@ -295,6 +355,11 @@ export default {
         ),
       }).then((response) => {
         self.listProducts = response.data.payload;
+        self.listCategories.forEach((category,index) =>{
+            if(category.text.toUpperCase() == this.$route.params.category.toUpperCase()){
+              this.selectedItem = index;
+            }
+        });
       });
     },
     sortByOption() {
@@ -315,9 +380,23 @@ export default {
         }
       });
     },
+    hideCategory(){
+      this.isShowCategory = !this.isShowCategory;
+      this.fetchProductByCategory();
+    },
     hideBrand(){
       this.isShowBrand = !this.isShowBrand;
       this.sortBrand = ''
+      this.fetchProductByCategory()
+    },
+    hidePrice(){
+      this.isShowPrice = !this.isShowPrice;
+      this.sortPrice = ''
+      this.fetchProductByCategory()
+    },
+    hideStatus(){
+      this.isShowStatus = !this.isShowStatus;
+      this.sortState = ''
       this.fetchProductByCategory()
     }
   },
@@ -329,8 +408,11 @@ export default {
     if(localStorage.getItem('info') !== null){
         this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
       }
+    this.getAllBrands();
+    this.getAllCategories();
     this.fetchProductByCategory();
-    this.listCategorys.forEach((category,index) =>{
+
+    this.listCategories.forEach((category,index) =>{
       if(category.text.toUpperCase() == this.$route.params.category.toUpperCase()){
         this.selectedItem = index;
       }
@@ -357,10 +439,10 @@ export default {
 
 }
 .categories-preview {
-  background-image: url("../assets/images/Contact-me.png");
+  background: linear-gradient(to bottom, white, #16d1e0);
   color: Black;
-  padding: 150px;
-  padding-bottom: 150px;
+  padding: 100px;
+  padding-bottom: 100px;
   padding-left: 300px;
   .categories-preview-content {
     h2 {
@@ -405,5 +487,14 @@ export default {
       }
     }
   }
+}
+.list-group-title{
+  cursor: pointer;
+  color: #c1441b !important;
+  font-weight: 700;
+  text-align: center;
+}
+.list-group-title:hover{
+  background-color: #00d4ff;
 }
 </style>

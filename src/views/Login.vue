@@ -5,7 +5,7 @@
         <div class="navi-main">
           <div class="logo-login">
             <router-link to="/">
-              <img src="../assets/images/logoweb.png" alt="" />
+              <img src="../assets/images/orther/logoweb.png" alt="" />
             </router-link>
             <div>Đăng nhập</div>
           </div>
@@ -94,7 +94,6 @@ export default {
   },
   methods: {
     async login() {
-      console.log(this.remember)
       let self = this;
       if(self.username !== '' && self.password !== ''){
          await axios({
@@ -108,7 +107,6 @@ export default {
           if(response.data.status == 200){
               if(self.remember){
                 localStorage.setItem('info' , JSON.stringify(response.data.account[0]));
-                // console.log("JSON.parse(localStorage.getItem('info'))")
 
                 }else{
                   self.$store.state.user.info = response.data.account[0];
@@ -124,7 +122,6 @@ export default {
                 self.$store.state.oldUrl = '/'
               }
           }else{
-              console.log('sai')
               self.loggedIn = true;
               self.username = "";
               self.password = "";

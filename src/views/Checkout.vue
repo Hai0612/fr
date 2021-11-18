@@ -296,7 +296,7 @@
       <section id="content4" class="tab-content">
         <h4 class="payment-title">Chọn phương thức thanh toán</h4>
         <div v-if="!showNewMethod">
-          <div class="pymt-radio">
+          <!-- <div class="pymt-radio">
             <div class="row-payment-method payment-row">
               <div class="select-icon">
                 <input type="radio" @click="payment_type = 'Cash On Delivery'" id="radio0" name="radios" value="pp" />
@@ -310,16 +310,29 @@
               </div>
               
             </div>
-          </div>
+          </div> -->
           
           <div v-for="payment,index in paymentMethods" v-bind:key="index" class="pymt-radio" >
-            <div class="row-payment-method payment-row">
+            <div v-if="payment.card_type === 'Cash On Delivery'" class="row-payment-method payment-row">
               <div class="select-icon">
-                <input type="radio" :id="'radio-'.concat(index)" @click="card_id = payment.id;payment_type = 'Online' " name="radios" value="pp" />
+                <input type="radio" :id="'radio-'.concat(index)" @click="card_id = payment.id; payment_type = 'Offline' " name="radios" value="pp" />
                 <label :for="'radio-'.concat(index)"></label>
               </div>
               <div class="select-txt">
-                <p class="pymt-type-name">{{payment.payment_type}} </p>
+                <p class="pymt-type-name">Thanh toán khi nhận hàng</p>
+                <p class="pymt-type-desc">
+                  Khách hàng trả tiền mặt trực tiếp khi hàng được giao 
+                </p>
+              </div>
+              
+            </div>
+            <div v-else class="row-payment-method payment-row">
+              <div class="select-icon">
+                <input type="radio" :id="'radio-'.concat(index)" @click="card_id = payment.id; payment_type = 'Online' " name="radios" value="pp" />
+                <label :for="'radio-'.concat(index)"></label>
+              </div>
+              <div class="select-txt">
+                <p class="pymt-type-name">{{payment.card_type}}</p>
                 <p class="pymt-type-desc">
                   Số tài khoản : {{payment.account_no}}  <span style="color : red">{{payment.provider}}</span>
                 </p>
@@ -329,6 +342,7 @@
               </div>
               
             </div>
+            
           </div>
          
         </div>
@@ -491,7 +505,7 @@
             <div class="button-next-methods button-finish">
               <btn @click="submitOrder()" href="#modelSubmit" data-toggle="modal">Finish Order</btn>
           
-                <div v-if="isShow" id="modelSubmit" class="modal fade">
+                <div v-if="isShow == 1" id="modelSubmit" class="modal fade">
                   <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
                       <div class="modal-body">
@@ -504,6 +518,19 @@
                     </div>
                   </div>
                 </div>  
+                <div v-if="isShow == 2" id="modelSubmit" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <Loading/>
+                        <p>Thanh toán không thành công.</p>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Thanh toán lại</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
       </section>
@@ -517,7 +544,7 @@ import Loading from "../components/Animation/Loading.vue"
 export default {
   data() {
     return {
-      isShow:false,
+      isShow:0,
       paymentMethods: null,
       cartProducts: null,
       infoUser : null,
@@ -553,11 +580,8 @@ export default {
     }
   },
   methods: {
-    chooseCartType(mes){
-      console.log(mes)
-    },
+    
     chooseDay(event) {
-      console.log(this.card_type);
           this.dayNb = event.target.value
       },
       chooseMonth(event) {
@@ -566,7 +590,6 @@ export default {
       },
     fetchCart() {
       this.cartProducts = this.$store.state.temporaryCart;
-      console.log(this.cartProducts);
     },
     
     fetchPaymentInfo(){
@@ -641,11 +664,16 @@ export default {
     async deleTempCart(id_variant) {
        await this.$store.dispatch('deleTempCart' ,id_variant);
     },
-    submitOrder(){
-      this.isShow = true;
-      this.insertOrders();
+    async submitOrder(){
+      if(this.orderAddress !== null && this.payment_type !== null){
+         this.insertOrders();
+        console.log('null')
+      }else{
+        this.isShow = 2;
+      }
     },
-     insertOrders() {
+    async insertOrders() {
+      console.log('fdsf')
       // this.deleteProductIncart();
       let self = this;
        axios({
@@ -660,14 +688,16 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           self.id_order  = response.data.payload;
-          console.log('insertOrder');
           self.insertOrdersDetail(self.id_order);
           self.insertPaymentDetail();
+          self.$store.dispatch('changeCart');
+
+        }else{
+             self.isShow = 2;
         }
       });
     },
     async insertOrdersDetail(id_order) {
-      console.log('test');
       let self = this;
       axios({
         method: "post",
@@ -678,10 +708,10 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=order&action=addOrderDetail",
       }).then((response) => {
         if (response.data.status == 200) {
-          console.log('inserOrderDetail')
          
-          self.deleteProductIncart();
           self.fetchCart();
+        }else{
+             self.isShow = 2;
         }
       });
     },
@@ -704,10 +734,10 @@ export default {
         }
       });
        self.$store.dispatch('clearTempCart');
-       console.log('fdfsf');
     },
     async insertPaymentDetail() {
       let self = this;
+  
       axios({
         method: "post",
         data: {
@@ -718,9 +748,30 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=payment&action=insertPaymentDetail",
       }).then((response) => {
         if (response.data.status == 200) {
-          console.log('insertPaymentDetail')
-
+          self.isShow = 1;
+          self.deleteProductIncart();
           self.fetchCart();
+        }else{
+             self.isShow = 2;
+        }
+      });
+    },
+    // handle duplicate userpayment 
+    async insertUserPaymentCOD() {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          user_id : self.$store.state.user.info.id,
+          card_type : 'Cash On Delivery',
+          provider : 0,
+          account_no : 0,
+          expiry : 0,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=payment&action=insertUserPaymentCOD",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.fetchPaymentInfo();
         }
       });
     },
@@ -728,7 +779,6 @@ export default {
       let ex = this.yearNb.concat('-').concat(this.dayNb).concat('-').concat(this.monthNb);
       let self = this;
       self.showNewMethod = false;
-      console.log(self.accountNb);
       axios({
         method: "post",
         data: {
@@ -742,7 +792,6 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           self.fetchPaymentInfo();
-          console.log('insertUserPayemnt')
         }
       });
     },
@@ -758,6 +807,7 @@ export default {
     this.fetchInfoUser()
     this.fetchCart();
     this.fetchPaymentInfo();
+    this.insertUserPaymentCOD();
   },
   components: {
     Loading

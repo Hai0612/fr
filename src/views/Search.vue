@@ -195,7 +195,7 @@ export default {
       listBrands: ["Adidas", "Nike", "Louis Vuitton", "Dolce&Gabanna", "Gucci","Zara", "Chanel"],
       listPrices: [
         "0 - 500.000",
-        "Dưới 1 triệu",
+        "Từ 500.000 - 1 triệu",
         "Từ 1 - 5 triệu",
         "Từ 5 - 10 triệu",
         "Trên 10 triệu",
@@ -213,7 +213,7 @@ export default {
   watch:{
         '$route.params.text' (to, from) {
             console.log(to + from)
-        this.searchMachine()
+          this.searchMachine()
         }
     },
   methods: {
@@ -221,7 +221,6 @@ export default {
     searchMachine(){
         
       let self = this;
-      console.log(self.$route.params.text)
         axios({
           method: "post",
           data: {
@@ -230,7 +229,6 @@ export default {
           url: "https://localhost/ecommerce_backend/index.php?controller=product&action=searchMachine",
         }).then((response) => {
           if(response.data.status == 200){
-            console.log(response.data.payload);
             self.listProducts = response.data.payload
           }
         });
@@ -282,7 +280,6 @@ export default {
       }).then((response) => {
         if (response.data.status == 200) {
           self.listProducts = response.data.payload;
-          console.log(response.data)
         }
       });
     },
@@ -324,7 +321,7 @@ export default {
     color: black;
 }
 .categories-preview {
-  background-image: url("../assets/images/Contact-me.png");
+  background-image: url("../assets/images/orther/Contact-me.png");
   color: Black;
   padding: 150px;
   padding-bottom: 150px;

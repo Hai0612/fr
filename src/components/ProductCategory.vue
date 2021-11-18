@@ -3,16 +3,18 @@
     <ul class="products row">
       <li data-aos="fade-up"
      data-aos-anchor-placement="center-bottom" v-for="(product, index) in listProducts" v-bind:key="index" class="product col-xs-12 col-sm-4 col-md-3">
-        <div class="product-item">
+        <div data-aos="fade-up" class="product-item">
           <router-link :to="{ name: 'Detail', params: { id: product.id_product }}" class="cover-link">
             <div class="see">
               <i class="fa fa-eye"></i>
               <span><router-link :to="{ name: 'Detail', params: { id: product.id_product }}">see</router-link></span>
             </div>
+            <!-- <div class="ima" :style="{ backgroundImage: `url(${product.url})` }"> -->
+            <div data-aos="fade-up" class="ima" >
+            <!-- <div class="ima" :style="{backgroundImage : 'url(' + require(image) + ')'}"> -->
 
-            <div class="ima" :style="{backgroundImage: `url(${product.url})`}">
               <img
-                src="https://i.pinimg.com/originals/fa/02/02/fa0202572e8aa734cedb154c413a4846.jpg"
+                v-bind:src="require('../assets/images/products/' + product.url)"
                 class="img-responsive"
               />
             </div>
@@ -22,21 +24,21 @@
                 <h3>{{product.name}}</h3>
               </div>
 
-              <div class="average">
+              <!-- <div class="average">
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star clear"></i>
-              </div>
+              </div> -->
             </div>
           </router-link>
 
           <div class="actions">
             <span class="price">
-              <del>
+              <!-- <del>
                 <span class="amount">{{product.price}}</span>
-              </del>
+              </del> -->
               <ins>
                 <span class="amount">{{product.price}}</span>
               </ins>
@@ -53,6 +55,16 @@
 <script>
 export default {
   props: ['listProducts'],
+  data(){
+    return {
+      image: '../assets/images/products/1-1.jpg',
+    }
+  },
+  methods:{
+    
+  },
+  created(){
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -163,16 +175,27 @@ a {
           height: 180px;
           z-index: 22;
           img {
-            display: none;
+            display: block;
+            width: 100%;
           }
         }
         .info-product-card {
-          padding: 15px;
+          padding: 7px;
 
           .text {
-            height: 45px;
-            position: relative;
-            overflow: hidden;
+            h3{
+              color:black;
+              height: 37px;
+              text-align: center;
+              font-size: .95rem;
+              position: relative;
+              word-wrap: break-word;
+              overflow: hidden;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;  
+            }
             p {
               color: #7d8993;
             }
@@ -202,9 +225,9 @@ a {
           padding: 10px 0 0;
 
           span {
-            color: white;
-            font-size: 24px;
-            font-weight: 300;
+            font-size: 1.3rem;
+            color: #ee4d2d;
+            font-weight: 500;
           }
 
           del {

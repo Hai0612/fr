@@ -675,11 +675,9 @@ export default {
   methods: {
     chooseCategory(event){
       this.newProductData.category = event.target.value;
-      console.log( this.newProductData.category)
     },
     chooseBrand(event){
       this.newProductData.brand = event.target.value;
-      console.log(this.newProductData.brand)
     },
     showSetting(message){
       if(message === 'product'){
@@ -734,7 +732,6 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.listBrands = response.data.payload;
-          console.log(response.data.payload);
         }
       });
     },
@@ -746,7 +743,6 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.listCategories = response.data.payload;
-          console.log(response.data.payload);
         }
       });
     },
@@ -758,7 +754,6 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.listOrders = response.data.payload;
-          console.log(response.data.payload);
         }
       });
     },
@@ -770,7 +765,6 @@ export default {
       }).then((response) => {
         if (response.data.status) {
           self.listUsers = response.data.payload;
-          console.log(response.data.payload);
         }
       });
     },
@@ -973,11 +967,13 @@ export default {
     if(this.$store.state.user.info.first_name !== 'admin'){
         this.$router.push({ name : 'Login'});
     }
-    this.getAllProducts();
-    this.getAllBrands();
-    this.getAllOrders();
-    this.getAllUsers();
-    this.getAllCategories();
+    else{
+      this.getAllProducts();
+      this.getAllBrands();
+      this.getAllOrders();
+      this.getAllUsers();
+      this.getAllCategories();
+    }
   },
 };
 </script>

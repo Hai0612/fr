@@ -5,6 +5,7 @@
       <div data-aos="fade-up" data-aos-anchor-placement="center-bottom">
         <Carousel />
       </div>
+      
       <Introduce />
       <img
         src="https://www.facebook.com/photo/?fbid=2769270030069340&set=a.1530311433965212"
@@ -24,7 +25,7 @@
             >
               <router-link :to="{ name: 'ShowCategory', params: { category: category.name_category }}">
                 <div class="item-a">
-                  <img :src="category.image" alt="" />
+                  <img v-bind:src="require('../assets/images/categories/' + category.image)" alt="" />
                   <h3>{{ category.name_category }}</h3>
                 </div>
               </router-link>
@@ -119,7 +120,6 @@ export default {
   },
     mounted() {
         this.$store.dispatch('clearTempCart');
-        // console.log(localStorage.getItem('info'));
     },
   components: {
     Iframe,
@@ -200,7 +200,7 @@ export default {
                 font-size: 3vw;
                 position: absolute;
                 top: 70%;
-                left: calc(50% - 3vw);
+                width: 100%;
               }
             }
           }

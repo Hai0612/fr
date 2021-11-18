@@ -21,7 +21,7 @@
           <router-link :to="{ name : 'Detail' , params :{id : listFeaturedProducts[5].id}}">
             <img
             class="d-block w-100"
-            :src="listFeaturedProducts[5].url"
+            v-bind:src="require('../../assets/images/products/' + listFeaturedProducts[5].url)"
             alt="First slide"
           />
           </router-link>
@@ -36,7 +36,7 @@
           <router-link  :to="{ name : 'Detail' , params :{id : product.id}}">
              <img
             class="d-block w-100"
-            :src="product.url"
+            v-bind:src="require('../../assets/images/products/' + product.url)"
             alt="Second slide"
           />
           </router-link>
@@ -87,7 +87,6 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=product&action=getFeatured",
       }).then((response) => {
         if (response.data.status) {
-          console.log(response.data.payload);
           self.listFeaturedProducts = response.data.payload;
         }
       });

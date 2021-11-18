@@ -35,11 +35,7 @@ const routes = [
     name: 'Test',
     component: () => import('../views/Test.vue')
   },  
-  {
-    path: '/checkout2',
-    name: 'Check',
-    component: () => import('../views/Checkout2.vue')
-  }, 
+  
   {
     path:'/categories',
     name:'Categories',

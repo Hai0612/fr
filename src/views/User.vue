@@ -6,11 +6,11 @@
           <v-list-item>
             <v-list-item-avatar>
               <v-img
-                :src="user.url"
+              :src="require('../assets/images/users/' + user.url)" alt="" 
               ></v-img>
             </v-list-item-avatar>
 
-            <v-list-item-title>John Leider</v-list-item-title>
+            <v-list-item-title>{{ user.last_name}}</v-list-item-title>
           </v-list-item>
         </div>
         <v-list>
@@ -141,8 +141,7 @@
               </div>
               <div class="col col-sm-3">
                 <img
-                  :src="user.url"
-                  alt=""
+                  :src="require('../assets/images/users/' + user.url)" alt="" 
                 />
                 <input @change="chooseFiles($event)" type="file" style=" width:80px;"/>
               </div>
@@ -202,7 +201,7 @@
                     />
                   </div>
                 
-                  <button disabled id="saveAddress" @click="updateAddressInfo" type="submit" class="btn btn-success mt-5 px-5">
+                  <button disabled id="saveAddress" @click="updateAddressInfo()" type="submit" class="btn btn-success mt-5 px-5">
                     Lưu
                   </button>
                   <button id="changeAddress" @click="activeChange('address')" type="" class="btn btn-danger mt-5 px-5 mx-5">
@@ -329,11 +328,12 @@
                             <td id="td-info">
                               <div class="row">
                                 <div class="col-sm-3 hidden-xs">
+                                  <router-link :to="{ name : 'Detail', params: { id : order_item.id}}">
                                   <img
-                                    src="http://placehold.it/100x100"
+                                    :src="order_item.url"
                                     alt="..."
                                     class="img-responsive"
-                                  />
+                                  /></router-link>
                                 </div>
                                 <div class="col-sm-5">
                                   <h4 class="product-name">{{order_item.name}}</h4>
@@ -365,7 +365,7 @@
                       </table>
                       </div>
                       <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button  type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       </div>
                     </div>
                   </div>
@@ -509,7 +509,6 @@ export default {
   },
   methods: {
     chooseFiles(event){
-      console.log(event.target.files[0].name);
       this.user.url = event.target.files[0].name;
     },
     closeOther(index, items) {
@@ -535,7 +534,6 @@ export default {
       }
     },
      handleShowChildMenu(title) {
-      console.log(title);
       if (title === "Hồ sơ") {
         this.showUser[1].isProfile = !this.showUser[1].isProfile;
         this.showUser[2].isAddress = false;
@@ -563,7 +561,6 @@ export default {
       }
     },
     activeChange(mes){
-      console.log(mes)
       if(mes == 'info'){
         this.disabledInput('info-input','change');
       }else if(mes == 'address'){
@@ -599,7 +596,6 @@ export default {
         document.getElementById('saveAddress').disabled = false;
         document.getElementById('changeAddress').disabled = true;
         }else if(action === 'save'){
-          console.log('test')
           let x = document.getElementsByClassName('address-input');
           for(let i = 0 ; i < x.length ; i++){
             x[i].disabled = true;
@@ -612,7 +608,6 @@ export default {
      
     },
     updateInfo(){
-      console.log('fdsf')
       let self = this;
       axios({
         method: "post",
@@ -630,7 +625,7 @@ export default {
           console.log(response.data);
           document.getElementById('changeInfo').disabled = false;
           document.getElementById('saveInfo').disabled = true;
-
+          self.disabledInput('info-input', 'save');
         }
       });
       
@@ -650,7 +645,6 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=updateAddressInfo",
       }).then((response) => {
         if(response.data.status == 200){
-          console.last_name(response.data);
           self.disabledInput('address-input', 'save');
         }
       });
@@ -668,7 +662,7 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=user&action=updatePassword",
       }).then((response) => {
         if(response.data.status == 200){
-          console.last_name(response.data);
+          console.log(response.data);
         }
       });
       
@@ -685,7 +679,6 @@ export default {
         ),
       }).then((response) => {
         if(response.data.status == 200){
-          console.log(response.data);
           if(status == 'Đang giao'){
             self.listOrderings = response.data.payload;
           }
@@ -705,7 +698,6 @@ export default {
         ),
       }).then((response) => {
         if(response.data.status == 200){
-          console.log(response.data.payload);
           self.orderDetail = response.data.payload;
           let total = 0;
           self.orderDetail.forEach(element => {
@@ -726,7 +718,6 @@ export default {
       this.fetchOrders('shipped');
     this.fetchOrders('shipping');
     }
-    console.log(this.user);
   },
   mounted() {
         this.$store.dispatch('clearTempCart');

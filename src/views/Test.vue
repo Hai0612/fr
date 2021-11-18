@@ -182,7 +182,7 @@
         },
         {
           icon: 'mdi-alert-circle',
-          text: "Dưới 1 triệu",
+          text: "Từ 500.000 - 1 triệu",
         },
         {
           icon: 'mdi-cart',

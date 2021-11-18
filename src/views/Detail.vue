@@ -9,11 +9,11 @@
       >
         <div class="product-img">
           <div class="product-img-show">
-            <img id="imageIsShowing" src="../assets/images/clother.jpg" alt="" />
+            <img v-if="listProductImage.length" id="imageIsShowing" v-bind:src="require('../assets/images/products/' + listProductImage[0].url)"  alt="Không có ảnh nào cho sản phẩm này" />
           </div>
           <div class="listImage">
             <div v-for="image, index in listProductImage" v-bind:key="index"  class="image-product-item">
-              <img @click="showImage(image.url)" :src="image.url" alt="" />
+              <img @click="showImage(image.url)" :src="require('../assets/images/products/' + image.url)" alt="" />
             </div>
            
           </div>
@@ -44,9 +44,9 @@
             </div>
           </div>
           <div class="product-vote">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i
+            <!-- <i class="fas fa-star"></i><i class="fas fa-star"></i
             ><i class="fas fa-star"></i><i class="fas fa-star"></i
-            ><i class="fas fa-star"></i>
+            ><i class="fas fa-star"></i> -->
           </div>
           <div
             data-aos="fade-up"
@@ -159,7 +159,6 @@
             <span>4.9</span> <i class="fas fa-star"></i
             ><i class="fas fa-star"></i><i class="fas fa-star"></i
             ><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <span>107 Reviews, 40 Questions</span>
           </div>
         </div>
         <div
@@ -195,7 +194,8 @@
             </div>
           </div>
           <div class="list-reviews">
-            <h3>{{ listComments.length }} Reviews</h3>
+            <h3 v-if="listComments.length">{{ listComments.length }} Reviews</h3>
+            <h3 v-else>0 Reviews</h3>
             <div
               v-for="(comment, index) in listComments"
               v-bind:key="index"
@@ -203,7 +203,7 @@
             >
               <div class="review-item-info">
                 <div class="info-user">
-                  <img src="../assets/images/icon.jpg" alt="" />
+                  <img src="../assets/images/orther/icon.jpg" alt="" />
                   <div>
                     <h4>{{ comment.username }}</h4>
                     <p>
@@ -233,9 +233,9 @@ export default {
       isShowComment: false,
       product: {},
       listVariantsProduct: null,
-      listComments: {},
-      listRelatedProduct: {},
-      listProductImage : {},
+      listComments: [],
+      listRelatedProduct: [],
+      listProductImage : [],
       arrColor: [],
       arrSize: [],
       colorVariantAddToCart : null,
@@ -253,6 +253,7 @@ export default {
       this.sizeVariantAddToCart = null;
       this.colorVariantAddToCart = null;
       this.fetchProduct();
+      this.fetchFullImage()
       this.fetchComments();
       this.fetchRelatedProduct();
     }
@@ -262,15 +263,7 @@ export default {
   },
   methods: {
     setColor(color){
-      if(color == 'red'){
-        this.colorVariantAddToCart = 'Đỏ'
-      }
-       if(color == 'green'){
-        this.colorVariantAddToCart = 'Xanh'
-      }
-       if(color == 'yellow'){
-        this.colorVariantAddToCart = 'Vàng'
-      }
+      this.colorVariantAddToCart = color;
       if(this.sizeVariantAddToCart !== null){
         this.chooseClassProduct = false;
       }
@@ -287,8 +280,6 @@ export default {
       }else{
         this.chooseClassProduct = false;
       }
-      console.log(this.colorVariantAddToCart )
-      console.log(this.sizeVariantAddToCart );
       if(this.$store.state.user.info.id){
         let productTempVariant = null;
         this.listVariantsProduct.forEach(element =>{
@@ -321,7 +312,11 @@ export default {
       }
     },
     addComment(){
-        console.log('addcm')
+        if(!this.$store.state.user.info.id){
+          this.$store.state.oldUrl = '/detail/'.concat(this.product.id_product);
+          this.$router.push({ name : 'Login'});
+        }
+   
         let self = this;
         axios({
           method: "post",
@@ -370,10 +365,13 @@ export default {
           id
         ),
       }).then((response) => {
-        self.listComments = response.data.payload;
+        if(response.data.status == 200){
+          self.listComments = response.data.payload;
+          console.log(self.listComments)
+        }
       });
     },
-    fetchRelatedProduct() {
+    async fetchRelatedProduct() {
       let self = this;
       const id = this.$route.params.id;
       axios({
@@ -391,7 +389,7 @@ export default {
         }
       });
     },
-    fetchFullImage(){
+    async fetchFullImage(){
       let self = this;
       const id = this.$route.params.id;
       axios({
@@ -412,22 +410,18 @@ export default {
     filterColor() {
       let arrColor = [];
       this.listVariantsProduct.forEach((element) => {
+        if(element.color == "Default"){
+          arrColor.push('white')
+        }else
         arrColor.push(element.color);
       });
       arrColor = arrColor.filter(function (item, pos) {
         return arrColor.indexOf(item) == pos;
       });
-      arrColor.forEach((color) => {
-        if(color == 'Đỏ'){
-          this.arrColor.push('red');
-        }
-        if(color == 'Xanh'){
-          this.arrColor.push('green');
-        }
-        if(color == 'Vàng'){
-          this.arrColor.push('yellow');
-        }
-      });
+      this.arrColor = arrColor;
+      console.log(this.arrColor);
+
+    
     },
     filterSize() {
       let arrSize = [];
@@ -453,7 +447,7 @@ export default {
       });
     },
     showImage(url){
-      document.getElementById('imageIsShowing').src = url;
+      document.getElementById('imageIsShowing').src = require('../assets/images/products/' + url);
     },
     completeAddToCart() {
       setTimeout(() => {
@@ -475,9 +469,10 @@ export default {
         this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
       }
     this.fetchProduct();
-    this.fetchComments();
-    this.fetchFullImage();
     this.fetchRelatedProduct();
+    this.fetchFullImage();
+    this.fetchComments();
+    
   },
   mounted() {
         this.$store.dispatch('clearTempCart');

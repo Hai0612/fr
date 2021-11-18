@@ -1,10 +1,11 @@
 <template>
     <footer>
+        
         <div class="footer-content">
             <div class="footer-option">
                 <div class="footer-logo">
                     <a href="">
-                        <img src="../assets/images/logo.png" alt="">
+                        <img src="../assets/images/orther/logo-web.png" alt="">
                     </a>
                 </div>
                 <div class="footer-nav">
@@ -118,7 +119,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     footer{
-        background-image: url('../assets/images/footer.jpg');
+        background-image: url('../assets/images/orther/footer.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         .footer-content{

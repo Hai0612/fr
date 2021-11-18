@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar1 v-if="this.$route.name !== 'Login' && this.$route.name !=='Signup'"/>
+    <Navbar v-if="this.$route.name !== 'Login' && this.$route.name !=='Signup'"/>
     <v-main style="margin-top: 90px;">
       <router-view/>
     </v-main>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Navbar1 from './components/Navbar1.vue';
+import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import Social from './components/Social.vue';
 
@@ -21,7 +21,7 @@ export default {
     //
   }),
   components:{
-    Navbar1,
+    Navbar,
     Footer,
     Social,
   },
