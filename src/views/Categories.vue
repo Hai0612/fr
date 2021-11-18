@@ -354,6 +354,7 @@ export default {
           productLine
         ),
       }).then((response) => {
+        console.log(response.data.payload)
         self.listProducts = response.data.payload;
         self.listCategories.forEach((category,index) =>{
             if(category.text.toUpperCase() == this.$route.params.category.toUpperCase()){

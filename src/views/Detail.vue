@@ -64,7 +64,7 @@
           </div>
           <div style="margin-top: 30px">
             <input type="number" class="name-choose" id="" v-model="quantityBuy">
-            <span style="margin-left: 20px">Số lượng</span>
+            Số lượng<span style="margin-left: 20px"></span>
           </div>
           <div class="alert-choose-class" v-if="chooseClassProduct">
                 <v-alert
@@ -139,8 +139,6 @@
         </div>
       </div>
       <div
-        data-aos="fade-up"
-        data-aos-anchor-placement="center-bottom"
         class="related-product"
       >
         <h3>Các sản phâm tương tự</h3>
@@ -270,9 +268,28 @@ export default {
     },
     setSize(size){
       this.sizeVariantAddToCart = size.substring(0,1);
+      this.updatePrice(this.sizeVariantAddToCart);
       if(this.colorVariantAddToCart !== null){
         this.chooseClassProduct = false;
       }
+    },
+    async updatePrice(size){
+      console.log(size);
+      console.log(this.product.id_product);
+      let self = this;
+      await axios({
+        method: "post",
+        data: {
+          size : size, 
+          id_product : self.product.id_product,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=variant&action=fetchPriceBySize",
+      }).then((response) => {
+        if(response.data.status == 200){
+          console.log(response.data.payload[0].price);
+          self.product.price = response.data.payload[0].price;
+        }
+      });
     },
     async addToCart(){
       if(this.sizeVariantAddToCart === null || this.colorVariantAddToCart === null){
@@ -769,7 +786,7 @@ button:hover {
 .name-choose{
   background: white;
   text-align: center;
-  padding: 5px;
+  padding: 4px;
   border: 1px solid rgba(0, 0, 0, 0.32);
 }
 .quantityBuy  + span{

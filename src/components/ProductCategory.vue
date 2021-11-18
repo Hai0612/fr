@@ -36,12 +36,13 @@
 
           <div class="actions">
             <span class="price">
-              <!-- <del>
-                <span class="amount">{{product.price}}</span>
-              </del> -->
+              
               <ins>
                 <span class="amount">{{product.price}}</span>
               </ins>
+              <dfn>
+                <span class="amount">Đã bán {{product.sold}}</span>
+              </dfn>
             </span>
 
             
@@ -219,7 +220,8 @@ a {
         padding: 0 0 0 10px;
 
         .price {
-          display: inline-block;
+          display: flex;
+          justify-content: space-between;
           vertical-align: top;
 
           padding: 10px 0 0;
@@ -230,12 +232,13 @@ a {
             font-weight: 500;
           }
 
-          del {
-            color: #aecc42;
+          dfn {
+            float: right;
             span {
-              color: #aecc42;
-              font-size: 12px;
-              margin: 0 10px 0 0;
+            color: rgb(16, 117, 233);
+
+              font-size: 15px;
+              margin-right: 0px;
             }
           }
 

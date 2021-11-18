@@ -35,6 +35,7 @@ export default new Vuex.Store({
     changeCart(state){
       console.log('dfsfd');
       state.changeCart  += 1;
+      console.log(state.changeCart);
     },
     addCart(state, book){
 

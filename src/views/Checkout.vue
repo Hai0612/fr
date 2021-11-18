@@ -107,19 +107,19 @@
           <tfoot>
             <tr>
               <td>
-                <a href="#" class="btn btn-warning"
-                  ><i class="fa fa-angle-left"></i> Continue Shopping</a
+                <router-link to="/" class="btn btn-warning"
+                  ><i class="fa fa-angle-left"></i> Continue Shopping</router-link
                 >
               </td>
               <td colspan="2" class="hidden-xs"></td>
               <td class="hidden-xs text-center">
                 <strong>Total {{totalPriceOrder}}</strong>
               </td>
-              <td>
+              <!-- <td>
                 <a href="/checkout" class="btn btn-success btn-block"
                   >Checkout <i class="fa fa-angle-right"></i
                 ></a>
-              </td>
+              </td> -->
             </tr>
           </tfoot>
         </table>
@@ -184,7 +184,7 @@
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           data-aos="fade-up"
           data-aos-anchor-placement="center-bottom"
           class="button-master-container"
@@ -195,7 +195,7 @@
           <div class="button-next-methods button-finish">
             <a href="#">Shipping</a>
           </div>
-        </div>
+        </div> -->
       </section>
 
       <section id="content3" class="tab-content">
@@ -218,7 +218,7 @@
                 </div>
               </div>
             </div>
-            <div class="row-cc">
+            <!-- <div class="row-cc">
               <div class="cc-field">
                 <div class="row">
                   <div class="col col-sm-7">
@@ -238,14 +238,14 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row-cc">
+            </div> -->
+            <!-- <div class="row-cc">
               <div class="cc-field">
                 <input type="text" class="input cc-txt" placeholder="City" v-model="city" />
               </div>
-            </div>
+            </div> -->
 
-            <div class="row-cc">
+            <!-- <div class="row-cc">
               <div class="cc-field">
                 <div class="row">
                   <div class="col col-sm-6">
@@ -276,21 +276,21 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div
+        <!-- <div
           data-aos="fade-up"
           data-aos-anchor-placement="center-bottom"
           class="button-master-container"
         >
           <div class="button-previous-methods">
-            <a href="#content3">Return to Customer Information</a>
+            <a to="#content3">Return to Customer Information</a>
           </div>
           <div class="button-next-methods button-finish">
             <a href="#">Payment</a>
           </div>
-        </div>
+        </div> -->
       </section>
 
       <section id="content4" class="tab-content">
@@ -500,7 +500,7 @@
             class="button-master-container"
           >
             <div class="button-previous-methods">
-              <a href="#content3">Return to Shipping</a>
+              <router-link to='/cart'>Return to Cart</router-link>
             </div>
             <div class="button-next-methods button-finish">
               <btn @click="submitOrder()" href="#modelSubmit" data-toggle="modal">Finish Order</btn>
@@ -665,12 +665,13 @@ export default {
        await this.$store.dispatch('deleTempCart' ,id_variant);
     },
     async submitOrder(){
-      if(this.orderAddress !== null && this.payment_type !== null){
-         this.insertOrders();
-        console.log('null')
-      }else{
-        this.isShow = 2;
-      }
+      this.isShow = 2; 
+      // if(this.orderAddress !== null && this.payment_type !== null){
+      //    this.insertOrders();
+      // }else{
+      //   console.log('lõi')
+      //   this.isShow = 2;
+      // }
     },
     async insertOrders() {
       console.log('fdsf')
@@ -687,6 +688,8 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=order&action=addOrder",
       }).then((response) => {
         if (response.data.status == 200) {
+          console.log('order');
+
           self.id_order  = response.data.payload;
           self.insertOrdersDetail(self.id_order);
           self.insertPaymentDetail();
@@ -708,7 +711,7 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=order&action=addOrderDetail",
       }).then((response) => {
         if (response.data.status == 200) {
-         
+          console.log('detail');
           self.fetchCart();
         }else{
              self.isShow = 2;
@@ -748,7 +751,9 @@ export default {
         url: "https://localhost/ecommerce_backend/index.php?controller=payment&action=insertPaymentDetail",
       }).then((response) => {
         if (response.data.status == 200) {
+          console.log('paymetn_detail')
           self.isShow = 1;
+          console.log(self.isShow)
           self.deleteProductIncart();
           self.fetchCart();
         }else{

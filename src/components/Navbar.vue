@@ -220,8 +220,12 @@
           <v-avatar
                   size="36px"
                 >
-                  <img
+                  <img v-if="urlAvatar !== ''"
                   :src="require('../assets/images/users/' + urlAvatar)"
+                    alt="Avatar"
+                  >
+                  <img v-else
+                    src=""
                     alt="Avatar"
                   >
               
@@ -292,7 +296,7 @@ export default {
         this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
  
       }
-             this.urlAvatar = this.$store.state.user.info.url;
+      this.urlAvatar = this.$store.state.user.info.url;
       this.getNumberInCart();
       
     // }, 1000);

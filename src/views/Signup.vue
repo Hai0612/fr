@@ -72,7 +72,7 @@
                                 class="input cc-txt"
                                 v-model="password"
                                 required
-                                placeholder="Mật khẩu"
+                                placeholder="Mật khẩu (Phải gồm 8 kí tự trở lên )"
                               />
                             </div>
                             <div class="col col-sm-6 div_mesPass">
@@ -234,11 +234,12 @@
         <div class="modal-content">
             <div class="modal-body">
                 <br>
-            {{statusSingup}} <i class="fas fa-check-circle"></i>
+            <p v-if="showStatusSignup">{{statusSingup}} <i class="fas fa-check-circle"></i></p>
+            <p v-else>{{statusSingup}}</p>
             </div>
             <div class="modal-footer">
             <router-link v-if="showStatusSignup" to="/login" type="button" class="btn btn-success" data-dismiss="modal">Đăng nhập</router-link>
-            <button v-if="!showStatusSignup" type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+            <button v-if="!showStatusSignup" type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
             </div>
         </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

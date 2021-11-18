@@ -330,7 +330,7 @@
                                 <div class="col-sm-3 hidden-xs">
                                   <router-link :to="{ name : 'Detail', params: { id : order_item.id}}">
                                   <img
-                                    :src="order_item.url"
+                                    :src="require('../assets/images/products/' + order_item.url)"
                                     alt="..."
                                     class="img-responsive"
                                   /></router-link>
