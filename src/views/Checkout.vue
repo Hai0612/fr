@@ -417,7 +417,7 @@
                         <p>Thanh toán thành công.</p>
                       </div>
                       <div class="modal-footer justify-content-center">
-                        <router-link to = '/home' type="button" class="btn btn-danger" data-dismiss="modal">Tiếp tục mua hàng</router-link>
+                        <router-link @click="setStatusPayment()" to = '/home' type="button" class="btn btn-danger" data-dismiss="modal">Tiếp tục mua hàng</router-link>
                       </div>
                     </div>
                   </div>
@@ -591,7 +591,9 @@ export default {
     fetchCart() {
       this.cartProducts = this.$store.state.temporaryCart;
     },
-    
+    setStatusPayment(){
+      this.$store.dispatch('setStatusPayment', true);
+    },
     fetchPaymentInfo(){
       let user = this.$store.state.user.info;
       // let user = 1;

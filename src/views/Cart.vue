@@ -168,7 +168,8 @@ export default {
       for(let i = 0 ; i < this.tempArrayWaitPushToTempCart.length; i++){
         this.totalPriceOrder += parseInt(this.tempArrayWaitPushToTempCart[i].quantity * this.tempArrayWaitPushToTempCart[i].price)
       }
-    }
+    },
+    
   },
   components: {
   },
@@ -318,14 +319,16 @@ export default {
         }
       });
     },
-    fetchTotalOrder(){
-      axios({
+    async fetchTotalOrder(){
+      let self = this;
+      await axios({
         method: "get",
         url: "https://localhost/ecommerce_backend/index.php?controller=order&action=countOrder",
       }).then((response) => {
         if (response.data.status == 200) {
             console.log(response.data)
-
+            self.$store.dispatch('setTotalOrder',response.data.payload);
+            console.log(self.$store.state.totalOrders)
         }
       });
       
@@ -338,7 +341,8 @@ export default {
     this.fetchCart();
     // console.log(this.$store.state.temporaryCart.length)
     this.$store.state.oldUrl = '';
-    this.fetchTotalOrder()
+    this.fetchTotalOrder();
+    this.$store.dispatch('setStatusPayment', false);
 
   },
   mounted() {

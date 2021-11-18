@@ -18,7 +18,8 @@ export default new Vuex.Store({
   
       total : 0,
       changeCart: 0,
-      totalOrder: 0,
+      totalOrders: 0,
+      completePayment : false,
     },
   getters: {
     total: state => {
@@ -32,6 +33,12 @@ export default new Vuex.Store({
   mutations: {
     clearTempCart(state){
       state.temporaryCart = [];
+    },
+    setTotalOrder(state, value){
+      state.totalOrders = value;
+    },
+    setStatusPayment(state, value){
+      state.completePayment = value;
     },
     changeCart(state){
       console.log('dfsfd');
@@ -161,6 +168,12 @@ export default new Vuex.Store({
     },
       async addTemporaryCart({commit} , variant){
         commit("addTemporaryCart" , variant);
+    },
+    async setTotalOrder({commit} , value){
+      commit("setTotalOrder" , value);
+    },
+    async setStatusPayment({commit} , value){
+      commit("setStatusPayment" , value);
     },
     async decQuanTempCart({commit},id_variant){
       commit("decQuanTempCart" , id_variant);

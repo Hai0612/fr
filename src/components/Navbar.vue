@@ -251,12 +251,30 @@ export default {
   '$store.state.changeCart': function() {
     this.getNumberInCart();
   },
-  '$route' (to,) {
-    console.log(to)
+  '$route' (to, from) {
+    console.log(from.name == 'Checkout' && to.name != 'Home' && !this.$store.state.completePayment);
+    if((from.name == 'Cart' && to.name != 'Checkout' && this.$store.state.user.info.id) || (from.name == 'Checkout' && to.name != 'Home') ||(from.name == 'Checkout' && to.name == 'Home' && !this.$store.state.completePayment)){
+      this.changeStatusCart();
+      console.log('change')
+    }
     this.getNumberInCart();
   }
 },
   methods:{
+    changeStatusCart(){
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+          id_user : self.$store.state.user.info.id,
+        },
+        url: "https://localhost/ecommerce_backend/index.php?controller=cart&action=resetStatus",
+      }).then((response) => {
+        if(response.data.status == 200){
+          console.log(response.data)
+        }
+      });
+    },
     handleLogout(){
       this.$store.state.user.token = '';
       this.$store.state.user.info = {};
