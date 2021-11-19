@@ -12,7 +12,7 @@
                     <div class="footer-nav-left">
                         <ul>
                             <li>
-                                <a href="">PORTFOLIO</a>
+                                <router-link to="/profile">PROFILE</router-link>
                             </li>
                             <li>
                                 <a href="">SERVICES</a>

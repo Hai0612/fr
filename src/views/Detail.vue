@@ -154,9 +154,6 @@
         <div class="vote-product">
           <h3>REVIEWS</h3>
           <div class="vote-action">
-            <span>4.9</span> <i class="fas fa-star"></i
-            ><i class="fas fa-star"></i><i class="fas fa-star"></i
-            ><i class="fas fa-star"></i><i class="fas fa-star"></i>
           </div>
         </div>
         <div
@@ -201,12 +198,10 @@
             >
               <div class="review-item-info">
                 <div class="info-user">
-                  <img src="../assets/images/orther/icon.jpg" alt="" />
+                  <img v-bind:src="require('../assets/images/users/' + comment.url)" alt="" />
                   <div>
                     <h4>{{ comment.username }}</h4>
                     <p>
-                      <i class="fas fa-star"></i><i class="fas fa-star"></i
-                      ><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </p>
                   </div>
                 </div>
@@ -261,7 +256,12 @@ export default {
   },
   methods: {
     setColor(color){
-      this.colorVariantAddToCart = color;
+      if(this.product.name.substring(0,2) == 'Mũ' || this.product.name.substring(0,3) == 'Túi'){
+        this.colorVariantAddToCart = 'Default';
+      }
+      else{
+        this.colorVariantAddToCart = color;
+        }
       if(this.sizeVariantAddToCart !== null){
         this.chooseClassProduct = false;
       }
@@ -451,6 +451,9 @@ export default {
       arrSize.forEach((color) => {
         if(color == 'S'){
           this.arrSize.push('S 40-50KG');
+        }
+        if(color == 'D'){
+          this.arrSize.push('D');
         }
         if(color == 'M'){
           this.arrSize.push('M 44-55KG');

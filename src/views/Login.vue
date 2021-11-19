@@ -113,6 +113,8 @@ export default {
                   self.$store.state.user.token = response.data.token;
                 }
               if(self.username === 'admin'){
+                console.log(self.$store.state.user.info = response.data.account[0])
+                console.log('admin tooi')
                 self.$router.push({ path: '/admin' })
               }else if( self.$store.state.oldUrl == ''){
                 self.$router.push({ path: '/home' })

@@ -389,12 +389,12 @@
                 <input type="text" class="input cc-txt" v-model="yearNb" />
               </div>
             </div>
-            <div class="row-cc">
+            <!-- <div class="row-cc">
               <div class="cc-field">
                 <div class="cc-title">Name on Card</div>
                 <input type="text" class="input cc-txt" />
               </div>
-            </div>
+            </div> -->
           </div>
           <button class="btn btn-danger mx-5 mt-5 mb-5" @click="insertUserPayment()">Thêm phương thức</button>
         </div>

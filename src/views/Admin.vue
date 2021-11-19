@@ -54,16 +54,16 @@
               <div class="row-cc">
                 <div class="cc-field">
                   <div class="row">
-                    <div class="col col-sm-4">
-                      <input
+                    <div class="col col-sm-2">
+                      <!-- <input
                         type="text"
                         class="input cc-txt"
                         v-model="newProductData.id"
                         disabled
                         placeholder="ID sản phẩm"
-                      />
+                      /> -->
                     </div>
-                    <div class="col col-sm-8">
+                    <div class="col col-sm-10">
                       <input
                         type="text"
                         class="input cc-txt"
@@ -243,7 +243,7 @@
               <tr v-for="(product, index) in listProducts" v-bind:key="index">
                 <th scope="row">{{ product.id }}</th>
                 <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
+                <td class="td-des">{{ product.description }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.discount_id }}</td>
                 <td>
@@ -964,7 +964,8 @@ export default {
     
   },
   created() {
-    if(this.$store.state.user.info.first_name !== 'admin'){
+
+    if(this.$store.state.user.info.username !== 'admin'){
         this.$router.push({ name : 'Login'});
     }
     else{
@@ -1005,6 +1006,14 @@ table {
          white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .td-des{
+        word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
       }
     }
   }

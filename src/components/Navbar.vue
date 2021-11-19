@@ -23,7 +23,7 @@
         <li class="nav-item dropdown">
           <router-link
             class="nav-link dropdown-toggle"
-            to='/categories/áo cộc tay'
+            to='/categories/áo thun'
             id="navbarDropdown"
             role="button"
             data-toggle="dropdown"
@@ -39,7 +39,7 @@
                   <span class="text-uppercase text-white">Áo</span>
                   <ul class="nav flex-column">
                     <li class="nav-item">
-                      <router-link to="/categories/áo khoác" class="nav-link active" href="#">Áo khoác</router-link>
+                      <router-link to='/categories/áo khoác' class="nav-link active" >Áo khoác</router-link>
                     </li>
                    
                    
@@ -50,7 +50,7 @@
                   <ul class="nav flex-column">
                     <span></span>
                     <li class="nav-item">
-                      <router-link to='/categories/áo cộc tay' class="nav-link active" >Áo cộc tay</router-link>
+                      <router-link to='/categories/áo thun' class="nav-link active" >Áo thun</router-link>
                     </li>
                     <li class="nav-item">
                       <router-link to='/categories/áo sơ mi' class="nav-link active" >Áo sơ mi</router-link>
@@ -155,7 +155,7 @@
                 <div class="col-md-4">
                   <ul class="nav flex-column">
                     <li class="nav-item">
-                      <router-link to="/categories/mũ" class="nav-link active" >Mũ</router-link>
+                      <router-link to="/categories/túi" class="nav-link active" >Túi</router-link>
                       </li>
                     <li class="nav-item">
                     </li>

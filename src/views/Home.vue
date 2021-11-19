@@ -12,7 +12,7 @@
       />
       <!-- <Collections/> -->
       <div class="list-categories">
-        <h3>Category Items <i class="fas fa-forward"></i></h3>
+        <h3>Category </h3>
         <div class="list-categories-content">
           <div class="row">
             <div

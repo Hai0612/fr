@@ -1,225 +1,411 @@
 <template>
-  <div>
-    <v-card
-    class="mx-auto"
-    max-width="400"
-  >
-    <v-list>
-      <v-list-item-group
-        active-class="border"
-        color="indigo"
-      >
-      <v-subheader>Danh Mục</v-subheader>
-        <v-list-item
-          v-for="(item, i) in listCategorys"
-          :key="i"
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
+  <div class="container-fluid">
+    <div class="categories-preview">
+      <div class="categories-preview-content">
+        <h2>Accessories</h2>
+        <div class="categories-preview-extend">
+          <span><i class="fas fa-square"></i> </span>
+          <router-link to="/contact"
+            >Contact Me
+            <i class="fas fa-chevron-circle-right"></i>
+          </router-link>
+        </div>
+      </div>
+    </div>
+    <div class="container-category">
+      <div class="categories-content">
+        <div class="row">
+          <div class="col col-sm-3 categories-filter">
 
-          <v-list-item-content @click="showByCategory(item.text)">
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </v-card>
+            <v-card class="mx-auto" max-width="500">
+              <v-list-group no-action sub-group>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Danh mục</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+                <v-list-item-group v-model="model">
+                  <template v-for="(item, i) in listCategorys">
+                    <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
-  <v-card
-    class="mx-auto"
-    max-width="400"
-  >
-    <v-list>
-      <v-list-item-group
-        active-class="border"
-        color="indigo"
-      >
-      <v-subheader>Giá</v-subheader>
+                    <v-list-item
+                      @click="showByCategory(item)"
+                      v-else
+                      :key="`item-${i}`"
+                      :value="item"
+                      active-class="deep-purple--text text--accent-4"
+                    >
+                      <template v-slot:default="{ active }">
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
+                          <v-list-item-title v-text="item"> </v-list-item-title>
+                        </v-list-item-content>
 
-        <v-list-item
+                        <v-list-item-action>
+                          <v-checkbox
+                            :input-value="active"
+                            color="deep-purple accent-4"
+                          ></v-checkbox>
+                        </v-list-item-action>
+                      </template>
+                    </v-list-item>
+                  </template>
+                </v-list-item-group>
+              </v-list-group>
+            </v-card>
 
-          v-for="(item, i) in listPrices"
-          :key="i+5"
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
+            <v-card class="mx-auto" max-width="500">
+              <v-list-group no-action sub-group>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Nhãn hiệu</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+                <v-list-item-group v-model="model">
+                  <template v-for="(item, i) in listBrands">
+                    <v-divider v-if="!item" :key="`divider1-${i}`"></v-divider>
 
-          <v-list-item-content @click="showByPrice(item.text)">
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    
-  </v-card>
+                    <v-list-item
+                      @click="showByBrand(item)"
+                      v-else
+                      :key="`item1-${i}`"
+                      :value="item"
+                      active-class="deep-purple--text text--accent-4"
+                    >
+                      <template v-slot:default="{ yes }">
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
+                          <v-list-item-title v-text="item"></v-list-item-title>
+                        </v-list-item-content>
 
- <v-card
-    class="mx-auto"
-    max-width="400"
-  >
-    <v-list>
-      <v-list-item-group
-        mandatory
-        color="indigo"
-      >
-      <v-subheader>Nhãn hiệu</v-subheader>
+                        <v-list-item-action>
+                          <v-checkbox
+                            :input-value="yes"
+                            color="deep-purple accent-4"
+                          ></v-checkbox>
+                        </v-list-item-action>
+                      </template>
+                    </v-list-item>
+                  </template>
+                </v-list-item-group>
+              </v-list-group>
+            </v-card>
 
-        <v-list-item
+            <v-card class="mx-auto" max-width="500">
+              <v-list-group no-action sub-group>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Giá</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+                <v-list-item-group v-model="model">
+                  <template v-for="(item, i) in listPrices">
+                    <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
-          v-for="(item, i) in listBrands"
-          :key="i+5"
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
+                    <v-list-item
+                      @click="showByPrice(item)"
+                      v-else
+                      :key="`item-${i}`"
+                      :value="item"
+                      active-class="deep-purple--text text--accent-4"
+                    >
+                      <template v-slot:default="{ active }">
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
+                          <v-list-item-title v-text="item"></v-list-item-title>
+                        </v-list-item-content>
 
-          <v-list-item-content @click="showByBrand(item.text)">
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    
-  </v-card>
+                        <v-list-item-action>
+                          <v-checkbox
+                            :input-value="active"
+                            color="deep-purple accent-4"
+                          ></v-checkbox>
+                        </v-list-item-action>
+                      </template>
+                    </v-list-item>
+                  </template>
+                </v-list-item-group>
+              </v-list-group>
+            </v-card>
 
-   <v-card
-    class="mx-auto"
-    max-width="400"
-  >
-    <v-list>
-      <v-list-item-group
-        mandatory
-        color="indigo"
-      >
-      <v-subheader>Tình trạng</v-subheader>
+            <v-card class="mx-auto" max-width="500">
+              <v-list-group no-action sub-group>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Tình trạng</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+                <v-list-item-group v-model="model">
+                  <template v-for="(item, i) in listStates">
+                    <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
-        <v-list-item
+                    <v-list-item
+                      @click="showByState(item)"
+                      v-else
+                      :key="`item-${i}`"
+                      :value="item"
+                      active-class="deep-purple--text text--accent-4"
+                    >
+                      <template v-slot:default="{ active }">
+                        <v-list-item-content :style="{
+                              'padding-left':'15%'
+                            }">
+                          <v-list-item-title v-text="item"></v-list-item-title>
+                        </v-list-item-content>
 
-          v-for="(item, i) in listStates"
-          :key="i+5"
-        >
-          <v-list-item-icon class="v-list-item__icon">
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content @click="showByState(item.text)">
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    
-  </v-card>
-
+                        <v-list-item-action>
+                          <v-checkbox
+                            :input-value="active"
+                            color="deep-purple accent-4"
+                          ></v-checkbox>
+                        </v-list-item-action>
+                      </template>
+                    </v-list-item>
+                  </template>
+                </v-list-item-group>
+              </v-list-group>
+            </v-card>
+          </div>
+          <div class="col col-sm-9 categories-items">
+            <ProductCategory :listProducts="listProducts" />
+            <div class="notfound" v-if="listProducts.length == 0">Không tìm thấy sản phẩm</div>
+            </div>
+            <!-- <div class="row">
+                  <div v-for="(book, index) in listBooks" class="col col-sm-4" v-bind:key="index">
+                     <Product/>
+                  </div>
+                </div> -->
+          </div>
+          
+      </div>
+    </div>
   </div>
-  
 </template>
 <script>
-  export default {
-    data: () => ({
-      listCategorys: [
-        {
-          icon: 'mdi-assistant',
-          text: 'Trouser',
-        },
-        {
-          icon: 'mdi-assistant',
-          text: 'Hat',
-        },
-        {
-          icon: 'mdi-assistant',
-          text: 'Socks',
-        },
-        {
-          icon: 'mdi-assistant',
-          text: 'Shirt',
-        },
-        {
-          icon: 'mdi-assistant',
-          text: 'T-shirt',
-        },
-      ],
-        listBrands: [
-        {
-          icon: 'mdi-source-branch',
-          text: 'Adidas',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Nike',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Louis Vuitton',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Dolce&Gabanna',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Louis Vuitton',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Gucci',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Zara',
-        },
-        {
-          icon: 'mdi-source-branch',
-          text: 'Chanel',
-        },
-      ],
+import axios from "axios";
+import ProductCategory from "../components/ProductCategory.vue";
+export default {
+  data() {
+    return {
+      listProducts: {},
+      listCategorys: ["Trouser", "Hat", "", "Socks", "Shirt", "T-shirt"],
+      listBrands: ["Adidas", "Nike", "Louis Vuitton", "Dolce&Gabanna", "Gucci","Zara", "Chanel"],
       listPrices: [
-        {
-          icon: 'mdi-alert-circle',
-          text: "0 - 500.000",
-        },
-        {
-          icon: 'mdi-alert-circle',
-          text: "Từ 500.000 - 1 triệu",
-        },
-        {
-          icon: 'mdi-cart',
-          text: "Từ 1 - 5 triệu",
-        },
-        {
-          icon: 'mdi-cart',
-          text: "Từ 5 - 10 triệu",
-        },
-        {
-          icon: 'mdi-cart',
-          text: "Trên 10 triệu",
-        },
+        "0 - 500.000",
+        "Từ 500.000 - 1 triệu",
+        "Từ 1 - 5 triệu",
+        "Từ 5 - 10 triệu",
+        "Trên 10 triệu",
       ],
-      listStates: [
-        {
-          icon: 'mdi-source-branch',
-          text: "Sản phẩm mới",
+      listStates: ["Sản phẩm mới", "Sản phẩm cũ"],
+
+      model: ["Carrots"],
+      sortCategory: "",
+      sortPrice: "",
+      sortBrand: "",
+      sortState: "",
+      text : null,
+    };
+  },
+  watch:{
+        '$route.params.text' (to, from) {
+            console.log(to + from)
+          this.searchMachine()
+        }
+    },
+  methods: {
+    async getAllBrands() {
+      let self = this;
+        await axios({
+        method: "get",
+        url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=fetchAll",
+      }).then((response) => {
+        if (response.data.status) {
+          self.listBrands = [];
+
+          for(let i = 0 ; i < response.data.payload.length; i++){
+            self.listBrands.push({
+              icon: 'mdi-source-branch',
+              text : response.data.payload[i].name_brand
+            });
+          }
+          console.log(self.listBrands)
+        }
+      });
+    },
+    async getAllCategories() {
+      let self = this;
+      await axios({
+        method: "get",
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=fetchAll",
+      }).then((response) => {
+        if (response.data.status) {
+          self.listCategories = [];
+         for(let i = 0 ; i < response.data.payload.length; i++){
+            self.listCategories.push({
+              icon: 'mdi-source-branch',
+              text : response.data.payload[i].name_category
+            });
+          }
+        }
+      });
+    },
+    
+    searchMachine(){
+        
+      let self = this;
+        axios({
+          method: "post",
+          data: {
+            searchText : self.$route.params.text
+          },
+          url: "https://localhost/ecommerce_backend/index.php?controller=product&action=searchMachine",
+        }).then((response) => {
+          if(response.data.status == 200){
+            self.listProducts = response.data.payload
+          }
+        });
+    },
+    showByCategory(category) {
+      this.sortCategory = category;
+      this.sortByOption();
+
+    },
+    showByBrand(brand) {
+      this.sortBrand = brand;
+      this.sortByOption();
+    },
+    showByPrice(price) {
+      this.sortPrice = price;
+      this.sortByOption();
+    },
+    showByState(state) {
+      this.sortState = state;
+      this.text = 'hello';
+      this.sortByOption();
+    },
+    fetchProductByCategory() {
+      let self = this;
+      const productLine = this.$route.params.category;
+      axios({
+        method: "post",
+        data: {
+          category: productLine,
         },
-        {
-          icon: 'mdi-wifi',
-          text: "Sản phẩm cũ",
+        url: "https://localhost/ecommerce_backend/index.php?controller=product&action=getByCategory&category=".concat(
+          productLine
+        ),
+      }).then((response) => {
+        self.listProducts = response.data.payload;
+      });
+    },
+    sortByOption() {
+      let self = this;
+      axios({
+        method: "post",
+        data: {
+           category: self.sortCategory,
+           brand: self.sortBrand,
+           price : self.sortPrice,
+           state: self.sortState
         },
-      ]
-    }),
-    methods: {
-      hello(item){
-        console.log(item)
+        url: "https://localhost/ecommerce_backend/index.php?controller=category&action=getByOption",
+      }).then((response) => {
+        if (response.data.status == 200) {
+          self.listProducts = response.data.payload;
+        }
+      });
+    },
+  },
+
+  components: {
+    ProductCategory,
+  },
+  created() {
+    if(localStorage.getItem('info') !== null){
+      this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
+    }
+    // this.fetchProductByCategory();
+    this.getAllBrands();
+    this.getAllCategories();
+    this.searchMachine();
+  },
+  mounted() {
+        this.$store.dispatch('clearTempCart');
+    },
+};
+</script>
+<style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right top, #fce1b5, #f5e4c8);
+}
+.container-category{
+  width: 70%;
+  margin: auto;
+
+}
+.notfound{
+    text-align: center;
+    font-size: 30px;
+    color: black;
+}
+.categories-preview {
+  background-image: url("../assets/images/orther/Contact-me.png");
+  color: Black;
+  padding: 150px;
+  padding-bottom: 150px;
+  padding-left: 300px;
+  .categories-preview-content {
+    h2 {
+      color: #ff0000;
+      font-size: 56px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      span {
+        color: red;
+      }
+    }
+    .categories-preview-extend {
+      font-size: 25px;
+      span {
+        margin-right: 5px;
+        color: red;
+      }
+      a {
+        text-decoration: none;
+        color: black; 
+        i {
+          transition: all 0.5s ease;
+          color: red;
+        }
+      }
+      a:hover {
+        i {
+          margin-left: 10px;
+        }
       }
     }
   }
-</script>
-<style lang="scss" scoped>
-.border {
-  border: 2px dashed orange;
 }
-.v-list-item__icon{
-  margin: 13px 0px;
+.categories-content {
+  padding: 100px 0px;
+  .categories-filter {
+  }
+  .categories-items {
+    padding-right: 100px;
+    .row {
+      .col {
+      }
+    }
+  }
 }
 </style>
