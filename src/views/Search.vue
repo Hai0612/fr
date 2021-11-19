@@ -263,6 +263,8 @@ export default {
       if(localStorage.getItem('info') !== null){
         this.$store.state.user.info = JSON.parse(localStorage.getItem('info'));
       }
+
+
     this.fetchProductByCategory();
     this.getAllBrands();
     this.getAllCategories();
@@ -271,6 +273,11 @@ export default {
         this.selectedItem = index;
       }
     });
+    },
+    '$route' (to, from) {
+      console.log(to)
+      console.log(from)
+    this.searchMachine();
     }
   },
   methods: {

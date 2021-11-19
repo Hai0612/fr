@@ -63,7 +63,7 @@
             </v-row>
           </div>
           <div style="margin-top: 30px">
-            <input type="number" class="name-choose" id="" v-model="quantityBuy">
+            <input type="number" class="name-choose" id="" min="0" v-model="quantityBuy">
             Số lượng<span style="margin-left: 20px"></span>
           </div>
           <div class="alert-choose-class" v-if="chooseClassProduct">
@@ -256,7 +256,7 @@ export default {
   },
   methods: {
     setColor(color){
-      if(this.product.name.substring(0,2) == 'Mũ' || this.product.name.substring(0,3) == 'Túi'){
+      if(this.product.name.substring(0,2) == 'Mũ' || this.product.name.substring(0,3) == 'Túi' || this.product.name.substring(0,4) == 'Giày' || this.product.name.substring(0,3) == 'Dép'){
         this.colorVariantAddToCart = 'Default';
       }
       else{
@@ -265,16 +265,24 @@ export default {
       if(this.sizeVariantAddToCart !== null){
         this.chooseClassProduct = false;
       }
+      console.log(this.colorVariantAddToCart)
     },
     setSize(size){
-      this.sizeVariantAddToCart = size.substring(0,1);
+      if(size == 'Default'){
+        this.sizeVariantAddToCart = size
+      }else if(parseInt(size,10)){
+        this.sizeVariantAddToCart = size;
+      }
+      else{
+        this.sizeVariantAddToCart = size.substring(0,1);
+      }
+      console.log(this.sizeVariantAddToCart);
       this.updatePrice(this.sizeVariantAddToCart);
       if(this.colorVariantAddToCart !== null){
         this.chooseClassProduct = false;
       }
     },
     async updatePrice(size){
-      console.log(size);
       console.log(this.product.id_product);
       let self = this;
       await axios({
@@ -298,6 +306,9 @@ export default {
         this.chooseClassProduct = false;
       }
       if(this.$store.state.user.info.id){
+        console.log(this.sizeVariantAddToCart)
+        console.log(this.colorVariantAddToCart)
+        console.log(this.listVariantsProduct)
         let productTempVariant = null;
         this.listVariantsProduct.forEach(element =>{
             if(element.size == this.sizeVariantAddToCart && element.color == this.colorVariantAddToCart){
@@ -448,23 +459,35 @@ export default {
       arrSize = arrSize.filter(function (item, pos) {
         return arrSize.indexOf(item) == pos;
       });
-      arrSize.forEach((color) => {
-        if(color == 'S'){
-          this.arrSize.push('S 40-50KG');
-        }
-        if(color == 'D'){
-          this.arrSize.push('D');
-        }
-        if(color == 'M'){
-          this.arrSize.push('M 44-55KG');
-        }
-        if(color == 'L'){
-          this.arrSize.push('L 50-65KG');
-        }
-        if(color == 'XL'){
-          this.arrSize.push('XL 65-80KG');
-        }
-      });
+
+      if(parseInt(arrSize[0], 10)){
+        arrSize.forEach((size) =>{
+          console.log(size)
+          this.arrSize.push(size);
+        })
+      }else{
+          arrSize.forEach((size) => {
+          if(size == 'S'){
+            this.arrSize.push('S 40-50KG');
+          }
+          if(size == 'D'){
+            this.arrSize.push('D');
+          }
+          if(size == 'Default'){
+            this.arrSize.push('Default');
+          }
+          if(size == 'M'){
+            this.arrSize.push('M 44-55KG');
+          }
+          if(size == 'L'){
+            this.arrSize.push('L 50-65KG');
+          }
+          if(size == 'XL'){
+            this.arrSize.push('XL 65-80KG');
+          }
+        });
+      }
+      
     },
     showImage(url){
       document.getElementById('imageIsShowing').src = require('../assets/images/products/' + url);

@@ -53,7 +53,7 @@
               </div>
               <div v-if="loggedIn" class="message">
                   <div>
-                        Không tồn tại tài khoản này
+                        Tài khoản hoặc mật khẩu không đúng
                   </div>
               </div>
               <div class="pb-2">
