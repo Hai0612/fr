@@ -272,9 +272,110 @@
               <hr />
             </div>
             <div class="row user-info-main user-info-profile-content">
-              <div v-if="listOrderings.length > 0" class="col col-sm-9">
-                {{listOrderings}}
+
+
+              <div v-if="listOrderings.length > 0">
+              <div class="table-responsive py-5"> 
+              <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Ngày mua hàng</th>
+                    <th scope="col">Ngày giao hàng</th>
+                    <th scope="col">Tổng giá</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr v-for="order, index in listOrderings" v-bind:key="index">
+                    <td scope="row"></td>
+                    <td>{{order.orderDate}}</td>
+                    <td>{{order.shippedDate}}</td>
+                    <td>{{order.totalAmount}}</td>
+                    <td><button class="btn btn-lg btn-success" @click="fetchOrderDetail(order.id)" href="#myModal" data-toggle="modal" data-target="#showDetailOrder">Show Detail</button></td>
+                      <div id="showDetailOrder" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-body">
+<table
+                        data-aos="fade-up"
+                        data-aos-anchor-placement="center-bottom"
+                        id="cart-table"
+                        class="table table-hover table-condensed"
+                      > 
+                        <thead>
+                          <tr>
+                            <th style="width: 3%">STT</th>
+                            <th style="width: 45%">Product</th>
+                            <th style="width: 10%">Price</th>
+                            <th style="width: 8%">Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="order_item,index in orderDetail" v-bind:key="index">
+                            <td>{{index + 1}}</td>
+                            <td id="td-info">
+                              <div class="row">
+                                <div class="col-sm-3 hidden-xs">
+                                  <router-link :to="{ name : 'Detail', params: { id : order_item.id}}">
+                                  <img
+                                    :src="require('../assets/images/products/' + order_item.url)"
+                                    alt="..."
+                                    class="img-responsive"
+                                  /></router-link>
+                                </div>
+                                <div class="col-sm-5">
+                                  <h4 class="product-name">{{order_item.name}}</h4>
+                                </div>
+                               
+                              </div>
+                            </td>
+                            <td id="td-price">{{ order_item.price }}</td>
+                            <td id="td-quantity">
+                              <div class="td-content">
+                                
+                                <h4>{{order_item.quantity_product}} </h4>
+                               
+                              </div>
+                            </td>
+                          
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            
+                            <td colspan="3" class="hidden-xs">Total</td>
+                            <td class="hidden-xs text-center">
+                              <strong>{{order.totalAmount}}</strong>
+                            </td>
+                            
+                          </tr>
+                        </tfoot>
+                      </table>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button  type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                  </tr>
+            <!--  modal -->
+            <!-- xử lí nội dung đơn hàng tùy thuộc vào đơn -->
+                 
+                    <!-- <div class="modal fade" id="showDetailOrder" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                      
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div> -->
+                </tbody>
+              </table>
               </div>
+
+                
+            </div>
               
             </div>
           </div>
@@ -550,6 +651,7 @@ export default {
         this.showUser[2].isAddress = false;
       }
       if (title === "Đang giao") {
+        console.log('dfsfs')
          this.fetchOrders('shipping');
         this.showOrder[2].isProcessing = !this.showOrder[2].isProcessing;
         this.showOrder[1].isOrdered = false;
@@ -678,8 +780,9 @@ export default {
           status
         ),
       }).then((response) => {
+        console.log(status)
         if(response.data.status == 200){
-          if(status == 'Đang giao'){
+          if(status == 'shipping'){
             self.listOrderings = response.data.payload;
           }
           else{
@@ -690,6 +793,7 @@ export default {
       
     },
     async fetchOrderDetail(order_id){
+      console.log(order_id);
       let self = this;
       axios({
         method: "get",
@@ -698,6 +802,7 @@ export default {
         ),
       }).then((response) => {
         if(response.data.status == 200){
+          console.log(response.data.payload)
           self.orderDetail = response.data.payload;
           let total = 0;
           self.orderDetail.forEach(element => {

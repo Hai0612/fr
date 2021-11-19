@@ -309,12 +309,12 @@
                       />
                     </div>
                     <div class="col col-sm-3">
-                      <input
+                      <!-- <input
                         type="text"
                         class="input cc-txt"
                         v-model="newBrandData.image"
                         placeholder="Hình Ảnh"
-                      />
+                      /> -->
                     </div>
                     
                   </div>
@@ -408,7 +408,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col">Hình Ảnh</th>
+                <!-- <th scope="col"></th> -->
                 <th scope="col" style="width: 10%"></th>
               </tr>
             </thead>
@@ -417,7 +417,7 @@
                 <th scope="row">{{ brand.id_ }}</th>
                 <td>{{ brand.name_brand }}</td>
                 <td>{{ brand.desc_brand }}</td>
-                <td>{{ brand.image }}</td>
+                <!-- <td>{{ brand.image }}</td> -->
                 <td>
                   <button @click="deleteBrand(brand.id_)" class="btn btn-danger">
                     <i class="fas fa-trash"></i></button
@@ -799,7 +799,7 @@ export default {
         data: {
           name_brand : self.newBrandData.name_brand ,
           desc_brand : self.newBrandData.desc_brand,
-          image : self.newBrandData.image,
+          image : 'null',
         },
         url: "https://localhost/ecommerce_backend/index.php?controller=brand&action=addbrand",
       }).then((response) => {

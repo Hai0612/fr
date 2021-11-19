@@ -90,7 +90,7 @@
                     <div class="modal-dialog modal-confirm" >
                       <div class="modal-content">
                         <div class="modal-body">
-                          <p>Đã thêm vào giỏ hàng.<i class="fas fa-check-circle"></i></p>
+                          <p style="color: green">Đã thêm vào giỏ hàng.</p>
                         </div>
                         <div class="modal-footer justify-content-center">
                           <a
