@@ -347,7 +347,7 @@
                             
                             <td colspan="3" class="hidden-xs">Total</td>
                             <td class="hidden-xs text-center">
-                              <strong>{{order.totalAmount}}</strong>
+                              <strong>{{totalOrder}}</strong>
                             </td>
                             
                           </tr>
@@ -355,7 +355,7 @@
                       </table>
                       </div>
                       <div class="modal-footer justify-content-center">
-                        <button  type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button id="dropmodel"  type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       </div>
                     </div>
                   </div>
@@ -802,8 +802,9 @@ export default {
         ),
       }).then((response) => {
         if(response.data.status == 200){
-          console.log(response.data.payload)
           self.orderDetail = response.data.payload;
+          console.log(self.orderDetail)
+
           let total = 0;
           self.orderDetail.forEach(element => {
             total += element.price * element.quantity_product
